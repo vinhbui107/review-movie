@@ -29,7 +29,10 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-
+    "apps.accounts",
+    "apps.movies",
+    "apps.reviews",
+    "apps.recommender"
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -37,6 +40,10 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 ROOT_URLCONF = "config.urls"
 
 WSGI_APPLICATION = "config.wsgi.application"
+
+ROOT_URLCONF = "config.urls"
+
+AUTH_USER_MODEL = "accounts.User"
 
 DATABASES = {
     "default": {
@@ -70,7 +77,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "apps/templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -126,14 +133,11 @@ USE_TZ = True
 # =============================================================================
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "apps/static")]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
 MEDIA_URL = "/media/"
-
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # =============================================================================
 # CACHE SETTINGS
@@ -143,3 +147,21 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 # =============================================================================
 # THIRD-PARTY APPS SETTINGS
 # =============================================================================
+
+
+# =============================================================================
+# Review Moive Config
+# =============================================================================
+
+# Account
+USERNAME_MAX_LENGTH = 30
+# Movie
+MOVIE_TITLE_MAX_LENGTH = 255
+MOVIE_YEAR_MAX_LENGTH = 4
+MOVIE_REGION_MAX_LENGTH = 30
+MOVIE_DIRECTOR_MAX_LENGTH = 50
+MOVIE_TRAILER_MAX_LENGTH = 255
+GENRE_NAME_MAX_LENTH = 100
+ACTOR_NAME_MAX_LENTH = 100
+ACTOR_NAME_MAX_LENTH = 100
+RATE_RATING_MAX_LENGTH =1
