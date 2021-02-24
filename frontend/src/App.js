@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Switch, Link, Route } from "react-router-dom";
+import Banner from "./components/Banner/index.jsx";
 import Footer from "./components/Footer/index.jsx";
 import Header from "./components/Header/index.jsx";
 
@@ -14,12 +15,13 @@ const RegisterPage = lazy(() => import("./pages/Register/index.jsx"));
 const ProfilePage = lazy(() => import("./pages/Profile/index.jsx"));
 
 function App() {
-    return (
-        <div className="review-movie-app">
-            <Suspense fallback={<div>Loading ...</div>}>
-                <BrowserRouter>
-                    <Header />
-                    <ul>
+  return (
+    <div className="review-movie-app">
+      <Suspense fallback={<div>Loading ...</div>}>
+        <BrowserRouter>
+          <Header />
+          <Banner />
+          {/* <ul>
                         <li>
                             <Link to="/search">Go to search page</Link>
                         </li>
@@ -38,22 +40,22 @@ function App() {
                         <li>
                             <Link to="/profile">Go to profile page</Link>
                         </li>
-                    </ul>
-                    <Switch>
-                        <Route exact path="/" component={HomePage} />
-                        <Route path="/search" component={SearchPage} />
-                        <Route path="/moviedetail" component={MovieDetailPage} />
-                        <Route path="/movielist" component={MovieListPage} />
-                        <Route path="/login" component={LoginPage} />
-                        <Route path="/register" component={RegisterPage} />
-                        <Route path="/profile" component={ProfilePage} />
-                        <Route component={NotFoundPage} />
-                    </Switch>
-                    <Footer />
-                </BrowserRouter>
-            </Suspense>
-        </div>
-    );
+                    </ul> */}
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/search" component={SearchPage} />
+            <Route path="/moviedetail" component={MovieDetailPage} />
+            <Route path="/movielist" component={MovieListPage} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage} />
+            <Route path="/profile" component={ProfilePage} />
+            <Route component={NotFoundPage} />
+          </Switch>
+          <Footer />
+        </BrowserRouter>
+      </Suspense>
+    </div>
+  );
 }
 
 export default App;

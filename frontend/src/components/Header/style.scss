@@ -1,0 +1,33 @@
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+}
+.nav-link-header,
+.nav-link {
+  font-size: 1.3rem;
+  color: #fff !important;
+  background-color: transparent !important;
+  font-weight: 500;
+  position: relative;
+  &::before {
+    content: "";
+    width: 0%;
+    height: 4px;
+    background-image: linear-gradient(to right, #fbbd61, #ec7532);
+    box-shadow: 0 0 20px 0 #fbbd61;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  &:hover::before {
+    width: 100%;
+    transition: width 0.2s linear 0s;
+    -webkit-transition: width 0.2s linear 0s;
+    -moz-transition: width 0.2s linear 0s;
+    -ms-transition: width 0.2s linear 0s;
+    -o-transition: width 0.2s linear 0s;
+  }
+}
