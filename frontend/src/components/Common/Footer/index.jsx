@@ -1,11 +1,11 @@
 import React from "react";
 
-function Search() {
+function Footer() {
   return (
     <div>
-      <h2>Search</h2>
+      <h2>Footer</h2>
     </div>
   );
 }
 
-export default Search;
+export default Footer;

@@ -1,11 +1,11 @@
 import React from "react";
 
-function Search() {
+function Header() {
   return (
     <div>
-      <h2>Search</h2>
+      <h2>Header</h2>
     </div>
   );
 }
 
-export default Search;
+export default Header;
