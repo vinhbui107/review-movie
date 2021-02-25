@@ -10,17 +10,12 @@ function Footer(props) {
       <div className="footer_1its py-5">
         <div className="container py-md-4">
           <div className="row footer-top mb-md-5 mb-4">
-            <div
-              className="col-lg-4 col-md-6 footer-grid_section_1its"
-              data-aos="fade-right"
-            >
+            <div className="col-lg-4 col-md-6 footer-grid_section_1its" data-aos="fade-right">
               <div className="footer-title-w3pvt">
                 <h3>Address</h3>
               </div>
               <div className="footer-text">
-                <p>
-                  Address : 1234 lock, Charlotte, North Carolina, United States
-                </p>
+                <p>Address : 1234 lock, Charlotte, North Carolina, United States</p>
                 <p>Phone : +12 534894364</p>
                 <p>
                   Email : <a href="mailto:info@example.com">info@example.com</a>
@@ -52,25 +47,14 @@ function Footer(props) {
                 </ul>
               </div>
             </div>
-            <div
-              className="col-lg-4 col-md-12 mt-lg-0 mt-4 col-sm-12 footer-grid_section_1its"
-              data-aos="fade-left"
-            >
+            <div className="col-lg-4 col-md-12 mt-lg-0 mt-4 col-sm-12 footer-grid_section_1its" data-aos="fade-left">
               <div className="footer-title-w3pvt">
                 <h3>Newsletter</h3>
               </div>
               <div className="footer-text">
-                <p>
-                  By subscribing to our mailing list you will always get latest
-                  news and updates from us.
-                </p>
+                <p>By subscribing to our mailing list you will always get latest news and updates from us.</p>
                 <form action="#" method="post">
-                  <input
-                    type="email"
-                    name="Email"
-                    placeholder="Enter your email..."
-                    required
-                  />
+                  <input type="email" name="Email" placeholder="Enter your email..." required />
                   <button className="btn1">
                     <i className="fab fa-telegram-plane" />
                   </button>
