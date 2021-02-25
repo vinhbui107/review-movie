@@ -1,0 +1,129 @@
+/* Footer */
+.footer_1its {
+  background-image: url("https://phimlearning.com/public/images/footer/footer-img.png");
+  height: 300px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #000;
+}
+
+.footer_1its li {
+  margin: 8px 0;
+}
+.footer_1its a,
+.footer_1its p {
+  color: #fff !important;
+}
+
+.footer_1its h3,
+.footer_1its h2 {
+  font-size: 1.5em;
+  color: #eee;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.footer_1its p,
+.footer_1its a {
+  color: #73828e;
+  margin: 8px 0;
+}
+
+.footer-text p,
+.contact-info p {
+  color: #727377;
+  font-size: 15px;
+  line-height: 1.8em;
+  letter-spacing: 1px;
+}
+
+.footer-grid_section_1its form {
+  border: 1px solid #73828e;
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 4px;
+}
+
+.footer-text input[type="email"] {
+  outline: none;
+  padding: 12px 15px;
+  color: #fff;
+  font-size: 13px;
+  width: 85%;
+  border: none;
+  background: none;
+  letter-spacing: 1px;
+}
+
+button.btn1 {
+  color: #73828e;
+  border: none;
+  padding: 10px 0;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  background: none;
+  cursor: pointer;
+  -webkit-transition: 0.5s all;
+  -moz-transition: 0.5s all;
+  -o-transition: 0.5s all;
+  -ms-transition: 0.5s all;
+  transition: 0.5s all;
+  float: right;
+  width: 15%;
+}
+/* Out Footer */
+
+/* CopyRight */
+.cpy-right {
+  background: rgba(29, 28, 28, 0.98);
+}
+
+.cpy-right p,
+.cpy-right a {
+  letter-spacing: 1px;
+  color: #999;
+  line-height: 1em;
+  margin-top: 1em;
+}
+
+.footer-grid_section {
+  width: 60%;
+  margin: auto;
+  text-align: right;
+}
+
+.top-right-info li {
+  display: inline-block;
+}
+
+.top-right-info li i {
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  line-height: 2.2;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 50%;
+  transition: 0.5s all;
+  -webkit-transition: 0.5s all;
+  -moz-transition: 0.5s all;
+  -o-transition: 0.5s all;
+  -ms-transition: 0.5s all;
+}
+
+.top-right-info li i.fa-facebook-f {
+  color: #3b5998;
+}
+.top-right-info li i.fa-twitter {
+  color: #1da1f2;
+}
+.top-right-info li i.fa-google-plus-g {
+  color: #f44336;
+}
+.top-right-info li i.fa-dribbble {
+  color: #ea4c89;
+}
+/* Out CopyRight */
