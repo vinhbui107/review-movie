@@ -23,52 +23,15 @@ function App() {
       <Suspense fallback={<div>Loading ...</div>}>
         <BrowserRouter>
           {/* <!-- PUBLIC ROUTE --> */}
-          <PublicRoute
-            restricted
-            component={LoginPage}
-            template={PublicTemplate}
-            path="/login"
-            exact
-          />
-          <PublicRoute
-            restricted
-            component={RegisterPage}
-            template={PublicTemplate}
-            path="/register"
-            exact
-          />
+          <PublicRoute restricted component={LoginPage} template={PublicTemplate} path="/login" exact />
+          <PublicRoute restricted component={RegisterPage} template={PublicTemplate} path="/register" exact />
 
           {/* <!-- PRIVATE ROUTE --> */}
-          <PrivateRoute
-            component={HomePage}
-            template={AppTemplate}
-            path="/"
-            exact
-          />
-          <PrivateRoute
-            component={MovieDetailPage}
-            template={AppTemplate}
-            path="/moviedetail"
-            exact
-          />
-          <PrivateRoute
-            component={MovieListPage}
-            template={AppTemplate}
-            path="/movielist"
-            exact
-          />
-          <PrivateRoute
-            component={ProfilePage}
-            template={AppTemplate}
-            path="/profile"
-            exact
-          />
-          <PrivateRoute
-            component={SearchPage}
-            template={AppTemplate}
-            path="/search"
-            exact
-          />
+          <PrivateRoute component={HomePage} template={AppTemplate} path="/" exact />
+          <PrivateRoute component={MovieDetailPage} template={AppTemplate} path="/moviedetail" exact />
+          <PrivateRoute component={MovieListPage} template={AppTemplate} path="/movielist" exact />
+          <PrivateRoute component={ProfilePage} template={AppTemplate} path="/profile" exact />
+          <PrivateRoute component={SearchPage} template={AppTemplate} path="/search" exact />
         </BrowserRouter>
       </Suspense>
     </div>
