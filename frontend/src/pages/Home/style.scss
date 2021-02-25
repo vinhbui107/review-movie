@@ -1,0 +1,92 @@
+.item {
+  &__info {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      height: 100%;
+      width: 0;
+      background-image: linear-gradient(to right, #fbbd61, #ec7532);
+      transform: skewX(45deg);
+      -webkit-transform: skewX(45deg);
+      -moz-transform: skewX(45deg);
+      -ms-transform: skewX(45deg);
+      -o-transform: skewX(45deg);
+      transition: all 0.4s;
+      -webkit-transition: all 0.4s;
+      -moz-transition: all 0.4s;
+      -ms-transition: all 0.4s;
+      -o-transition: all 0.4s;
+    }
+
+    &:hover::before {
+      width: 300%;
+    }
+
+    &:hover &__detail {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -o-transform: scale(1);
+    }
+
+    &__detail {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.8);
+      -webkit-transform: scale(0.8);
+      -moz-transform: scale(0.8);
+      -ms-transform: scale(0.8);
+      -o-transform: scale(0.8);
+      transition: all 0.4s;
+      -webkit-transition: all 0.4s;
+      -moz-transition: all 0.4s;
+      -ms-transition: all 0.4s;
+      -o-transition: all 0.4s;
+    }
+  }
+}
+
+// Review
+.review {
+  &__item {
+    &__photo {
+      height: 112px;
+      width: 112px;
+
+      margin-left: auto;
+      margin-right: auto;
+      img {
+        border-radius: 50%;
+      }
+    }
+  }
+}
