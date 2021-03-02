@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./style.scss";
-import { Navbar, Nav, Form, NavDropdown, Container } from "react-bootstrap";
+import { Navbar, Nav, Form, Container, NavDropdown } from "react-bootstrap";
 import "antd/dist/antd.css";
 import Banner from "../Banner";
 
@@ -31,12 +31,11 @@ function Header(props) {
 
     return (
         <>
-            <Banner />
             <div
                 className="header"
-                style={{ transition: "1s ease", backgroundColor: navBackground ? "#000" : "transparent" }}
+                style={{ transition: "1s ease", backgroundColor: navBackground ? "#000" : "#232323" }}
             >
-                <Container>
+                <Container fluid>
                     <Navbar expand="lg" variant="light">
                         <Navbar.Brand href="#home">
                             <img
@@ -50,10 +49,10 @@ function Header(props) {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
                                 <NavLink to="/" className="nav-link nav-link-header">
-                                    HOME
+                                    Trang chủ
                                 </NavLink>
 
-                                <NavDropdown title="Categories" id="basic-nav-dropdown">
+                                <NavDropdown title="Thể loại" id="basic-nav-dropdown">
                                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                                     <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                                     <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
@@ -68,13 +67,14 @@ function Header(props) {
                             </Form>
                             <Nav>
                                 <NavLink to="/login" className="nav-link nav-link-header mr-3">
-                                    Login
+                                    Đăng nhập
                                 </NavLink>
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>
                 </Container>
             </div>
+            <Banner />
         </>
     );
 }
