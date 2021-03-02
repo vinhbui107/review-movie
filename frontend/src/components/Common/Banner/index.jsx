@@ -1,21 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Tabs, Tab, Container, Row, Col } from "react-bootstrap";
+import { Tabs, Tab } from "react-bootstrap";
 import "./style.scss";
 
 Banner.propTypes = {};
 
 function Banner(props) {
-    const [index, setIndex] = useState(0);
     const [key, setKey] = useState("home");
-
-    const handleSelect = (selectedIndex, e) => {
-        setIndex(selectedIndex);
-    };
-
-    const stylee = {
-        backgroundImage: `url("https://image.tmdb.org/t/p/w500//8veOfB9RbSzFki0Rq3IQIGsFfhC.jpg")`,
-    };
 
     return (
         <>
