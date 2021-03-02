@@ -5,9 +5,8 @@ import { Link } from "react-router-dom";
 import { Animated } from "react-animated-css";
 import WOW from "wowjs";
 import { Col } from "react-bootstrap";
-MovieCart.propTypes = {};
 
-function MovieCart(props) {
+function MovieCard(props) {
     useEffect(() => {
         const wow = new WOW.WOW();
         wow.init();
@@ -60,4 +59,4 @@ function MovieCart(props) {
     );
 }
 
-export default MovieCart;
+export default MovieCard;
