@@ -1,11 +1,11 @@
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter, Switch, Link, Route, Redirect } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import PublicRoute from "./pages/routers/PublicRoute";
 import PrivateRoute from "./pages/routers/PrivateRoute";
-import PublicTemplate from "./pages/templates/PublicTemplate";
-import AppTemplate from "./pages/templates/AppTemplate";
 import "./App.scss";
+import PublicLayout from "./layouts/PublicLayout";
+import AppLayout from "./layouts/AppLayout";
 
 // Lazy load - code splitting
 const LoginPage = lazy(() => import("./pages/Login/index.jsx"));
@@ -19,24 +19,24 @@ const NotFoundPage = lazy(() => import("./pages/NotFound/index.jsx"));
 const ProfilePage = lazy(() => import("./pages/Profile/index.jsx"));
 
 function App() {
-  return (
-    <div className="review-movie-app">
-      <Suspense fallback={<div>Loading ...</div>}>
-        <BrowserRouter>
-          {/* <!-- PUBLIC ROUTE --> */}
-          <PublicRoute restricted component={LoginPage} template={PublicTemplate} path="/login" exact />
-          <PublicRoute restricted component={RegisterPage} template={PublicTemplate} path="/register" exact />
+    return (
+        <div className="review-movie-app">
+            <Suspense fallback={<div>Loading ...</div>}>
+                <BrowserRouter>
+                    {/* <!-- PUBLIC ROUTE --> */}
+                    <PublicRoute restricted component={LoginPage} template={PublicLayout} path="/login" exact />
+                    <PublicRoute restricted component={RegisterPage} template={PublicLayout} path="/register" exact />
 
-          {/* <!-- PRIVATE ROUTE --> */}
-          <PrivateRoute component={HomePage} template={AppTemplate} path="/" exact />
-          <PrivateRoute component={MovieDetailPage} template={AppTemplate} path="/moviedetail" exact />
-          <PrivateRoute component={MovieListPage} template={AppTemplate} path="/movielist" exact />
-          <PrivateRoute component={ProfilePage} template={AppTemplate} path="/profile" exact />
-          <PrivateRoute component={SearchPage} template={AppTemplate} path="/search" exact />
-        </BrowserRouter>
-      </Suspense>
-    </div>
-  );
+                    {/* <!-- PRIVATE ROUTE --> */}
+                    <PrivateRoute component={HomePage} template={AppLayout} path="/" exact />
+                    <PrivateRoute component={MovieDetailPage} template={AppLayout} path="/moviedetail" exact />
+                    <PrivateRoute component={MovieListPage} template={AppLayout} path="/movielist" exact />
+                    <PrivateRoute component={ProfilePage} template={AppLayout} path="/profile" exact />
+                    <PrivateRoute component={SearchPage} template={AppLayout} path="/search" exact />
+                </BrowserRouter>
+            </Suspense>
+        </div>
+    );
 }
 
 export default App;
