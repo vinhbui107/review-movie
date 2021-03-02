@@ -1,0 +1,14 @@
+.owl-theme {
+    .owl-prev {
+        position: absolute;
+        left: -40px;
+        top: 50px;
+        font-size: 100px !important;
+    }
+    .owl-next {
+        position: absolute;
+        right: -40px;
+        top: 50px;
+        font-size: 100px !important;
+    }
+}
