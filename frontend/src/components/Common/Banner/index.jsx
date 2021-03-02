@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Carousel, Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab, Container, Row, Col } from "react-bootstrap";
 import "./style.scss";
-import { Container, Row, Col } from "react-bootstrap";
 
 Banner.propTypes = {};
 
@@ -14,13 +13,22 @@ function Banner(props) {
     setIndex(selectedIndex);
   };
 
+  const stylee = {
+    backgroundImage: `url("https://image.tmdb.org/t/p/w500//8veOfB9RbSzFki0Rq3IQIGsFfhC.jpg")`,
+  };
+
   return (
     <>
       <div style={{ position: "relative" }}>
         <Tabs id="controlled-tab-example" activeKey={key} onSelect={(k) => setKey(k)} className="tab">
-          <Tab eventKey="home" title="Phim 1" className="tab__item tab__item-1">
+          <Tab
+            eventKey="home"
+            title="  "
+            className="tab__item tab__item-1"
+            style={{ backgroundImage: `url("./img/hero-1.jpg")` }}
+          >
             <div className="tab__caption text-left container">
-              <div className="tab__caption__info w-50">
+              <div className="tab__caption__info ">
                 <h3>Scoob!</h3>
                 <div className="tab__caption__category">
                   <ul className="tab__caption__category__list">
