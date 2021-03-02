@@ -5,6 +5,7 @@ import PublicRoute from "./pages/routers/PublicRoute";
 import PrivateRoute from "./pages/routers/PrivateRoute";
 import PublicTemplate from "./pages/templates/PublicTemplate";
 import AppTemplate from "./pages/templates/AppTemplate";
+import "./App.scss";
 
 // Lazy load - code splitting
 const LoginPage = lazy(() => import("./pages/Login/index.jsx"));
