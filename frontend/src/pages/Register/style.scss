@@ -11,6 +11,13 @@
     background-repeat: no-repeat;
     background-color: rgba(0, 0, 0, 0.75);
 
+    span {
+        border-radius: 8px;
+    }
+    label {
+        color: #fff !important;
+    }
+
     &__item {
         display: flex;
         flex-direction: column;
@@ -21,7 +28,7 @@
         background-color: rgba(0, 0, 0, 0.75);
 
         &__info {
-            width: 480px;
+            width: 500px;
             margin: 0 auto;
             padding: 60px 38px 40px;
             margin-bottom: 90px;
@@ -47,4 +54,21 @@
             }
         }
     }
+}
+
+.birthdayForm {
+    div {
+        margin-left: 0 !important;
+    }
+}
+
+.ant-cascader-menus-placement-bottomLeft {
+    color: #000;
+    ul {
+        height: auto;
+    }
+}
+
+.ant-picker {
+    border-radius: 8px;
 }

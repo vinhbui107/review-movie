@@ -10,6 +10,11 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-color: rgba(0, 0, 0, 0.75);
+    text-align: center;
+
+    span {
+        border-radius: 8px;
+    }
 
     &__item {
         display: flex;
@@ -18,10 +23,10 @@
         justify-content: center;
         height: 100%;
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.75);
+        background-color: rgba(0, 0, 0, 0.6);
 
         &__info {
-            width: 480px;
+            width: 500px;
             margin: 0 auto;
             padding: 60px 38px 40px;
             margin-bottom: 90px;
@@ -38,6 +43,28 @@
                 text-align: center;
                 margin: 20px 0 50px;
                 color: #fff;
+            }
+
+            &__icons {
+                i {
+                    color: #000;
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    text-align: center;
+                    background-color: #fff;
+                    margin: 15px 5px;
+                    &:hover {
+                        color: blue;
+                    }
+                }
+            }
+
+            &__btnLogin {
+                width: 70%;
+                display: block;
+                margin: 0 auto;
+                border-radius: 20px;
             }
         }
     }

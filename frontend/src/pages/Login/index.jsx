@@ -90,13 +90,18 @@ function Login(props) {
                         </Form.Item>
 
                         <Form.Item {...tailLayout}>
-                            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+                            <Button type="primary" htmlType="submit" className="login-form__item__info__btnLogin">
                                 Log in
                             </Button>
+                            <p>Or Sign in with</p>
+                            <Link to="/" className="login-form__item__info__icons">
+                                <i class="fab fa-google"></i>
+                                <i class="fab fa-facebook-f"></i>
+                            </Link>
                         </Form.Item>
 
                         <Form.Item {...tailLayout}>
-                            <p>Don't have a account? </p> <Link href="/register">register now!</Link>
+                            <p>Don't have a account? </p> <Link href="/register">Sign up</Link>
                         </Form.Item>
                     </div>
                 </div>

@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined, MailOutlined, WomanOutlined } from "@ant-design/icons";
 
-import { Form, Input, Button, Checkbox, Tooltip } from "antd";
+import { Form, Input, Button, DatePicker, Cascader } from "antd";
 import "./style.scss";
 import { Link, NavLink } from "react-router-dom";
+import { Row, Col } from "react-bootstrap";
 Register.propTypes = {};
 
 function Register(props) {
@@ -34,6 +35,27 @@ function Register(props) {
         console.log("Failed:", errorInfo);
     };
 
+    const config = {
+        rules: [
+            {
+                type: "object",
+                required: true,
+                message: "Please select time!",
+            },
+        ],
+    };
+
+    const residences = [
+        {
+            value: "Male",
+            label: "Male",
+        },
+        {
+            value: "Female",
+            label: "Female",
+        },
+    ];
+
     return (
         <Form
             {...layout}
@@ -51,28 +73,51 @@ function Register(props) {
                         <h1>Sign up</h1>
                         <Form.Item
                             {...tailLayout}
-                            name="firstName"
+                            name="username"
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please input your first name!",
+                                    message: "Please input your username!",
                                 },
                             ]}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="First Name" />
+                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="User name" />
                         </Form.Item>
-                        <Form.Item
-                            {...tailLayout}
-                            name="lastName"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input your last name!",
-                                },
-                            ]}
-                        >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Last Name" />
+
+                        <Form.Item {...tailLayout} className="mb-0">
+                            <Row>
+                                <Col md="6">
+                                    <Form.Item
+                                        name="residence"
+                                        rules={[
+                                            {
+                                                type: "array",
+                                                required: true,
+                                                message: "Please select gender",
+                                            },
+                                        ]}
+                                    >
+                                        <Cascader
+                                            prefix={<WomanOutlined className="site-form-item-icon" />}
+                                            options={residences}
+                                            placeholder="Gender"
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col md="6">
+                                    <Form.Item
+                                        className="text-light birthdayForm"
+                                        style={{ width: "150%" }}
+                                        {...tailLayout}
+                                        name="date-picker"
+                                        {...config}
+                                    >
+                                        <DatePicker placeholder="Birthday" style={{ marginLeft: "0" }} />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
                         </Form.Item>
+
                         <Form.Item
                             {...tailLayout}
                             name="email"
@@ -99,6 +144,35 @@ function Register(props) {
                                 prefix={<LockOutlined className="site-form-item-icon" />}
                                 type="password"
                                 placeholder="Password"
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            {...tailLayout}
+                            name="confirm"
+                            dependencies={["password"]}
+                            hasFeedback
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please confirm your password!",
+                                },
+                                ({ getFieldValue }) => ({
+                                    validator(_, value) {
+                                        if (!value || getFieldValue("password") === value) {
+                                            return Promise.resolve();
+                                        }
+                                        return Promise.reject(
+                                            new Error("The two passwords that you entered do not match!")
+                                        );
+                                    },
+                                }),
+                            ]}
+                        >
+                            <Input.Password
+                                prefix={<LockOutlined className="site-form-item-icon" />}
+                                type="confirm"
+                                placeholder="Confirm Password"
                             />
                         </Form.Item>
 
