@@ -31,13 +31,19 @@
 
             p {
                 color: #fff !important;
-                display: inline-block;
             }
 
             h1 {
                 text-align: center;
                 margin: 20px 0 50px;
                 color: #fff;
+            }
+
+            &__btnSignup {
+                width: 70%;
+                display: block;
+                margin: 0 auto;
+                border-radius: 20px;
             }
         }
     }
