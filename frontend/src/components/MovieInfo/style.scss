@@ -41,6 +41,11 @@
         }
 
         &__category {
+            ul:first-child {
+                li {
+                    border: none;
+                }
+            }
             &__list {
                 padding-left: 0;
                 li {

@@ -13,7 +13,7 @@ function MovieCard(props) {
         wow.init();
     }, []);
     return (
-        <Col md="2">
+        <div className="col-xs-15 col-sm-15 col-md-15 col-lg-15 ">
             <Link to="/">
                 <div className="item">
                     <div className="item__info">
@@ -52,7 +52,7 @@ function MovieCard(props) {
                     </div>
                 </div>
             </Link>
-        </Col>
+        </div>
     );
 }
 

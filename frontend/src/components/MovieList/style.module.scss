@@ -1,9 +1,6 @@
 .owl-theme {
     .owl-prev {
-        position: absolute;
-        left: -40px;
-        top: 50px;
-        font-size: 100px !important;
+        display: none !important;
     }
     .owl-next {
         position: absolute;

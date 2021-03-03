@@ -1,16 +1,19 @@
 import uuid
 from imagekit.models import ProcessedImageField
 
-from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 
 from .helpers import upload_to_user_avatar_directory
 
 
 class User(AbstractUser):
-    uuid = models.UUIDField(default=uuid.uuid4, max_length=255, editable=False, unique=True)
+    uuid = models.UUIDField(
+        default=uuid.uuid4, max_length=255, editable=False, unique=True
+    )
     username = models.CharField(
-        max_length=255,
+        max_length=settings.USERNAME_MAX_LENGTH,
         blank=False,
         null=False,
         unique=True,
@@ -26,7 +29,9 @@ class User(AbstractUser):
         ("M", "Male"),
         ("F", "Female"),
     )
-    gender = models.CharField(choices=GENDER, max_length=1, null=True, blank=False)
+    gender = models.CharField(
+        choices=GENDER, max_length=1, null=True, blank=True, default=None
+    )
 
     OCCUPATIONS = (
         (None, "Select your role"),
@@ -61,5 +66,13 @@ class User(AbstractUser):
         ("Retired", "Retired"),
         ("Other", "Other"),
     )
-    occupation = models.CharField(choices=OCCUPATIONS, max_length=30, null=True)
-    avatar = ProcessedImageField(upload_to=upload_to_user_avatar_directory, blank=False, null=True, format="JPEG")
+    occupation = models.CharField(
+        choices=OCCUPATIONS, max_length=30, blank=True, null=True, default=None
+    )
+    avatar = ProcessedImageField(
+        upload_to=upload_to_user_avatar_directory,
+        blank=True,
+        null=True,
+        format="JPEG",
+        default=None,
+    )
