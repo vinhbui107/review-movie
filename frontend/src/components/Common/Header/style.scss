@@ -7,8 +7,12 @@
     padding-left: 60px;
     padding-right: 20px;
 
+    .navbar {
+        padding: 0;
+    }
+
     .search__form__click {
-        width: 64.5% !important;
+        width: 90% !important;
 
         input {
             width: 100% !important;
@@ -28,7 +32,7 @@
         }
 
         input {
-            transition: all 1.2s;
+            transition: all 0.7s;
             width: 0%;
             border-bottom: 0;
             color: #fff;
