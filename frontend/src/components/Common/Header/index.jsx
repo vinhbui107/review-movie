@@ -4,7 +4,6 @@ import "./style.scss";
 import { Navbar, Nav, Form, Container, NavDropdown } from "react-bootstrap";
 import "antd/dist/antd.css";
 import Banner from "../Banner";
-import Poster from "../Poster";
 
 Header.propTypes = {};
 
@@ -28,6 +27,10 @@ function Header(props) {
 
     const handleSearchForm = () => {
         return searchForm ? "search__form__click" : "";
+    };
+
+    const user = () => {
+        return <i class="fa fa-user mx-3"></i>;
     };
 
     return (
@@ -71,7 +74,7 @@ function Header(props) {
                                     Login
                                 </NavLink> */}
 
-                                <NavDropdown title="Your name " id="basic-nav-dropdown" className="mr-5">
+                                <NavDropdown title={user()} id="basic-nav-dropdown" className="mr-5 d-flex">
                                     <NavDropdown.Item href="#action/3.1">Info</NavDropdown.Item>
                                     <NavDropdown.Item href="#action/3.2">Log out</NavDropdown.Item>
                                     <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
@@ -83,8 +86,6 @@ function Header(props) {
                     </Navbar>
                 </Container>
             </div>
-            <Banner />
-            {/* <Poster /> */}
         </>
     );
 }

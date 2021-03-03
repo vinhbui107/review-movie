@@ -10,7 +10,15 @@ function MovieInfo(props) {
             <div className="tab__item__caption text-left container">
                 <div className="tab__item__caption__info ">
                     <h3>Scoob!</h3>
+
                     <div className="tab__item__caption__category">
+                        <ul className="tab__item__caption__category__list">
+                            <li>{props.text}</li>
+                            <li>
+                                <i className="fa fa-clock mr-2"></i>
+                                <span>1h30</span>
+                            </li>
+                        </ul>
                         <ul className="tab__item__caption__category__list">
                             <li>IMDB 5.3</li>
                             <li>

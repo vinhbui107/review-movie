@@ -32,14 +32,24 @@
 .owl-nav {
     .owl-prev {
         position: absolute;
-        left: -40px;
-        top: 50px;
-        font-size: 100px !important;
+        left: -50px;
+        top: 50%;
+        font-size: 60px !important;
+        transform: translate(-50%, -50%);
+
+        span {
+            color: rgba(204, 199, 199, 0.781);
+        }
     }
     .owl-next {
         position: absolute;
-        right: -40px;
-        top: 50px;
-        font-size: 100px !important;
+        right: -50px;
+        top: 50%;
+        font-size: 60px !important;
+        transform: translate(-50%, -50%);
+
+        span {
+            color: rgba(204, 199, 199, 0.781);
+        }
     }
 }

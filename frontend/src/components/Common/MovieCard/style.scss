@@ -2,12 +2,12 @@
     position: relative;
     &__info {
         h1 {
-            font-size: 0.8rem;
+            font-size: 1.2rem;
             color: #fff;
             margin-bottom: 10px;
         }
         p {
-            font-size: 0.5rem;
+            font-size: 1rem;
             margin-bottom: 10px;
         }
         &__img {
@@ -125,5 +125,38 @@
                 transform: scale(1);
             }
         }
+    }
+}
+
+.col-xs-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+@media (min-width: 768px) {
+    .col-sm-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-15 {
+        width: 20%;
+        float: left;
     }
 }
