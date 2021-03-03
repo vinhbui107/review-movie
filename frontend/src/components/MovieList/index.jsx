@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import OwlCarousel from "react-owl-carousel";
 import { Link } from "react-router-dom";
-import MovieCard from "../Common/MovieCard";
+import MovieCard from "../MovieCard";
 
 import style from "./style.module.scss";
 
@@ -15,14 +15,29 @@ function MovieList() {
                 <MovieCard />
                 <MovieCard />
                 <MovieCard />
-            </div>
-            <div className="row">
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
                 <MovieCard />
                 <MovieCard />
                 <MovieCard />
                 <MovieCard />
                 <MovieCard />
             </div>
+            {/* <div className="row">
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
+                <MovieCard />
+            </div> */}
         </OwlCarousel>
     );
 }

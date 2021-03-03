@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab } from "react-bootstrap";
 import style from "./style.module.scss";
-import MovieInfo from "../../MovieInfo";
+import MovieInfo from "../MovieInfo";
 
 Banner.propTypes = {};
 
