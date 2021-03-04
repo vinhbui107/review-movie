@@ -1,3 +1,5 @@
+import Avatar from "antd/lib/avatar/avatar";
+
 export const layout = {
     labelCol: {
         span: 6,
@@ -47,8 +49,8 @@ export const handleSearchForm = (searchForm) => {
     return searchForm ? "search__form__click" : "";
 };
 
-export const userIcon = () => {
-    return <i class="fa fa-user mx-3"></i>;
+export const userIcon = (avatar) => {
+    return <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />;
 };
 
 //MovieDetail

@@ -73,12 +73,9 @@ function Header(props) {
                                     Login
                                 </NavLink> */}
 
-                                <NavDropdown title={userIcon()} id="basic-nav-dropdown" className="mr-5 d-flex">
+                                <NavDropdown title={userIcon()} id="basic-nav-dropdown" className="mr-5 userIcon">
                                     <NavDropdown.Item href="#action/3.1">Info</NavDropdown.Item>
                                     <NavDropdown.Item href="#action/3.2">Log out</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                                 </NavDropdown>
                             </Nav>
                         </Navbar.Collapse>
