@@ -5,35 +5,11 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Checkbox, Tooltip } from "antd";
 import "./style.scss";
 import { Link, NavLink } from "react-router-dom";
+import { layout, tailLayout, onFinish, onFinishFailed } from "../../utils/constants";
+
 Login.propTypes = {};
 
 function Login(props) {
-    const onFinish = (values) => {
-        console.log("Received values of form: ", values);
-    };
-    const layout = {
-        labelCol: {
-            span: 6,
-        },
-        wrapperCol: {
-            span: 16,
-        },
-    };
-    const tailLayout = {
-        wrapperCol: {
-            offset: 4,
-            span: 16,
-        },
-    };
-
-    /* const onFinish = (values) => {
-    console.log("Success:", values);
-  }; */
-
-    const onFinishFailed = (errorInfo) => {
-        console.log("Failed:", errorInfo);
-    };
-
     return (
         <Form
             {...layout}

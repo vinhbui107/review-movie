@@ -6,56 +6,11 @@ import { Form, Input, Button, DatePicker, Cascader } from "antd";
 import "./style.scss";
 import { Link, NavLink } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
+import { layout, tailLayout, onFinish, onFinishFailed, config, residences } from "../../utils/constants";
+
 Register.propTypes = {};
 
 function Register(props) {
-    const onFinish = (values) => {
-        console.log("Received values of form: ", values);
-    };
-    const layout = {
-        labelCol: {
-            span: 6,
-        },
-        wrapperCol: {
-            span: 16,
-        },
-    };
-    const tailLayout = {
-        wrapperCol: {
-            offset: 4,
-            span: 16,
-        },
-    };
-
-    /* const onFinish = (values) => {
-    console.log("Success:", values);
-  }; */
-
-    const onFinishFailed = (errorInfo) => {
-        console.log("Failed:", errorInfo);
-    };
-
-    const config = {
-        rules: [
-            {
-                type: "object",
-                required: true,
-                message: "Please select time!",
-            },
-        ],
-    };
-
-    const residences = [
-        {
-            value: "Male",
-            label: "Male",
-        },
-        {
-            value: "Female",
-            label: "Female",
-        },
-    ];
-
     return (
         <Form
             {...layout}
