@@ -7,6 +7,15 @@
     padding-left: 60px;
     padding-right: 20px;
 
+    &__overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+    }
+
     .navbar {
         padding: 0;
     }
@@ -81,5 +90,12 @@
         -moz-transition: width 0.2s linear 0s;
         -ms-transition: width 0.2s linear 0s;
         -o-transition: width 0.2s linear 0s;
+    }
+}
+
+.dropdown-menu {
+    background-color: #000 !important;
+    a {
+        color: #fff;
     }
 }
