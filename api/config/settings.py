@@ -1,6 +1,7 @@
 import os
 import sys
 import string
+from datetime import timedelta
 from decouple import Csv, config
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,7 +33,7 @@ LOCAL_APPS = [
     "apps.accounts",
     "apps.movies",
     "apps.reviews",
-    "apps.recommender"
+    "apps.recommender",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -110,6 +111,39 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # =============================================================================
+# REST FRAMEWORK AND JWT
+# =============================================================================
+
+REST_FRAMEWORK = {
+    "DEFAULT_PARSER_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.AcceptHeaderVersioning",
+    "DEFAULT_THROTTLE_RATES": {
+        "link_preview": "300/hour",
+    },
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "VERIFYING_KEY": None,
+    "AUTH_HEADER_TYPES": ("JWT",),
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "uuid",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    "TOKEN_TYPE_CLAIM": "token_type",
+}
+
+# =============================================================================
 # INTERNATIONALIZATION AND LOCALIZATION SETTINGS
 # =============================================================================
 
@@ -155,6 +189,8 @@ MEDIA_URL = "/media/"
 
 # Account
 USERNAME_MAX_LENGTH = 30
+PASSWORD_MIN_LENGTH = 10
+PASSWORD_MAX_LENGTH = 100
 # Movie
 MOVIE_TITLE_MAX_LENGTH = 255
 MOVIE_YEAR_MAX_LENGTH = 4
@@ -165,3 +201,5 @@ GENRE_NAME_MAX_LENTH = 100
 ACTOR_NAME_MAX_LENTH = 100
 ACTOR_NAME_MAX_LENTH = 100
 RATE_RATING_MAX_LENGTH = 1
+# Review
+# Recommendation
