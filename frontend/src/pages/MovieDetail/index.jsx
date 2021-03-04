@@ -86,24 +86,26 @@ function MovieDetail() {
                 </Tooltip>
             ),
         });
-        console.log(data.length);
-        /* if (!value) {
+
+        if (!value) {
             return;
         }
 
         setSubmitting({ submitting: true });
 
         setTimeout(() => {
-            setSubmitting({ submitting: false });
+            setSubmitting();
             setValue("");
-            setComments({
+            setComments([
                 ...comments,
-                author: "Han Solo",
-                avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-                content: <p>{value}</p>,
-                datetime: moment().fromNow(),
-            });
-        }, 1000); */
+                {
+                    author: "Han Solo",
+                    avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+                    content: <p>{value}</p>,
+                    datetime: moment().fromNow(),
+                },
+            ]);
+        }, 1000);
     };
 
     return (
@@ -119,42 +121,8 @@ function MovieDetail() {
 
                 <div className="comment">
                     <h1>Comment</h1>
-                    <List
-                        className="comment-list"
-                        header={`${data.length} replies`}
-                        itemLayout="horizontal"
-                        dataSource={data}
-                        renderItem={(item) => (
-                            <li>
-                                <Comment
-                                    actions={item.actions}
-                                    author={item.author}
-                                    avatar={item.avatar}
-                                    content={item.content}
-                                    datetime={item.datetime}
-                                />
-                            </li>
-                        )}
-                    />
-                    {
-                        <List
-                            className="comment-list"
-                            header={`${data.length} replies`}
-                            itemLayout="horizontal"
-                            dataSource={data}
-                            renderItem={(item) => (
-                                <li>
-                                    <Comment
-                                        actions={item.actions}
-                                        author={item.author}
-                                        avatar={item.avatar}
-                                        content={item.content}
-                                        datetime={item.datetime}
-                                    />
-                                </li>
-                            )}
-                        />
-                    }
+
+                    {comments.length > 0 && <CommentList comments={comments} />}
                     <Comment
                         avatar={
                             <Avatar
