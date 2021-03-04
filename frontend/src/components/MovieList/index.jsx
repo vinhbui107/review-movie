@@ -1,44 +1,73 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import OwlCarousel from "react-owl-carousel";
-import { Link } from "react-router-dom";
 import MovieCard from "../MovieCard";
-
 import style from "./style.module.scss";
 
-function MovieList() {
+function MovieList(props) {
+    const { title, logo, items } = props;
     return (
-        <OwlCarousel className={style["owl-theme"]} loop margin={10} items="1" lazyLoad="true" nav="true">
-            <div className="row">
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-            </div>
-            {/* <div className="row">
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-                <MovieCard />
-            </div> */}
-        </OwlCarousel>
+        <>
+            <h1 className={style.title}>
+                {logo ? <span className={style.title__logo}>{logo}</span> : ""}
+                {title}
+            </h1>
+            <OwlCarousel className={style["owl-theme"]} loop margin={10} items="1" lazyLoad="true" nav="true">
+                <Row>
+                    {items === 10 ? (
+                        <>
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                        </>
+                    ) : (
+                        <>
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                        </>
+                    )}
+                    <div className={style.clearFloat}></div>
+                </Row>
+                <Row className={style.owlItem}>
+                    {items === 10 ? (
+                        <>
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                        </>
+                    ) : (
+                        <>
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                            <MovieCard />
+                        </>
+                    )}
+                    <div className={style.clearFloat}></div>
+                </Row>
+            </OwlCarousel>
+        </>
     );
 }
 
