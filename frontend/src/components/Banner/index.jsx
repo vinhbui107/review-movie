@@ -1,30 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { Tabs, Tab } from "react-bootstrap";
-import style from "./style.module.scss";
-import MovieInfo from "../MovieInfo";
-
+import "./style.scss";
 Banner.propTypes = {};
 
 function Banner(props) {
-    const [key, setKey] = useState("home");
-
     return (
-        <>
-            <div style={{ position: "relative" }}>
-                <Tabs id="controlled-tab-example" activeKey={key} onSelect={(k) => setKey(k)} className={style.tab}>
-                    <Tab eventKey="home" title="  " style={{ backgroundImage: `url("./img/hero-2.jpg")` }}>
-                        <MovieInfo />
-                    </Tab>
-                    <Tab eventKey="profile" title="Phim 2">
-                        <MovieInfo />
-                    </Tab>
-                    <Tab eventKey="contact" title="Phim 3">
-                        <MovieInfo />
-                    </Tab>
-                </Tabs>
+        <div className="tab__item">
+            <div className="tab__item__caption text-left container">
+                <div className="tab__item__caption__info ">
+                    <h3>Scoob!</h3>
+                    <div className="tab__item__caption__category">
+                        <ul className="tab__item__caption__category__list">
+                            <li>IMDB 5.3</li>
+                            <li>
+                                <a href="/">Animation</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <p>
+                        Scooby-Doo và the Mystery Inc. hợp sức giải cứu thế giới khỏi tên ác nhân Dick Dastardly. Cùng
+                        đón xem bộ phim những cuộc phưu lưu của chú chó scooby doo (2…
+                    </p>
+                    <div className="play d-flex align-items-center">
+                        <button className="text-white">
+                            <i className="fa fa-play"></i>
+                            Play trailer
+                        </button>
+                        <button className="text-white">
+                            <i className="fa fa-play"></i>
+                            Yeu thich
+                        </button>
+                    </div>
+                </div>
             </div>
-        </>
+        </div>
     );
 }
 
