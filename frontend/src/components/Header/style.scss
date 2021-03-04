@@ -1,0 +1,108 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    padding-left: 60px;
+    padding-right: 20px;
+
+    &__overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+    }
+
+    .navbar {
+        padding: 0;
+    }
+
+    .search__form__click {
+        width: 90% !important;
+
+        input {
+            width: 100% !important;
+            border-bottom: 2px solid #fff !important;
+        }
+    }
+
+    .form__search {
+        transition: all 1.2s;
+        width: 0%;
+
+        &__custom {
+            background-color: transparent;
+            border: 0;
+
+            padding: 10px;
+        }
+
+        input {
+            transition: all 0.7s;
+            width: 0%;
+            border-bottom: 0;
+            color: #fff;
+
+            &::placeholder {
+                color: #fff;
+                font-size: 1.1rem;
+            }
+            &:focus {
+                background-color: transparent !important;
+                border: 0;
+                border-bottom: 1px solid #fff;
+                outline: 0;
+                border-radius: 0;
+            }
+        }
+
+        i {
+            cursor: pointer;
+            color: #fff;
+        }
+    }
+}
+
+.nav-link-header,
+.nav-link {
+    font-size: 1.3rem;
+    color: #fff !important;
+    background-color: transparent !important;
+    font-weight: 500;
+    position: relative;
+    &::before {
+        content: "";
+        width: 0%;
+        height: 4px;
+        background-image: linear-gradient(to right, #fbbd61, #ec7532);
+        box-shadow: 0 0 20px 0 #fbbd61;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    &:hover::before {
+        width: 100%;
+        transition: width 0.2s linear 0s;
+        -webkit-transition: width 0.2s linear 0s;
+        -moz-transition: width 0.2s linear 0s;
+        -ms-transition: width 0.2s linear 0s;
+        -o-transition: width 0.2s linear 0s;
+    }
+}
+
+.dropdown-menu {
+    background-color: #000 !important;
+    a {
+        color: #fff;
+    }
+}
+
+.userIcon {
+    a {
+        display: flex;
+        align-items: center;
+    }
+}
