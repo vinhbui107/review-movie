@@ -14,7 +14,7 @@ from apps.accounts.models import User
 
 class Genre(models.Model):
     name = models.CharField(
-        max_length=settings.GENRE_NAME_MAX_LENTH,
+        max_length=settings.GENRE_NAME_MAX_LENGTH,
         blank=False,
         null=False,
         unique=True,
@@ -29,7 +29,7 @@ class Genre(models.Model):
 
 class Actor(models.Model):
     name = models.CharField(
-        max_length=settings.GENRE_NAME_MAX_LENTH,
+        max_length=settings.GENRE_NAME_MAX_LENGTH,
         blank=False,
         null=False,
         unique=True,
