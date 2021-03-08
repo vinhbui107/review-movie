@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.db import transaction
+from django.contrib.auth import get_user_model
+
 from rest_framework import status
 from rest_framework.exceptions import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -7,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 
-from apps.accounts.serializers import RegisterSerializer, LoginSerializer
+from apps.accounts.serializers import RegisterSerializer
 
 
 class Register(APIView):
@@ -18,18 +20,22 @@ class Register(APIView):
     serializer_class = RegisterSerializer
 
     def post(self, request):
-        return super().post(request)
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return self.on_valid_request_data(serializer.validated_data)
 
-    def on_valid_request_date(self, data):
-        return
+    def on_valid_request_data(self, data):
+        email = data.get("email")
+        password = data.get("password")
+        username = data.get("username")
+        birthday = data.get("birthday")
+        gender = data.get("gender")
+        occupation = data.get("occupation")
+        avatar = data.get("avatar")
+        User = get_user_model()
 
+        with transaction.atomic():
+            new_user = User.create_user()
+            new_user.save()
 
-class Login(APIView):
-    """
-    The API to login for user
-    """
-
-    serializer_class = LoginSerializer
-
-    def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+        return Response({}, status=status.HTTP_201_CREATED)
