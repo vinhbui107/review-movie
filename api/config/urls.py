@@ -9,11 +9,13 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from apps.accounts.views import Register
+
 
 auth_patterns = [
-    path("login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("register/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("register/", Register.as_view(), name="register-user"),
 ]
 
 movie_patterns = []
