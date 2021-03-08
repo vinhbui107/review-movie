@@ -10,7 +10,10 @@ from .helpers import upload_to_user_avatar_directory
 
 class User(AbstractUser):
     uuid = models.UUIDField(
-        default=uuid.uuid4, max_length=255, editable=False, unique=True
+        primary_key=True,
+        default=uuid.uuid4,
+        max_length=255,
+        editable=False,
     )
     username = models.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
