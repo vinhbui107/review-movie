@@ -3,6 +3,7 @@ from imagekit.models import ProcessedImageField
 
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 
 from .helpers import (
     upload_to_actor_image_directory,
@@ -19,6 +20,11 @@ class Genre(models.Model):
         unique=True,
     )
     description = models.TextField(blank=True, null=True)
+    slug = models.SlugField(default=None, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Genre, self).save(*args, **kwargs)
 
 
 class Actor(models.Model):
@@ -38,9 +44,6 @@ class Actor(models.Model):
 
 
 class Movie(models.Model):
-    uuid = models.UUIDField(
-        default=uuid.uuid4, editable=False, unique=True, db_index=True
-    )
     title = models.CharField(
         max_length=settings.MOVIE_TITLE_MAX_LENGTH, blank=False, null=False
     )
@@ -67,6 +70,11 @@ class Movie(models.Model):
     rm_rating = models.CharField(max_length=4, null=True, default=None)
     genres = models.ManyToManyField(Genre, related_name="genres_of_movies")
     actors = models.ManyToManyField(Actor, related_name="actors_of_movies")
+    slug = models.SlugField(default=None, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Movie, self).save(*args, **kwargs)
 
 
 class Rate(models.Model):
