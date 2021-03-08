@@ -1,7 +1,7 @@
 import re
 from rest_framework.exceptions import ValidationError, NotFound
 
-from api.apps.accounts.models import User
+from apps.accounts.models import User
 
 
 def username_characters_validator(username):
