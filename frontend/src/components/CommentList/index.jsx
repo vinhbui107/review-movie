@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import Comments from "../Comment";
+
+// import { Editor, handleChange } from "../../utils/constants";
 
 function CommentList() {
-  return (
-    <div>
-      <h2>CommentList</h2>
-    </div>
-  );
+    return (
+        <div>
+            <Comments />
+        </div>
+    );
 }
 
 export default CommentList;
