@@ -13,8 +13,17 @@
             p {
                 font-size: 0.7rem;
                 margin-bottom: 10px;
+                text-overflow: ellipsis;
+
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
             }
             &__img {
+                img {
+                    width: 100%;
+                }
                 &::before {
                     content: "";
                     position: absolute;
@@ -22,7 +31,7 @@
                     height: 100%;
                     top: 0;
                     left: 0;
-                    background: linear-gradient(0deg, #584d58 6%, #996b43 53%, #c48857 74%);
+                    background: linear-gradient(0deg, #584d58 6%, #69240f 53%, #925c0c 74%);
                     opacity: 0;
                     visibility: hidden;
                     transform: scale(0.8);
@@ -142,7 +151,7 @@
         }
     }
 
-    .col-xs-15,
+    /* .col-xs-15,
     .col-sm-15,
     .col-md-15,
     .col-lg-15 {
@@ -174,5 +183,5 @@
             width: 20%;
             float: left;
         }
-    }
+    } */
 }
