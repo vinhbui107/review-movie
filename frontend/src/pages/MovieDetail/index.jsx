@@ -42,9 +42,9 @@ function MovieDetail(props) {
                 <p></p>
                 <MovieInfo text={movieDetail.Director} title={movieDetail.Title} desc={movieDetail.Description} />
             </div>
-            <Container>
+            <Container fluid style={{ width: "85%" }}>
                 <h2>Recommend</h2>
-                <MovieList />
+                <MovieList title={"Reccommend"} items={6} />
 
                 <div className="comment">
                     <h1>Comment</h1>
