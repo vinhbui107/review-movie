@@ -24,8 +24,3 @@ def email_not_taken_validator(email):
 def user_username_exists(username):
     if not User.user_with_username_exists(username=username):
         raise NotFound("No user with the provided username exists.")
-
-
-def user_email_exists(email):
-    if not User.objects.filter(email=email).exists():
-        raise NotFound("No user with the provided email exists.")

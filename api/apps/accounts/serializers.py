@@ -6,7 +6,6 @@ from apps.accounts.validators import (
     username_characters_validator,
     username_not_taken_validator,
     email_not_taken_validator,
-    user_email_exists,
     user_username_exists,
 )
 
@@ -25,6 +24,4 @@ class RegisterSerializer(serializers.Serializer):
             username_not_taken_validator,
         ],
     )
-    email = serializers.EmailField(
-        validators=[email_not_taken_validator, user_email_exists]
-    )
+    email = serializers.EmailField(validators=[email_not_taken_validator])
