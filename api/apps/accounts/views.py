@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 
 from apps.accounts.serializers import RegisterSerializer
+from apps.common.responses import ApiMessageResponse
 
 
 class Register(APIView):
@@ -35,7 +36,17 @@ class Register(APIView):
         User = get_user_model()
 
         with transaction.atomic():
-            new_user = User.create_user()
+            new_user = User.objects.create_user(
+                username=username,
+                password=password,
+                email=email,
+                birthday=birthday,
+                gender=gender,
+                occupation=occupation,
+                avatar=avatar,
+            )
             new_user.save()
 
-        return Response({}, status=status.HTTP_201_CREATED)
+        return ApiMessageResponse(
+            ("Create user successfully"), status=status.HTTP_201_CREATED
+        )
