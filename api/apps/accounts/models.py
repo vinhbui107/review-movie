@@ -9,12 +9,7 @@ from .helpers import upload_to_user_avatar_directory
 
 
 class User(AbstractUser):
-    uuid = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        max_length=255,
-        editable=False,
-    )
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     username = models.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
         blank=False,
@@ -79,3 +74,21 @@ class User(AbstractUser):
         format="JPEG",
         default=None,
     )
+
+    class Meta:
+        db_table = "user"
+
+    @classmethod
+    def is_username_taken(cls, username):
+        users = cls.objects.filter(username=username)
+        if not users.exists():
+            return False
+        return True
+
+    @classmethod
+    def is_email_taken(cls, email):
+        try:
+            cls.objects.get(email=email)
+            return True
+        except User.DoesNotExist:
+            return False
