@@ -26,6 +26,9 @@ class Genre(models.Model):
         self.slug = slugify(self.name)
         super(Genre, self).save(*args, **kwargs)
 
+    class Meta:
+        db_table = "genre"
+
 
 class Actor(models.Model):
     name = models.CharField(
@@ -41,6 +44,9 @@ class Actor(models.Model):
         format="JPEG",
         default=None,
     )
+
+    class Meta:
+        db_table = "actor"
 
 
 class Movie(models.Model):
@@ -76,6 +82,9 @@ class Movie(models.Model):
         self.slug = slugify(self.title)
         super(Movie, self).save(*args, **kwargs)
 
+    class Meta:
+        db_table = "movie"
+
 
 class Rate(models.Model):
     movie = models.ForeignKey(
@@ -93,3 +102,6 @@ class Rate(models.Model):
         blank=False,
     )
     rating = models.IntegerField(blank=False, null=False)
+
+    class Meta:
+        db_table = "rate"

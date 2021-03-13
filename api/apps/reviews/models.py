@@ -22,20 +22,5 @@ class Review(models.Model):
     )
     content = models.TextField()
 
-
-class Reply(models.Model):
-    review = models.ForeignKey(
-        Movie,
-        on_delete=models.CASCADE,
-        related_name="replies",
-        null=False,
-        blank=False,
-    )
-    user = models.ForeignKey(
-        Review,
-        on_delete=models.CASCADE,
-        related_name="replies",
-        null=False,
-        blank=False,
-    )
-    content = models.TextField()
+    class Meta:
+        db_table = "review"
