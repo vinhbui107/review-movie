@@ -8,6 +8,13 @@
         top: 50px;
         font-size: 100px !important;
     }
+
+    .owl-item {
+        background-color: red;
+        padding: 10px;
+        font-size: 255px;
+        width: calc(100% / 6) !important;
+    }
 }
 
 .clearFloat {
@@ -27,5 +34,11 @@
         border-radius: 10px;
         margin-right: 10px;
         background-color: rgb(255, 204, 0);
+    }
+}
+
+.owl-stage {
+    > div.active {
+        background-color: red !important;
     }
 }

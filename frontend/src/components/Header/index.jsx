@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import "./style.scss";
 import { Navbar, Nav, Form, Container, NavDropdown } from "react-bootstrap";
 import "antd/dist/antd.css";
-import { handleSearchForm, userIcon } from "../../utils/constants";
+import { handleLogin, handleSearchForm, userIcon } from "../../utils/constants";
+import { isLogin } from "../../services/user";
 
 Header.propTypes = {};
 
@@ -68,16 +69,7 @@ function Header(props) {
                                 <i className="fa fa-search mr-2" onClick={() => setSearchForm(!searchForm)} />
                                 <input type="text" placeholder="Search" className="form__search__custom pl-0" />
                             </Form>
-                            <Nav>
-                                {/* <NavLink to="/login" className="nav-link nav-link-header mr-3">
-                                    Login
-                                </NavLink> */}
-
-                                <NavDropdown title={userIcon()} id="basic-nav-dropdown" className="mr-5 userIcon">
-                                    <NavDropdown.Item href="#action/3.1">Info</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.2">Log out</NavDropdown.Item>
-                                </NavDropdown>
-                            </Nav>
+                            <Nav>{handleLogin()}</Nav>
                         </Navbar.Collapse>
                     </Navbar>
                 </Container>
