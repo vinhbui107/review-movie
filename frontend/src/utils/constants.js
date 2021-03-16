@@ -2,7 +2,6 @@ import { Comment, Avatar, Form, Button, List, Input } from "antd";
 
 import { NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { isLogin } from "../services/user";
 
 export const layout = {
     labelCol: {
@@ -50,7 +49,7 @@ export const residences = [
 
 //Header
 export const handleLogin = () => {
-    return isLogin() ? (
+    return true ? (
         <>
             <NavDropdown title={userIcon()} id="basic-nav-dropdown" className="mr-5 userIcon">
                 <NavDropdown.Item href="#action/3.1">Info</NavDropdown.Item>
