@@ -1,89 +1,105 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { Form, Button, InputGroup } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 
-import { Form, Input, Button, Checkbox, Tooltip } from "antd";
+import userApi from "../../services/user";
+
 import "./style.scss";
-import { Link, NavLink } from "react-router-dom";
-import { layout, tailLayout, onFinish, onFinishFailed } from "../../utils/constants";
 
-Login.propTypes = {};
+const Login = () => {
+    const [inputs, setInputs] = useState({
+        username: "",
+        password: "",
+    });
 
-function Login(props) {
+    const [message, setMessage] = useState("");
+    const { username, password } = inputs;
+    const history = useHistory();
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setInputs((inputs) => ({
+            ...inputs,
+            [name]: value,
+        }));
+    };
+
+    const validateForm = () => {
+        return username.length > 0 && password.length > 0;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        console.log(inputs);
+        if (username && password) {
+            userApi.login(inputs);
+        }
+    };
+
     return (
-        <Form
-            {...layout}
-            name="basic"
-            initialValues={{
-                remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            className="login-form"
-        >
-            <div className="login-form">
+        <div className="login-form" style={{ backgroundImage: `url("./img/background.jpg")` }}>
+            <Form className="login-form" onSubmit={handleSubmit}>
                 <div className="login-form__item">
                     <div className="login-form__item__info">
                         <h1>Login</h1>
-                        <Form.Item
-                            {...tailLayout}
-                            name="username"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input your Username!",
-                                },
-                            ]}
+                        <Form.Group>
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Username"
+                                    name="username"
+                                    value={username}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <Form.Control.Feedback type="invalid">Username is required</Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    name="password"
+                                    value={password}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <Form.Control.Feedback type="invalid">Password is required</Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+
+                        <div className="login-form__item__info__msg">
+                            <h5>{message}</h5>
+                        </div>
+
+                        <div>
+                            <a>Forgot your password ?</a>
+                        </div>
+
+                        <Button
+                            variant={!validateForm() ? "secondary" : "primary"}
+                            type="submit"
+                            className="login-form__item__info__btnLogin"
+                            disabled={!validateForm()}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-                        </Form.Item>
-                        <Form.Item
-                            {...tailLayout}
-                            name="password"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input your Password!",
-                                },
-                            ]}
-                        >
-                            <Input
-                                prefix={<LockOutlined className="site-form-item-icon" />}
-                                type="password"
-                                placeholder="Password"
-                            />
-                        </Form.Item>
+                            Login
+                        </Button>
 
-                        <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-                            <Checkbox>
-                                <p>Remember me ?</p>
-                            </Checkbox>
-                            <Tooltip title="Useful information">
-                                <a href="#API" style={{ margin: "0 8px" }}>
-                                    Forgot Password?
-                                </a>
-                            </Tooltip>
-                        </Form.Item>
+                        <div className="login-form__item__info__bd"></div>
 
-                        <Form.Item {...tailLayout}>
-                            <Button type="primary" htmlType="submit" className="login-form__item__info__btnLogin">
-                                Log in
-                            </Button>
-                            <p>Or Sign in with</p>
-                            <Link to="/" className="login-form__item__info__icons">
-                                <i class="fab fa-google"></i>
-                                <i class="fab fa-facebook-f"></i>
-                            </Link>
-                        </Form.Item>
-
-                        <Form.Item {...tailLayout}>
-                            <p>Don't have a account? </p> <Link href="/register">Sign up</Link>
-                        </Form.Item>
+                        <div>
+                            <p>
+                                Don't have an account? - <Link to="/register">Register</Link>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </Form>
+            </Form>
+        </div>
     );
-}
+};
 
 export default Login;

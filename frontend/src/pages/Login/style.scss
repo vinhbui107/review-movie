@@ -4,17 +4,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-image: url("https://assets.nflxext.com/ffe/siteui/vlv3/e178a4e7-4f52-4661-b2ae-41efa25dca7c/a262f479-9909-42bf-925f-a204769ea611/VN-en-20210222-popsignuptwoweeks-perspective_alpha_website_medium.jpg");
     width: 100%;
     height: 100%;
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: rgba(0, 0, 0, 0.75);
     text-align: center;
-
-    span {
-        border-radius: 8px;
-    }
 
     &__item {
         display: flex;
@@ -23,43 +17,50 @@
         justify-content: center;
         height: 100%;
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
+        background-color: rgba(0, 0, 0, 0.8);
 
         &__info {
-            width: 500px;
-            margin: 0 auto;
-            padding: 60px 38px 40px;
-            background-color: rgba(37, 36, 36, 0.63);
-            border-radius: 60px;
+            width: 350px;
+            margin: 10px;
 
-            p {
-                color: #fff !important;
+            a {
                 display: inline-block;
+                margin-top: 10px;
+                margin-bottom: 20px;
+                color: #337ab7 !important;
+                text-decoration: none;
             }
 
             h1 {
                 text-align: center;
-                margin: 20px 0 50px;
+                margin-top: 20px;
+                margin-bottom: 20px;
                 color: #fff;
             }
 
-            &__icons {
-                i {
-                    color: #000;
-                    width: 30px;
-                    height: 30px;
-                    line-height: 30px;
-                    text-align: center;
-                    background-color: #fff;
-                    margin: 15px 5px;
-                    &:hover {
-                        color: blue;
-                    }
-                }
+            h5 {
+                text-align: center;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                color: #db0000;
+            }
+
+            &__bd {
+                border: 1px solid gray;
+                height: 2px;
+                margin-top: 30px;
+                margin-bottom: 10px;
             }
 
             &__btnLogin {
-                width: 70%;
+                width: 40%;
+                display: block;
+                margin: 0 auto;
+                border-radius: 20px;
+            }
+
+            &__btnLogin:disabled {
+                width: 40%;
                 display: block;
                 margin: 0 auto;
                 border-radius: 20px;
