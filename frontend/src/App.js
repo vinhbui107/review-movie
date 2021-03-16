@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { routes } from "./pages/routes";
-import { isLogin } from "./services/user";
+import { isLogin } from "./utils/common";
 import AppLayout from "./layouts/AppLayout";
 import PublicLayout from "./layouts/PublicLayout";
 
