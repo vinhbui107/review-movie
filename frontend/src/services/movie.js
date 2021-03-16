@@ -1,15 +1,20 @@
 import axiosClient from "./axiosClient";
 
-const productApi = {
-    getAll: () => {
-        const url = "https://5fe08f9504f0780017de8ea4.mockapi.io/nhanVien";
-        return axiosClient.get(url);
+const movieApi = {
+    getMovieDetail: (slug) => {
+        const url = `/movies/ + ${slug}`;
+        return axiosClient.post(url, slug);
     },
 
-    getMovieById: (params) => {
-        const url = `http://svcy.myclass.vn/api/Movie/GetMovieDetail/${params}`;
-        return axiosClient.get(url, { params });
+    getMovieGenre: (slug) => {
+        const url = `/auth/register`;
+        return axiosClient.get(url, slug);
+    },
+
+    getMovieRecommend: (slug) => {
+        const url = `/auth/register`;
+        return axiosClient.get(url, slug);
     },
 };
 
-export default productApi;
+export default movieApi;
