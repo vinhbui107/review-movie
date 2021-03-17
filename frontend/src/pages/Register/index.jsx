@@ -1,159 +1,201 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { UserOutlined, LockOutlined, MailOutlined, WomanOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { Button, Form, InputGroup, Row, Col } from "react-bootstrap";
 
-import { Form, Input, Button, DatePicker, Cascader } from "antd";
 import "./style.scss";
-import { Link, NavLink } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
-import { layout, tailLayout, onFinish, onFinishFailed, config, residences } from "../../utils/constants";
+import userApi from "../../services/user";
+import { genders, msgNotMatchPassword, msgWeakPassword, occupations } from "../../utils/constants";
+import { isEqualTwoString, isStrengthPassword } from "../../utils/common";
 
-Register.propTypes = {};
+const Register = () => {
+    const [inputs, setInputs] = useState({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        birthday: "",
+        gender: "",
+        occupation: "",
+    });
 
-function Register(props) {
+    const [message, setMessage] = useState("");
+    const { email, username, password, confirmPassword, birthday, gender, occupation } = inputs;
+
+    const history = useHistory();
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setInputs((inputs) => ({
+            ...inputs,
+            [name]: value,
+        }));
+    };
+
+    const validateForm = () => {
+        return (
+            email.length > 0 &&
+            username.length > 0 &&
+            password.length > 0 &&
+            confirmPassword.length > 0 &&
+            gender.length > 0 &&
+            occupation.length > 0
+        );
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // check password and confirm password
+        if (!isEqualTwoString(password, confirmPassword)) {
+            setMessage(msgNotMatchPassword);
+            // clear password input
+            setInputs({
+                ...inputs,
+                password: "",
+                confirmPassword: "",
+            });
+            return;
+        }
+
+        if (!isStrengthPassword(password)) {
+            setMessage(msgWeakPassword);
+            // clear password input
+            setInputs({
+                ...inputs,
+                password: "",
+                confirmPassword: "",
+            });
+            return;
+        }
+
+        try {
+            await userApi.register(inputs);
+            alert("Create user successfully.");
+            history.push("/login");
+        } catch (error) {
+            setMessage(error.response.data.detail);
+        }
+    };
+
     return (
-        <Form
-            {...layout}
-            name="basic"
-            initialValues={{
-                remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            className="login-form"
-        >
-            <div className="login-form">
-                <div className="login-form__item">
-                    <div className="login-form__item__info">
-                        <h1>Sign up</h1>
-                        <Form.Item
-                            {...tailLayout}
-                            name="username"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input your username!",
-                                },
-                            ]}
+        <div className="register-form" style={{ backgroundImage: `url("./img/background.jpg")` }}>
+            <Form className="register-form" onSubmit={handleSubmit}>
+                <div className="register-form__item">
+                    <div className="register-form__item__info">
+                        <h1>Register</h1>
+                        <Form.Group>
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Email"
+                                    name="email"
+                                    value={email}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </InputGroup>
+                            <Form.Control.Feedback type="invalid">Invalid email</Form.Control.Feedback>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Username"
+                                    name="username"
+                                    value={username}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </InputGroup>
+                            <Form.Control.Feedback type="invalid">Invalid email</Form.Control.Feedback>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    name="password"
+                                    value={password}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Confirm password"
+                                    name="confirmPassword"
+                                    value={confirmPassword}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </InputGroup>
+                        </Form.Group>
+
+                        <Form.Row>
+                            <Form.Group as={Col}>
+                                <Form.Control as="select" name="gender" onChange={handleChange}>
+                                    {genders.map((item, index) => (
+                                        <option key={index} value={item} label={item} />
+                                    ))}
+                                </Form.Control>
+                            </Form.Group>
+
+                            <Form.Group as={Col}>
+                                <Form.Control
+                                    type="date"
+                                    placeholder="Birthday"
+                                    name="birthday"
+                                    value={birthday}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Form.Group>
+                            <Form.Control
+                                as="select"
+                                defaultValue={occupation}
+                                name="occupation"
+                                onChange={handleChange}
+                                options={occupations}
+                            >
+                                {occupations.map((item, index) => (
+                                    <option key={index} value={item} label={item} />
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
+
+                        <div className="register-form__item__info__msg">
+                            <h5>{message}</h5>
+                        </div>
+
+                        <Button
+                            variant={!validateForm() ? "secondary" : "primary"}
+                            type="submit"
+                            className="register-form__item__info__btnLogin"
+                            disabled={!validateForm()}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="User name" />
-                        </Form.Item>
+                            Register
+                        </Button>
 
-                        <Form.Item {...tailLayout} className="mb-0">
-                            <Row>
-                                <Col md="6">
-                                    <Form.Item
-                                        name="residence"
-                                        rules={[
-                                            {
-                                                type: "array",
-                                                required: true,
-                                                message: "Please select gender",
-                                            },
-                                        ]}
-                                    >
-                                        <Cascader
-                                            prefix={<WomanOutlined className="site-form-item-icon" />}
-                                            options={residences}
-                                            placeholder="Gender"
-                                        />
-                                    </Form.Item>
-                                </Col>
-                                <Col md="6">
-                                    <Form.Item
-                                        className="text-light birthdayForm"
-                                        style={{ width: "150%" }}
-                                        {...tailLayout}
-                                        name="date-picker"
-                                        {...config}
-                                    >
-                                        <DatePicker placeholder="Birthday" style={{ marginLeft: "0" }} />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </Form.Item>
+                        <div className="register-form__item__info__bd"></div>
 
-                        <Form.Item
-                            {...tailLayout}
-                            name="email"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input your email!",
-                                },
-                            ]}
-                        >
-                            <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
-                        </Form.Item>
-                        <Form.Item
-                            {...tailLayout}
-                            name="password"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input your Password!",
-                                },
-                            ]}
-                        >
-                            <Input
-                                prefix={<LockOutlined className="site-form-item-icon" />}
-                                type="password"
-                                placeholder="Password"
-                            />
-                        </Form.Item>
-
-                        <Form.Item
-                            {...tailLayout}
-                            name="confirm"
-                            dependencies={["password"]}
-                            hasFeedback
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please confirm your password!",
-                                },
-                                ({ getFieldValue }) => ({
-                                    validator(_, value) {
-                                        if (!value || getFieldValue("password") === value) {
-                                            return Promise.resolve();
-                                        }
-                                        return Promise.reject(
-                                            new Error("The two passwords that you entered do not match!")
-                                        );
-                                    },
-                                }),
-                            ]}
-                        >
-                            <Input.Password
-                                prefix={<LockOutlined className="site-form-item-icon" />}
-                                type="confirm"
-                                placeholder="Confirm Password"
-                            />
-                        </Form.Item>
-
-                        <Form.Item {...tailLayout}>
-                            <Button type="primary" htmlType="submit" className="login-form__item__info__btnSignup">
-                                Sign up
-                            </Button>
-                        </Form.Item>
-
-                        <Form.Item {...tailLayout}>
-                            <div className="text-center">
-                                <p>By signing up, you agree to our</p>
-                                <a href="/">Term of use</a>
-                                <p>
-                                    <i class="fa fa-arrow-left"></i>
-                                    <Link to="/login" className="text-light ml-4">
-                                        Back to your signin
-                                    </Link>
-                                </p>
-                            </div>
-                        </Form.Item>
+                        <div>
+                            <p>
+                                Already have an account ? - <Link to="/login">Login</Link>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </Form>
+            </Form>
+        </div>
     );
-}
+};
 
 export default Register;
