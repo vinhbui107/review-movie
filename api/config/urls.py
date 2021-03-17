@@ -30,12 +30,12 @@ api_patterns = [
     path("movies/", include(movie_patterns)),
     path("reviews/", include(review_patterns)),
     path("recommend/", include(recommend_patterns)),
+    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
 
 
 urlpatterns = [
     path("api/", include(api_patterns)),
     path("admin/", admin.site.urls),
-    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
