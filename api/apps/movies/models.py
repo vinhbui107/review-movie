@@ -4,6 +4,7 @@ from imagekit.models import ProcessedImageField
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from django.utils import timezone
 
 from .helpers import (
     upload_to_actor_image_directory,
@@ -32,7 +33,7 @@ class Genre(models.Model):
 
 class Actor(models.Model):
     name = models.CharField(
-        max_length=settings.GENRE_NAME_MAX_LENGTH,
+        max_length=settings.ACTOR_NAME_MAX_LENGTH,
         blank=False,
         null=False,
         unique=True,
@@ -57,9 +58,6 @@ class Movie(models.Model):
     year = models.CharField(
         max_length=settings.MOVIE_YEAR_MAX_LENGTH, blank=True, null=True
     )
-    region = models.CharField(
-        max_length=settings.MOVIE_REGION_MAX_LENGTH, blank=True, null=True
-    )
     director = models.CharField(
         max_length=settings.MOVIE_DIRECTOR_MAX_LENGTH, blank=True, null=True
     )
@@ -72,8 +70,8 @@ class Movie(models.Model):
     trailer = models.CharField(
         max_length=settings.MOVIE_TRAILER_MAX_LENGTH, blank=True, null=True
     )
-    imdb_rating = models.CharField(max_length=4, blank=True, null=True)
-    rm_rating = models.CharField(max_length=4, null=True, default=None)
+    imdb_rating = models.FloatField(null=True, blank=True, default=None)
+    rating = models.FloatField(null=True, blank=True, default=None)
     genres = models.ManyToManyField(Genre, related_name="genres_of_movies")
     actors = models.ManyToManyField(Actor, related_name="actors_of_movies")
     slug = models.SlugField(default=None, unique=True)
@@ -102,6 +100,7 @@ class Rate(models.Model):
         blank=False,
     )
     rating = models.IntegerField(blank=False, null=False)
+    created_at = timezone.now()
 
     class Meta:
         db_table = "rate"

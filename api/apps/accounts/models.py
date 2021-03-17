@@ -3,6 +3,7 @@ from imagekit.models import ProcessedImageField
 
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 from .helpers import upload_to_user_avatar_directory
@@ -24,6 +25,7 @@ class User(AbstractUser):
     is_deleted = models.BooleanField(default=False)
 
     GENDER = (
+        (None, "Select your gender"),
         ("M", "Male"),
         ("F", "Female"),
     )
@@ -74,6 +76,7 @@ class User(AbstractUser):
         format="JPEG",
         default=None,
     )
+    created_at = timezone.now()
 
     class Meta:
         db_table = "user"
