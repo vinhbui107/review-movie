@@ -33,9 +33,9 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "apps.accounts",
     "apps.movies",
-    "apps.reviews",
     "apps.recommender",
     "apps.common",
+    "apps.comments",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -71,6 +71,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 # =============================================================================
@@ -184,9 +185,8 @@ SIMPLE_JWT = {
     "TOKEN_TYPE_CLAIM": "token_type",
 }
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = ("http://127.0.0.1:8000",)
 
 # =============================================================================
 # Review Movie Config
@@ -199,11 +199,9 @@ PASSWORD_MAX_LENGTH = 100
 # Movie
 MOVIE_TITLE_MAX_LENGTH = 255
 MOVIE_YEAR_MAX_LENGTH = 4
-MOVIE_REGION_MAX_LENGTH = 30
 MOVIE_DIRECTOR_MAX_LENGTH = 50
 MOVIE_TRAILER_MAX_LENGTH = 255
 GENRE_NAME_MAX_LENGTH = 100
-ACTOR_NAME_MAX_LENGTH = 100
 ACTOR_NAME_MAX_LENGTH = 100
 RATE_RATING_MAX_LENGTH = 1
 # Review
