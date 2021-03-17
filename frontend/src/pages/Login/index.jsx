@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 
+import { saveLocalStorage } from "../../utils/common";
 import userApi from "../../services/user";
 
 import "./style.scss";
@@ -28,12 +29,20 @@ const Login = () => {
         return username.length > 0 && password.length > 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(inputs);
-        if (username && password) {
-            userApi.login(inputs);
+        try {
+            const response = await userApi.login(inputs);
+            saveLocalStorage("access_token", response.access);
+            saveLocalStorage("refresh_token", response.refresh);
+            history.push("/");
+        } catch (error) {
+            setMessage(error.response.data.detail);
+            setInputs({
+                username: "",
+                password: "",
+            });
         }
     };
 
@@ -92,7 +101,7 @@ const Login = () => {
 
                         <div>
                             <p>
-                                Don't have an account? - <Link to="/register">Register</Link>
+                                Don't have an account ? - <Link to="/register">Register</Link>
                             </p>
                         </div>
                     </div>
