@@ -1,21 +1,25 @@
 import axiosClient from "./axiosClient";
+import { urlToken, urlRegister } from "../utils/defines";
+import { removeLocalStorage } from "../utils/common";
 
 const userApi = {
     login: (params) => {
-        const url = "/token";
-        return axiosClient.post(url, { params });
+        return axiosClient.post(urlToken, params);
     },
 
-    logout: () => {},
+    logout: () => {
+        removeLocalStorage("access_token");
+        removeLocalStorage("refresh_token");
+        return axiosClient.post();
+    },
 
     register: (params) => {
-        const url = `/auth/register`;
-        return axiosClient.post(url, { params });
+        return axiosClient.post(urlRegister, params);
     },
 
-    getUser: () => {
-        const url = "/auth";
-        return axiosClient.get(url);
+    getUser: (uuid) => {
+        const url = `/auth`;
+        return axiosClient.get(url, uuid);
     },
 };
 
