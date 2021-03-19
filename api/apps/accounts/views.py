@@ -50,3 +50,8 @@ class Register(APIView):
         return ApiMessageResponse(
             ("Create user successfully"), status=status.HTTP_201_CREATED
         )
+
+
+class UpdateProfile(APIView):
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)
