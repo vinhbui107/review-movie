@@ -27,6 +27,9 @@ class Genre(models.Model):
         self.slug = slugify(self.name)
         super(Genre, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         db_table = "genre"
 
@@ -45,6 +48,9 @@ class Actor(models.Model):
         format="JPEG",
         default=None,
     )
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         db_table = "actor"
@@ -79,6 +85,9 @@ class Movie(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Movie, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         db_table = "movie"
