@@ -10,6 +10,12 @@ from rest_framework_simplejwt.views import (
 )
 
 from apps.accounts.views import Register
+from apps.accounts.views import (
+    MovieItem,
+    GenreMovies,
+    TrendingMovies,
+    TopRatingMovies,
+)
 
 
 auth_patterns = [
@@ -17,8 +23,10 @@ auth_patterns = [
 ]
 
 movie_patterns = [
-    # path("<str:slug>", Register.as_view(), name="movie-genre"),
-    # path("<str:slug>", Register.as_view(), name="movie-detail"),
+    path("trending/", TrendingMovies.as_view(), name="trending-movies"),
+    path("top-rating/", TopRatingMovies.as_view(), name="top-movies"),
+    path("<slug>/", MovieItem.as_view(), name="detail-movie"),
+    path("<slug>/", GenreMovies.as_view(), name="genre-movies"),
 ]
 
 review_patterns = []
