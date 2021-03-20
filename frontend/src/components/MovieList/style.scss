@@ -1,44 +1,8 @@
-.owl-theme {
-    .owl-prev {
-        display: none !important;
-    }
-    .owl-next {
-        position: absolute;
-        right: -40px;
-        top: 50px;
-        font-size: 100px !important;
-    }
+a {
+    color: #000;
 
-    .owl-item {
-        background-color: red;
-        padding: 10px;
-        font-size: 255px;
-        width: calc(100% / 6) !important;
-    }
-}
-
-.clearFloat {
-    clear: both;
-}
-
-.title {
-    color: #fff;
-    font-size: 2rem;
-    margin: 50px 0;
-    &__logo {
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        display: inline-block;
-        text-align: center;
-        border-radius: 10px;
-        margin-right: 10px;
-        background-color: rgb(255, 204, 0);
-    }
-}
-
-.owl-stage {
-    > div.active {
-        background-color: red !important;
+    &:hover {
+        color: #48c9ec;
+        text-decoration: none;
     }
 }

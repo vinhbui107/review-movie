@@ -7,25 +7,37 @@ import MovieCard from "../MovieCard";
 import style from "./style.scss";
 
 MovieList.propTypes = {
-    movies: PropTypes.array,
+    movieList: PropTypes.array,
 };
 
 function MovieList(props) {
-    const { title, items } = props;
+    const { movieList } = props;
+
+    const renderMovieList = () => {
+        return movieList?.map((movie, index) => {
+            return (
+                <>
+                    <MovieCard movie={movie} key={index} rec={true} />
+                </>
+            );
+        });
+    };
 
     return (
         <Row>
-            <h1 className={style.title}>{title}</h1>
-            {/* <OwlCarousel
+            <h1 className="title">123123</h1>
+            <OwlCarousel
                 className={style["owl-theme"]}
                 loop
                 margin={10}
                 slideBy="12"
-                items="1"
+                items="6"
                 lazyLoad="true"
                 smartSpeed="400"
                 nav="true"
-            ></OwlCarousel> */}
+            >
+                {renderMovieList()}
+            </OwlCarousel>
         </Row>
     );
 }
