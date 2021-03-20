@@ -1,16 +1,3 @@
-import { NavDropdown } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-
-export const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-};
-
-export const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-};
-
-//HomePage
-
 // constants for choice model field
 export const occupations = [
     "Student",
