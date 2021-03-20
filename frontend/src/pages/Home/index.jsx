@@ -1,21 +1,15 @@
-import React, { useEffect, useState } from "react";
-import OwlCarousel from "react-owl-carousel";
-
-import { Container, Row, Col } from "react-bootstrap";
-import "./style.scss";
-
-import MovieList from "../../components/MovieList";
+import React from "react";
+import { Container } from "react-bootstrap";
 import Carousel from "../../components/Carousel";
-import axios from "axios";
-import productApi from "../../services/movie";
+import MovieList from "../../components/MovieList";
+import "./style.scss";
 
 function Home() {
     return (
         <div>
             <Carousel />
             <Container fluid style={{ width: "85%" }}>
-                <MovieList title={"Reccommend"} items={6} />
-                <MovieList title={"Top Rating"} logo={"1"} />
+                {/* <MovieList title={"Reccommend"} items={6} /> */}
             </Container>
         </div>
     );

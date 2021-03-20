@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Comments from "../Comment";
 
 // import { Editor, handleChange } from "../../utils/constants";

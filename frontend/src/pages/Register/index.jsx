@@ -1,11 +1,9 @@
 import React, { useState } from "react";
+import { Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import { Button, Form, InputGroup, Row, Col } from "react-bootstrap";
-
-import "./style.scss";
 import userApi from "../../services/user";
-import { genders, msgNotMatchPassword, msgWeakPassword, occupations } from "../../utils/constants";
-import { isEqualTwoString, isStrengthPassword } from "../../utils/common";
+import { genders, occupations } from "../../utils/constants";
+import "./style.scss";
 
 const Register = () => {
     const [inputs, setInputs] = useState({
@@ -44,29 +42,6 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // check password and confirm password
-        if (!isEqualTwoString(password, confirmPassword)) {
-            setMessage(msgNotMatchPassword);
-            // clear password input
-            setInputs({
-                ...inputs,
-                password: "",
-                confirmPassword: "",
-            });
-            return;
-        }
-
-        if (!isStrengthPassword(password)) {
-            setMessage(msgWeakPassword);
-            // clear password input
-            setInputs({
-                ...inputs,
-                password: "",
-                confirmPassword: "",
-            });
-            return;
-        }
 
         try {
             await userApi.register(inputs);

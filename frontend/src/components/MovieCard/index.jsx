@@ -1,12 +1,9 @@
-import React, { useEffect, useDispatch } from "react";
-import PropTypes from "prop-types";
-import "./style.scss";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
 import { Animated } from "react-animated-css";
+import { Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import WOW from "wowjs";
-import { Row, Col } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import productApi from "../../services/movie";
+import "./style.scss";
 MovieCard.propTypes = {};
 
 function MovieCard(props) {

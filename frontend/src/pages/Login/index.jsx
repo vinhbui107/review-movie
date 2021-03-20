@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Form, Button, InputGroup } from "react-bootstrap";
+import { Button, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-
-import { saveLocalStorage } from "../../utils/common";
 import userApi from "../../services/user";
-
+import { saveLocalStorage } from "../../utils/helpers";
 import "./style.scss";
 
 const Login = () => {

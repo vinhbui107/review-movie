@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Tabs, Tab } from "react-bootstrap";
-import style from "./style.module.scss";
-
+import { Tab, Tabs } from "react-bootstrap";
 import Banner from "../Banner";
+import style from "./style.module.scss";
 
 Carousel.propTypes = {};
 

@@ -1,37 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Container, Form, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+
 import "./style.scss";
-import { Navbar, Nav, Form, Container, NavDropdown } from "react-bootstrap";
-import "antd/dist/antd.css";
-import { handleLogin, handleSearchForm, userIcon } from "../../utils/constants";
-import { isLogin } from "../../services/user";
 
 Header.propTypes = {};
 
 function Header(props) {
-    const [navBackground, setNavBackground] = useState(false);
     const [searchForm, setSearchForm] = useState(false);
-    const navRef = useRef();
-    navRef.current = navBackground;
-    useEffect(() => {
-        const handleScroll = () => {
-            const show = window.scrollY > 50;
-            if (navRef.current !== show) {
-                setNavBackground(show);
-            }
-        };
-        document.addEventListener("scroll", handleScroll);
-        return () => {
-            document.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
+
+    useEffect(() => {}, []);
+
+    const handleSearchForm = (searchForm) => {
+        return searchForm ? "search__form__click" : "";
+    };
 
     return (
         <>
-            <div
-                className="header"
-                style={{ transition: "1s ease", backgroundColor: navBackground ? "#232323" : "transparent" }}
-            >
+            <div className="header">
                 <div
                     className={`${searchForm ? "header__overlay" : ""}`}
                     onClick={() => {
@@ -69,7 +55,8 @@ function Header(props) {
                                 <i className="fa fa-search mr-2" onClick={() => setSearchForm(!searchForm)} />
                                 <input type="text" placeholder="Search" className="form__search__custom pl-0" />
                             </Form>
-                            <Nav>{handleLogin()}</Nav>
+
+                            {/* user profile */}
                         </Navbar.Collapse>
                     </Navbar>
                 </Container>
