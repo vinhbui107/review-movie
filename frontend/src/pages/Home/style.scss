@@ -1,5 +1,4 @@
 .title {
-    color: #fff;
     font-size: 2rem;
 
     &__logo {
@@ -33,7 +32,7 @@
     .owl-prev {
         position: absolute;
         left: -50px;
-        top: 50%;
+        top: 30%;
         font-size: 60px !important;
         transform: translate(-50%, -50%);
 
@@ -44,7 +43,7 @@
     .owl-next {
         position: absolute;
         right: -50px;
-        top: 50%;
+        top: 30%;
         font-size: 60px !important;
         transform: translate(-50%, -50%);
 
@@ -52,4 +51,14 @@
             color: rgba(204, 199, 199, 0.781);
         }
     }
+}
+
+h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+p {
+    font-size: 0.8rem;
+    margin-bottom: 10px;
 }
