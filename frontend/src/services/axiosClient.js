@@ -1,6 +1,6 @@
 import axios from "axios";
 import queryString from "query-string";
-import { getLocalStorage } from "../utils/common";
+import { getLocalStorage } from "../utils/helpers";
 
 const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_API_URL,

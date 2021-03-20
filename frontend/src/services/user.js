@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 import { urlToken, urlRegister } from "../utils/defines";
-import { removeLocalStorage } from "../utils/common";
+import { removeLocalStorage } from "../utils/helpers";
 
 const userApi = {
     login: (params) => {
