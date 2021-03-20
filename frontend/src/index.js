@@ -8,17 +8,13 @@ import "./App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
 
 ReactDOM.render(
-    <Provider store={store}>
-        <React.StrictMode>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </React.StrictMode>
-    </Provider>,
+    <React.StrictMode>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </React.StrictMode>,
     document.getElementById("root")
 );
 
