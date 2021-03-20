@@ -1,37 +1,94 @@
-.owl-nav {
-    .owl-prev {
-        position: absolute;
-        left: -50px;
-        top: 50%;
-        font-size: 60px !important;
-        transform: translate(-50%, -50%);
-
-        span {
-            color: rgba(204, 199, 199, 0.781);
-        }
-    }
-    .owl-next {
-        position: absolute;
-        right: -50px;
-        top: 50%;
-        font-size: 60px !important;
-        transform: translate(-50%, -50%);
-
-        span {
-            color: rgba(204, 199, 199, 0.781);
-        }
-    }
-}
-
-.comment {
+.poster {
+    min-height: "450px";
+    position: relative;
     color: #fff;
-    span,
-    li,
-    h1,
-    div {
-        color: #fff !important;
+    margin-bottom: 50px;
+    border-bottom: 1px solid #000;
+    background-position: right -200px top;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    h1 {
+        font-size: 3rem;
+        font-weight: 600;
     }
-    textarea {
-        color: #000 !important;
+
+    p {
+        font-size: 1rem;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-image: linear-gradient(
+            to right,
+            rgba(10.59%, 10.98%, 9.8%, 1) 150px,
+            rgba(10.59%, 10.98%, 9.8%, 0.84) 100%
+        );
+    }
+
+    &__item {
+        padding: 30px;
+
+        &--detail {
+            padding-top: 30px;
+
+            position: relative;
+        }
+
+        &--rate {
+            ul {
+                padding-left: 0;
+                margin: 20px 0;
+                li {
+                    display: inline-block;
+                    margin-right: 20px;
+
+                    button {
+                        width: 35px;
+                        height: 35px;
+                        border-radius: 50%;
+                        background-color: #032541;
+                        border: none;
+                    }
+
+                    i {
+                        color: #fff;
+                        font-size: 0.8rem;
+                    }
+                }
+            }
+
+            &--score {
+                padding: 1rem;
+                border-radius: 50%;
+                background-color: #032541;
+                font-weight: 800;
+            }
+        }
+
+        &--time {
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            p {
+                font-size: 0.9rem;
+            }
+        }
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
     }
 }
