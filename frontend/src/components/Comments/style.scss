@@ -1,0 +1,12 @@
+.comment {
+    display: flex;
+    flex-direction: column;
+
+    &__input {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__list {
+    }
+}

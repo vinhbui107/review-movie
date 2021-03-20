@@ -1,0 +1,29 @@
+.comment {
+    display: flex;
+    color: black;
+
+    &__inner {
+        padding: 10px;
+
+        &__grouped {
+            display: flex;
+            align-items: center;
+
+            &__info__username {
+                font-weight: 600;
+            }
+
+            &__info__date {
+                font-size: 0.8rem;
+            }
+        }
+
+        &__teaser {
+            padding-left: 70px;
+
+            p {
+                text-align: justify;
+            }
+        }
+    }
+}

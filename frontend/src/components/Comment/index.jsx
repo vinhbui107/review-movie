@@ -1,51 +1,31 @@
-// import React, { useState } from "react";
-// import { CommentsList, Editor } from "../../utils/constants";
-// import { Comment, Avatar, Form, Button, List, Input } from "antd";
-// import moment from "moment";
+import { useState } from "react";
+import { Image } from "react-bootstrap";
+import "./style.scss";
 
-// function Comments(props) {
-//     const [comments, setComments] = useState([]);
-//     const [submitting, setSubmitting] = useState(false);
-//     const [value, setValue] = useState("");
+function Comment(props) {
+    const { item } = props;
 
-//     const handleChange = (e) => {
-//         setValue(e.target.value);
-//     };
+    return (
+        <div className="comment">
+            <div className="comment__inner">
+                <div className="comment__inner__grouped">
+                    <div className="comment__inner__grouped__avatar">
+                        <Image src={item.avatar} width={70} height={70} roundedCircle />
+                    </div>
+                    <div className="comment__inner__grouped__info">
+                        <div className="comment__inner__grouped__info__username">{item.username}</div>
+                        <div className="comment__inner__grouped__info__date">{item.date}</div>
+                    </div>
+                </div>
 
-//     const handleSubmit = () => {
-//         if (!value) {
-//             return;
-//         }
+                <div className="comment__inner__teaser">
+                    <div className="comment__inner__teaser__content">
+                        <p>{item.content}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
 
-//         setSubmitting({ submitting: true });
-
-//         setTimeout(() => {
-//             setSubmitting();
-//             setValue("");
-//             setComments([
-//                 ...comments,
-//                 {
-//                     author: "Han Solo",
-//                     avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-//                     content: <p>{value}</p>,
-//                     datetime: moment().fromNow(),
-//                 },
-//             ]);
-//         }, 1000);
-//     };
-//     return (
-//         <div>
-//             {comments.length > 0 && <CommentsList comments={comments} />}
-//             <Comment
-//                 avatar={
-//                     <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="Han Solo" />
-//                 }
-//                 content={
-//                     <Editor onChange={handleChange} onSubmit={handleSubmit} submitting={submitting} value={value} />
-//                 }
-//             />
-//         </div>
-//     );
-// }
-
-// export default Comments;
+export default Comment;
