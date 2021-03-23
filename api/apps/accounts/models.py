@@ -10,19 +10,15 @@ from .helpers import upload_to_user_avatar_directory
 
 
 class User(AbstractUser):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     username = models.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
         blank=False,
         null=False,
         unique=True,
     )
-    email = models.EmailField(unique=True, null=False, blank=False)
     first_name = None
     last_name = None
     birthday = models.DateField(blank=False, null=True)
-    is_email_verified = models.BooleanField(default=False)
-    is_deleted = models.BooleanField(default=False)
 
     GENDER = (
         (None, "Select your gender"),
