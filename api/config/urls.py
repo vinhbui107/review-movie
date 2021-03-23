@@ -10,12 +10,13 @@ from rest_framework_simplejwt.views import (
 )
 
 from apps.accounts.views import Register
-from apps.accounts.views import (
-    MovieItem,
-    GenreMovies,
-    TrendingMovies,
-    TopRatingMovies,
-)
+
+# from apps.accounts.views import (
+#     MovieItem,
+#     GenreMovies,
+#     TrendingMovies,
+#     TopRatingMovies,
+# )
 
 
 auth_patterns = [
@@ -23,21 +24,18 @@ auth_patterns = [
 ]
 
 movie_patterns = [
-    path("trending/", TrendingMovies.as_view(), name="trending-movies"),
-    path("top-rating/", TopRatingMovies.as_view(), name="top-movies"),
-    path("<slug>/", MovieItem.as_view(), name="detail-movie"),
-    path("<slug>/", GenreMovies.as_view(), name="genre-movies"),
+    # path("trending/", TrendingMovies.as_view(), name="trending-movies"),
+    # path("top-rating/", TopRatingMovies.as_view(), name="top-movies"),
+    # path("<slug>/", MovieItem.as_view(), name="detail-movie"),
+    # path("<slug>/", GenreMovies.as_view(), name="genre-movies"),
 ]
 
 review_patterns = []
-
-recommend_patterns = []
 
 api_patterns = [
     path("auth/", include(auth_patterns)),
     path("movies/", include(movie_patterns)),
     path("reviews/", include(review_patterns)),
-    path("recommend/", include(recommend_patterns)),
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
