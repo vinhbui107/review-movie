@@ -33,7 +33,6 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "apps.accounts",
     "apps.movies",
-    "apps.recommender",
     "apps.common",
     "apps.comments",
 ]
