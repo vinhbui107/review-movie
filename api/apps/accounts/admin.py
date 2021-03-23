@@ -19,8 +19,6 @@ class UserAdminConfig(UserAdmin):
         "birthday",
         "gender",
         "occupation",
-        "is_email_verified",
-        "is_deleted",
     )
     fieldsets = (
         (
