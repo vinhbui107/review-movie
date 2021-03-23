@@ -20,7 +20,6 @@ class Genre(models.Model):
         null=False,
         unique=True,
     )
-    description = models.TextField(blank=True, null=True)
     slug = models.SlugField(default=None, unique=True)
 
     def save(self, *args, **kwargs):
