@@ -17,7 +17,6 @@
         justify-content: center;
         height: 100%;
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
 
         &__info {
             width: 350px;
@@ -27,7 +26,7 @@
                 display: inline-block;
                 margin-top: 10px;
                 margin-bottom: 20px;
-                color: #337ab7 !important;
+                color: rgb(1, 180, 228) !important;
                 text-decoration: none;
             }
 
@@ -35,13 +34,14 @@
                 text-align: center;
                 margin-top: 20px;
                 margin-bottom: 20px;
-                color: #fff;
+                color: black;
             }
 
             h5 {
                 text-align: center;
                 margin-top: 20px;
                 margin-bottom: 20px;
+                font-size: 18px;
                 color: #db0000;
             }
 
@@ -57,13 +57,14 @@
                 display: block;
                 margin: 0 auto;
                 border-radius: 20px;
+                background-color: rgb(1, 180, 228);
+                border-color: rgb(1, 180, 228);
             }
 
-            &__btnLogin:disabled {
-                width: 40%;
-                display: block;
-                margin: 0 auto;
-                border-radius: 20px;
+            img {
+                width: 200px;
+                height: 50px;
+                margin-bottom: 20px;
             }
         }
     }
