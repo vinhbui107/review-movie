@@ -33,8 +33,3 @@ export const occupations = [
 ];
 
 export const genders = ["Male", "Female"];
-
-// constants for msg
-export const msgNotMatchPassword = "Password are not match.";
-
-export const msgWeakPassword = "Password is too weak.";
