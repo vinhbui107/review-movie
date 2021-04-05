@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import userApi from "../../services/user";
-import { saveLocalStorage } from "../../utils/helpers";
+import * as Helpers from "../../utils/helpers";
+import logo from "../../assets/img/logo.png";
 import "./style.scss";
+import { Messages } from "../../utils/messages";
 
 const Login = () => {
     const [inputs, setInputs] = useState({
@@ -23,33 +25,41 @@ const Login = () => {
         }));
     };
 
-    const validateForm = () => {
-        return username.length > 0 && password.length > 0;
+    const findFormError = () => {
+        let newError = "";
+        if (username.length === "") newError = Messages.usernameInvalid;
+        if (password.length === "") newError = Messages.passwordInvalid;
+        return newError;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            const response = await userApi.login(inputs);
-            saveLocalStorage("access_token", response.access);
-            saveLocalStorage("refresh_token", response.refresh);
-            history.push("/");
-        } catch (error) {
-            setMessage(error.response.data.detail);
-            setInputs({
-                username: "",
-                password: "",
-            });
+        const newError = findFormError();
+        if (newError.length > 0) {
+            setMessage(newError);
+        } else {
+            try {
+                const response = await userApi.login(inputs);
+                Helpers.saveLocalStorage("access_token", response.access);
+                Helpers.saveLocalStorage("refresh_token", response.refresh);
+                history.push("/");
+            } catch (error) {
+                setMessage(Messages.loginFailed);
+                setInputs({
+                    username: "",
+                    password: "",
+                });
+            }
         }
     };
 
     return (
-        <div className="login-form" style={{ backgroundImage: `url("./img/background.jpg")` }}>
+        <div className="login-form">
             <Form className="login-form" onSubmit={handleSubmit}>
                 <div className="login-form__item">
                     <div className="login-form__item__info">
-                        <h1>Login</h1>
+                        <img src={logo}></img>
                         <Form.Group>
                             <InputGroup hasValidation>
                                 <Form.Control
@@ -60,7 +70,6 @@ const Login = () => {
                                     onChange={handleChange}
                                     required
                                 />
-                                <Form.Control.Feedback type="invalid">Username is required</Form.Control.Feedback>
                             </InputGroup>
                         </Form.Group>
 
@@ -74,7 +83,6 @@ const Login = () => {
                                     onChange={handleChange}
                                     required
                                 />
-                                <Form.Control.Feedback type="invalid">Password is required</Form.Control.Feedback>
                             </InputGroup>
                         </Form.Group>
 
@@ -86,12 +94,7 @@ const Login = () => {
                             <a>Forgot your password ?</a>
                         </div>
 
-                        <Button
-                            variant={!validateForm() ? "secondary" : "primary"}
-                            type="submit"
-                            className="login-form__item__info__btnLogin"
-                            disabled={!validateForm()}
-                        >
+                        <Button type="submit" className="login-form__item__info__btnLogin">
                             Login
                         </Button>
 
