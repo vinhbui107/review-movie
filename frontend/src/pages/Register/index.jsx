@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
+import logo from "../../assets/img/logo.png";
 import userApi from "../../services/user";
 import { genders, occupations } from "../../utils/constants";
+import * as Helpers from "../../utils/helpers";
+import { Messages } from "../../utils/messages";
 import "./style.scss";
 
 const Register = () => {
@@ -10,18 +13,19 @@ const Register = () => {
         username: "",
         email: "",
         password: "",
-        confirmPassword: "",
         birthday: "",
         gender: "",
         occupation: "",
     });
 
     const [message, setMessage] = useState("");
-    const { email, username, password, confirmPassword, birthday, gender, occupation } = inputs;
+    const { email, username, password, birthday, gender, occupation } = inputs;
 
     const history = useHistory();
 
     const handleChange = (e) => {
+        console.log(inputs);
+
         const { name, value } = e.target;
         setInputs((inputs) => ({
             ...inputs,
@@ -29,37 +33,50 @@ const Register = () => {
         }));
     };
 
-    const validateForm = () => {
-        return (
-            email.length > 0 &&
-            username.length > 0 &&
-            password.length > 0 &&
-            confirmPassword.length > 0 &&
-            gender.length > 0 &&
-            occupation.length > 0
-        );
+    const findFormError = () => {
+        let newError = "";
+
+        if (!Helpers.isEmail(email)) newError = Messages.emailInvalid;
+        if (gender.length === "") newError = Messages.genderInvalid;
+        if (occupation.length === "") newError = Messages.occupationInvalid;
+        if (!Helpers.isValidBirthday(birthday)) newError = Messages.birthdayInvalid;
+
+        return newError;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const newError = findFormError();
+        if (newError.length > 0) {
+            setMessage(newError);
+        } else {
+            try {
+                await userApi.register(inputs);
+                alert("Create user successfully.");
+                history.push("/login");
+            } catch (error) {
+                // get first error message
+                const [first] = Object.keys(error.response.data);
+                const msg = error.response.data[first];
+                setMessage(msg);
 
-        try {
-            await userApi.register(inputs);
-            alert("Create user successfully.");
-            history.push("/login");
-        } catch (error) {
-            setMessage(error.response.data.detail);
+                // clear input error field
+                setInputs((inputs) => ({
+                    ...inputs,
+                    [first]: "",
+                }));
+            }
         }
     };
 
     return (
-        <div className="register-form" style={{ backgroundImage: `url("./img/background.jpg")` }}>
+        <div className="register-form">
             <Form className="register-form" onSubmit={handleSubmit}>
                 <div className="register-form__item">
                     <div className="register-form__item__info">
-                        <h1>Register</h1>
+                        <img src={logo}></img>
                         <Form.Group>
-                            <InputGroup hasValidation>
+                            <InputGroup>
                                 <Form.Control
                                     type="email"
                                     placeholder="Email"
@@ -69,11 +86,10 @@ const Register = () => {
                                     required
                                 />
                             </InputGroup>
-                            <Form.Control.Feedback type="invalid">Invalid email</Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group>
-                            <InputGroup hasValidation>
+                            <InputGroup>
                                 <Form.Control
                                     type="text"
                                     placeholder="Username"
@@ -83,11 +99,10 @@ const Register = () => {
                                     required
                                 />
                             </InputGroup>
-                            <Form.Control.Feedback type="invalid">Invalid email</Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group>
-                            <InputGroup hasValidation>
+                            <InputGroup>
                                 <Form.Control
                                     type="password"
                                     placeholder="Password"
@@ -99,22 +114,10 @@ const Register = () => {
                             </InputGroup>
                         </Form.Group>
 
-                        <Form.Group>
-                            <InputGroup hasValidation>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Confirm password"
-                                    name="confirmPassword"
-                                    value={confirmPassword}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </InputGroup>
-                        </Form.Group>
-
                         <Form.Row>
                             <Form.Group as={Col}>
-                                <Form.Control as="select" name="gender" onChange={handleChange}>
+                                <Form.Control as="select" name="gender" onChange={handleChange} required>
+                                    <option value="" label="Select gender" />
                                     {genders.map((item, index) => (
                                         <option key={index} value={item} label={item} />
                                     ))}
@@ -128,6 +131,7 @@ const Register = () => {
                                     name="birthday"
                                     value={birthday}
                                     onChange={handleChange}
+                                    required
                                 />
                             </Form.Group>
                         </Form.Row>
@@ -139,7 +143,9 @@ const Register = () => {
                                 name="occupation"
                                 onChange={handleChange}
                                 options={occupations}
+                                required
                             >
+                                <option value="" label="Select occupation" />
                                 {occupations.map((item, index) => (
                                     <option key={index} value={item} label={item} />
                                 ))}
@@ -150,12 +156,7 @@ const Register = () => {
                             <h5>{message}</h5>
                         </div>
 
-                        <Button
-                            variant={!validateForm() ? "secondary" : "primary"}
-                            type="submit"
-                            className="register-form__item__info__btnLogin"
-                            disabled={!validateForm()}
-                        >
+                        <Button type="submit" className="register-form__item__info__btnLogin">
                             Register
                         </Button>
 
