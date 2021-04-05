@@ -17,8 +17,17 @@ export const isLogin = () => {
     return false;
 };
 
-// export const isEmail = (value) => {};
+export const isEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+};
 
-// export const isNumber = (value) => {};
+export const isStrongPassword = (password) => {
+    if (password.length >= 10) return true;
+    return false;
+};
 
-// export const isString = (value) => {};
+export const isValidBirthday = (birthday) => {
+    const isValidBirthdate = require("is-valid-birthdate");
+    return isValidBirthdate(birthday);
+};
