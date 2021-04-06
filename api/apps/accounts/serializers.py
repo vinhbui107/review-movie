@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.conf import settings
 from django.contrib.auth.password_validation import validate_password
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from apps.accounts.validators import (
     username_characters_validator,
@@ -8,6 +9,15 @@ from apps.accounts.validators import (
     email_not_taken_validator,
     user_username_exists,
 )
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+        token["name"] = user.username
+        token["user_id"] = user.id
+        return token
 
 
 class RegisterSerializer(serializers.Serializer):
