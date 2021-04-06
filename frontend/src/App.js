@@ -1,9 +1,11 @@
 import React, { Suspense } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { routes } from "./pages/routes";
-import { isLogin } from "./services/user";
+import { Redirect, Route, Switch } from "react-router-dom";
+
 import AppLayout from "./layouts/AppLayout";
 import PublicLayout from "./layouts/PublicLayout";
+
+import { routes } from "./pages/routes";
+import { isLogin } from "./utils/helpers";
 
 const AppRoute = ({ component: Component, isAppLayout, ...rest }) => (
     <Route
