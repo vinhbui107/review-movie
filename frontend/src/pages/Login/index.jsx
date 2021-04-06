@@ -43,6 +43,7 @@ const Login = () => {
                 const response = await userApi.login(inputs);
                 Helpers.saveLocalStorage("access_token", response.access);
                 Helpers.saveLocalStorage("refresh_token", response.refresh);
+                Helpers.saveLocalStorage("name", inputs.username);
                 history.push("/");
             } catch (error) {
                 setMessage(Messages.loginFailed);
@@ -59,7 +60,9 @@ const Login = () => {
             <Form className="login-form" onSubmit={handleSubmit}>
                 <div className="login-form__item">
                     <div className="login-form__item__info">
-                        <img src={logo}></img>
+                        <Link to="/">
+                            <img src={logo} alt="Logo"></img>
+                        </Link>
                         <Form.Group>
                             <InputGroup hasValidation>
                                 <Form.Control
@@ -88,10 +91,6 @@ const Login = () => {
 
                         <div className="login-form__item__info__msg">
                             <h5>{message}</h5>
-                        </div>
-
-                        <div>
-                            <a>Forgot your password ?</a>
                         </div>
 
                         <Button type="submit" className="login-form__item__info__btnLogin">
