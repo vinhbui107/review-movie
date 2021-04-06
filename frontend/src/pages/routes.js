@@ -35,19 +35,19 @@ const routes = [
         isAppLayout: true,
     },
     {
-        path: "/movie/:id",
+        path: "/movie/:slug",
         exact: true,
         component: MovieDetailPage,
         isAppLayout: true,
     },
     {
-        path: "/genre/:id",
+        path: "/genre/:slug",
         exact: true,
         component: MovieGenrePage,
         isAppLayout: true,
     },
     {
-        path: "/search-results/:id",
+        path: "/search-results/:slug",
         exact: true,
         component: SearchPage,
         isAppLayout: true,

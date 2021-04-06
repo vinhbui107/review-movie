@@ -3,29 +3,25 @@ from imagekit.models import ProcessedImageField
 
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 from .helpers import upload_to_user_avatar_directory
 
 
 class User(AbstractUser):
-    uuid = models.UUIDField(
-        default=uuid.uuid4, max_length=255, editable=False, unique=True
-    )
     username = models.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
         blank=False,
         null=False,
         unique=True,
     )
-    email = models.EmailField(unique=True, null=False, blank=False)
     first_name = None
     last_name = None
     birthday = models.DateField(blank=False, null=True)
-    is_email_verified = models.BooleanField(default=False)
-    is_deleted = models.BooleanField(default=False)
 
     GENDER = (
+        (None, "Select your gender"),
         ("M", "Male"),
         ("F", "Female"),
     )
@@ -76,3 +72,22 @@ class User(AbstractUser):
         format="JPEG",
         default=None,
     )
+    created_at = timezone.now()
+
+    class Meta:
+        db_table = "user"
+
+    @classmethod
+    def is_username_taken(cls, username):
+        users = cls.objects.filter(username=username)
+        if not users.exists():
+            return False
+        return True
+
+    @classmethod
+    def is_email_taken(cls, email):
+        try:
+            cls.objects.get(email=email)
+            return True
+        except User.DoesNotExist:
+            return False

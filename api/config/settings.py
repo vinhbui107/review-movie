@@ -27,13 +27,15 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "rest_framework",
+    "corsheaders",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 LOCAL_APPS = [
     "apps.accounts",
     "apps.movies",
-    "apps.reviews",
-    "apps.recommender",
+    "apps.common",
+    "apps.comments",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -69,6 +71,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 # =============================================================================
@@ -111,39 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # =============================================================================
-# REST FRAMEWORK AND JWT
-# =============================================================================
-
-REST_FRAMEWORK = {
-    "DEFAULT_PARSER_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
-    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.TokenAuthentication",
-    ),
-    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.AcceptHeaderVersioning",
-    "DEFAULT_THROTTLE_RATES": {
-        "link_preview": "300/hour",
-    },
-}
-
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
-    "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": False,
-    "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
-    "VERIFYING_KEY": None,
-    "AUTH_HEADER_TYPES": ("JWT",),
-    "USER_ID_FIELD": "id",
-    "USER_ID_CLAIM": "uuid",
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
-    "TOKEN_TYPE_CLAIM": "token_type",
-}
-
-# =============================================================================
 # INTERNATIONALIZATION AND LOCALIZATION SETTINGS
 # =============================================================================
 
@@ -182,9 +152,49 @@ MEDIA_URL = "/media/"
 # THIRD-PARTY APPS SETTINGS
 # =============================================================================
 
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+    ],
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "UPDATE_LAST_LOGIN": False,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": config("SECRET_KEY", default=string.ascii_letters),
+    "VERIFYING_KEY": None,
+    "AUDIENCE": None,
+    "ISSUER": None,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "id",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    "TOKEN_TYPE_CLAIM": "token_type",
+    "JTI_CLAIM": "jti",
+    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # =============================================================================
-# Review Moive Config
+# Review Movie Config
 # =============================================================================
 
 # Account
@@ -194,12 +204,10 @@ PASSWORD_MAX_LENGTH = 100
 # Movie
 MOVIE_TITLE_MAX_LENGTH = 255
 MOVIE_YEAR_MAX_LENGTH = 4
-MOVIE_REGION_MAX_LENGTH = 30
 MOVIE_DIRECTOR_MAX_LENGTH = 50
 MOVIE_TRAILER_MAX_LENGTH = 255
-GENRE_NAME_MAX_LENTH = 100
-ACTOR_NAME_MAX_LENTH = 100
-ACTOR_NAME_MAX_LENTH = 100
+GENRE_NAME_MAX_LENGTH = 100
+ACTOR_NAME_MAX_LENGTH = 100
 RATE_RATING_MAX_LENGTH = 1
 # Review
 # Recommendation
