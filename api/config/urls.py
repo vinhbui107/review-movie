@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from apps.accounts.views import Register
+from apps.accounts.views import ObtainTokenPairWithColorView, Register, Logout
 
 # from apps.accounts.views import (
 #     MovieItem,
@@ -20,7 +20,14 @@ from apps.accounts.views import Register
 
 
 auth_patterns = [
-    path("register/", Register.as_view(), name="register-user"),
+    path(
+        "login/",
+        ObtainTokenPairWithColorView.as_view(),
+        name="token_obtain_pair",
+    ),
+    path("login/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("logout/", Logout.as_view(), name="auth_logout"),
+    path("register/", Register.as_view(), name="auth_register"),
 ]
 
 movie_patterns = [
@@ -36,8 +43,6 @@ api_patterns = [
     path("auth/", include(auth_patterns)),
     path("movies/", include(movie_patterns)),
     path("reviews/", include(review_patterns)),
-    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
 
 
