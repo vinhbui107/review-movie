@@ -1,6 +1,13 @@
 .header {
+    background-color: rgb(3, 37, 65);
     nav {
         padding: 5px 0px;
         width: 100%;
+    }
+
+    a.nav-link {
+        color: white !important;
+        font-size: 1em;
+        font-weight: 600;
     }
 }
