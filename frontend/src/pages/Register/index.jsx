@@ -74,7 +74,9 @@ const Register = () => {
             <Form className="register-form" onSubmit={handleSubmit}>
                 <div className="register-form__item">
                     <div className="register-form__item__info">
-                        <img src={logo}></img>
+                        <Link to="/">
+                            <img src={logo} alt="Logo"></img>
+                        </Link>
                         <Form.Group>
                             <InputGroup>
                                 <Form.Control
