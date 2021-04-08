@@ -28,7 +28,7 @@ function MovieList(props) {
             <h1 className="title">123123</h1>
             <OwlCarousel
                 className={style["owl-theme"]}
-                loop
+                loop={true}
                 margin={10}
                 slideBy="12"
                 items="6"

@@ -1,4 +1,3 @@
-import uuid
 from imagekit.models import ProcessedImageField
 
 from django.db import models
@@ -10,25 +9,6 @@ from .helpers import upload_to_user_avatar_directory
 
 
 class User(AbstractUser):
-    username = models.CharField(
-        max_length=settings.USERNAME_MAX_LENGTH,
-        blank=False,
-        null=False,
-        unique=True,
-    )
-    first_name = None
-    last_name = None
-    birthday = models.DateField(blank=False, null=True)
-
-    GENDER = (
-        (None, "Select your gender"),
-        ("M", "Male"),
-        ("F", "Female"),
-    )
-    gender = models.CharField(
-        choices=GENDER, max_length=1, null=True, blank=True, default=None
-    )
-
     OCCUPATIONS = (
         (None, "Select your role"),
         ("Student", "Student"),
@@ -62,6 +42,25 @@ class User(AbstractUser):
         ("Retired", "Retired"),
         ("Other", "Other"),
     )
+
+    GENDER = (
+        (None, "Select your gender"),
+        ("M", "Male"),
+        ("F", "Female"),
+    )
+
+    username = models.CharField(
+        max_length=settings.USERNAME_MAX_LENGTH,
+        blank=False,
+        null=False,
+        unique=True,
+    )
+    first_name = None
+    last_name = None
+    birthday = models.DateField(blank=False, null=True, default=None)
+    gender = models.CharField(
+        choices=GENDER, max_length=1, null=True, blank=True, default=None
+    )
     occupation = models.CharField(
         choices=OCCUPATIONS, max_length=30, blank=True, null=True, default=None
     )
@@ -72,10 +71,14 @@ class User(AbstractUser):
         format="JPEG",
         default=None,
     )
-    created_at = timezone.now()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "user"
+
+    def __str__(self):
+        return self.username
 
     @classmethod
     def is_username_taken(cls, username):

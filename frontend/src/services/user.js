@@ -1,16 +1,18 @@
 import axiosClient from "./axiosClient";
-import { urlToken, urlRegister } from "../utils/defines";
-import { removeLocalStorage } from "../utils/helpers";
+import { urlLogin, urlRegister, urlLogout } from "../utils/defines";
+import * as Helpers from "../utils/helpers";
 
 const userApi = {
     login: (params) => {
-        return axiosClient.post(urlToken, params);
+        return axiosClient.post(urlLogin, params);
     },
 
     logout: () => {
-        removeLocalStorage("access_token");
-        removeLocalStorage("refresh_token");
-        return axiosClient.post();
+        const refreshToken = Helpers.getLocalStorage("refresh_token");
+        const param = {
+            refresh: refreshToken,
+        };
+        return axiosClient.post(urlLogout, param);
     },
 
     register: (params) => {

@@ -20,6 +20,7 @@
         "react-owl-carousel": "^2.3.3",
         "react-router-dom": "^5.2.0",
         "react-scripts": "4.0.3",
+        "react-search-autocomplete": "^5.0.3",
         "styled-components": "^5.2.1",
         "wowjs": "^1.1.3"
     },

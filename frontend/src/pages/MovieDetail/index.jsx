@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import CommentList from "../../components/CommentList";
-import MovieInfo from "../../components/MovieInfo";
-import MovieList from "../../components/MovieList";
 import "./style.scss";
 
-/* const CommentList = ({ comments }) => (
-    <List
-        dataSource={comments}
-        header={`${comments.length} ${comments.length > 1 ? "replies" : "reply"}`}
-        itemLayout="horizontal"
-        renderItem={(props) => <Comment {...props} />}
-    />
-); */
 const movie = {
     poster: "https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/gmbsR4SvYhhj4SvLAlTKxIkFxp9.jpg",
     img: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/6SJppowm7cdQgLkvoTlnTUSbjr9.jpg",
