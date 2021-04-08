@@ -6,8 +6,6 @@ import "./style.scss";
 MovieCard.propTypes = {};
 
 function MovieCard(props) {
-    // const dispatch = useDispatch();
-
     const { movie } = props;
 
     return (
@@ -21,26 +19,17 @@ function MovieCard(props) {
                     </div>
 
                     <div className="item__inner--detail">
-                        <p className="d-flex align-items-center mb-3">
-                            <span>
-                                <span>
-                                    <i className="fa fa-star mr-1"></i>
-                                </span>
+                        <div className="d-flex justify-content-between mb-3 ml-2 mr-2">
+                            <div>
+                                <i className="fa fa-star mr-1"></i>
                                 <span>7.8</span>
-                            </span>
-                            <span>
-                                <button className="btn ml-3">
-                                    <img
-                                        src="https://www.pngkit.com/png/full/153-1536260_png-file-svg-transparent-star-icon-png.png"
-                                        alt=""
-                                    />
-                                </button>
-                            </span>
-                        </p>
+                            </div>
+                            <div>2020</div>
+                        </div>
 
                         <div>
                             <Link to="/">
-                                <h4>{movie.tenPhim}</h4>
+                                <p>{movie.tenPhim}</p>
                             </Link>
 
                             <p>{movie.ngayKhoiChieu}</p>

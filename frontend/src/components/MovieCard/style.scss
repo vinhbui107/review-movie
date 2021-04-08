@@ -4,7 +4,7 @@
             img {
                 border-radius: 15px;
                 width: 150px;
-                height: 300px;
+                height: 250px;
                 object-fit: cover;
             }
         }
@@ -12,19 +12,10 @@
         &--detail {
             padding: 10px 5px;
 
-            h4 {
+            p {
                 font-size: 1rem;
                 font-weight: 600;
                 margin-bottom: 10px;
-            }
-            p {
-                font-size: 0.8rem;
-                margin-bottom: 10px;
-            }
-
-            button {
-                width: 40px;
-                box-shadow: none;
             }
         }
     }
