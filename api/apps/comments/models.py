@@ -23,6 +23,10 @@ class Comment(models.Model):
     )
     content = models.TextField()
     created_at = timezone.now()
+    updated_at = timezone.now()
 
     class Meta:
         db_table = "comment"
+
+    def __str__(self):
+        return self.content
