@@ -20,39 +20,12 @@ class Genre(models.Model):
         null=False,
         unique=True,
     )
-    slug = models.SlugField(default=None, unique=True)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Genre, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
 
     class Meta:
         db_table = "genre"
 
-
-class Actor(models.Model):
-    name = models.CharField(
-        max_length=settings.ACTOR_NAME_MAX_LENGTH,
-        blank=False,
-        null=False,
-        unique=True,
-    )
-    avatar = ProcessedImageField(
-        upload_to=upload_to_actor_image_directory,
-        blank=False,
-        null=True,
-        format="JPEG",
-        default=None,
-    )
-
     def __str__(self):
         return self.name
-
-    class Meta:
-        db_table = "actor"
 
 
 class Movie(models.Model):
@@ -72,27 +45,19 @@ class Movie(models.Model):
         null=True,
         format="JPEG",
     )
-    trailer = models.CharField(
-        max_length=settings.MOVIE_TRAILER_MAX_LENGTH, blank=True, null=True
-    )
     imdb_rating = models.FloatField(null=True, blank=True, default=None)
     rating = models.FloatField(null=True, blank=True, default=None)
-    genres = models.ManyToManyField(Genre, related_name="genres_of_movies")
-    actors = models.ManyToManyField(Actor, related_name="actors_of_movies")
     slug = models.SlugField(default=None, unique=True)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super(Movie, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
+    genres = models.ManyToManyField(Genre, related_name="genres_of_movies")
 
     class Meta:
         db_table = "movie"
 
+    def __str__(self):
+        return self.title
 
-class Rate(models.Model):
+
+class Rating(models.Model):
     movie = models.ForeignKey(
         Movie,
         on_delete=models.CASCADE,
@@ -108,7 +73,8 @@ class Rate(models.Model):
         blank=False,
     )
     rating = models.IntegerField(blank=False, null=False)
-    created_at = timezone.now()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "rate"
+        db_table = "rating"
