@@ -59,10 +59,18 @@ class User(AbstractUser):
     last_name = None
     birthday = models.DateField(blank=False, null=True, default=None)
     gender = models.CharField(
-        choices=GENDER, max_length=1, null=True, blank=True, default=None
+        choices=GENDER,
+        max_length=settings.GENDER_MAX_LENGTH,
+        null=True,
+        blank=True,
+        default=None,
     )
     occupation = models.CharField(
-        choices=OCCUPATIONS, max_length=30, blank=True, null=True, default=None
+        choices=OCCUPATIONS,
+        max_length=settings.OCCUPATION_MAX_LENGTH,
+        blank=True,
+        null=True,
+        default=None,
     )
     avatar = ProcessedImageField(
         upload_to=upload_to_user_avatar_directory,
