@@ -28,6 +28,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "corsheaders",
+    "django_extensions",
     "rest_framework_simplejwt.token_blacklist",
 ]
 
@@ -44,9 +45,9 @@ ROOT_URLCONF = "config.urls"
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-ROOT_URLCONF = "config.urls"
-
 AUTH_USER_MODEL = "accounts.User"
+
+DJANGO_SETTINGS_MODULE = "config.settings"
 
 DATABASES = {
     "default": {
@@ -153,9 +154,6 @@ MEDIA_URL = "/media/"
 # =============================================================================
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
-    ),
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
@@ -201,13 +199,14 @@ CORS_ALLOW_CREDENTIALS = True
 USERNAME_MAX_LENGTH = 30
 PASSWORD_MIN_LENGTH = 10
 PASSWORD_MAX_LENGTH = 100
+OCCUPATION_MAX_LENGTH = 30
+GENDER_MAX_LENGTH = 30
 # Movie
 MOVIE_TITLE_MAX_LENGTH = 255
 MOVIE_YEAR_MAX_LENGTH = 4
-MOVIE_DIRECTOR_MAX_LENGTH = 50
+MOVIE_DIRECTOR_MAX_LENGTH = 255
 MOVIE_TRAILER_MAX_LENGTH = 255
 GENRE_NAME_MAX_LENGTH = 100
-ACTOR_NAME_MAX_LENGTH = 100
 RATE_RATING_MAX_LENGTH = 1
 # Review
 # Recommendation
