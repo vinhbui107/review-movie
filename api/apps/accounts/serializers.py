@@ -35,3 +35,8 @@ class RegisterSerializer(serializers.Serializer):
         ],
     )
     email = serializers.EmailField(validators=[email_not_taken_validator])
+    birthday = serializers.DateField()
+    occupation = serializers.CharField(
+        max_length=settings.OCCUPATION_MAX_LENGTH
+    )
+    gender = serializers.CharField(max_length=settings.GENDER_MAX_LENGTH)
