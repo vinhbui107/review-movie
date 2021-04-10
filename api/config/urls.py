@@ -11,12 +11,7 @@ from rest_framework_simplejwt.views import (
 
 from apps.accounts.views import ObtainTokenPairWithColorView, Register, Logout
 
-# from apps.accounts.views import (
-#     MovieItem,
-#     GenreMovies,
-#     TrendingMovies,
-#     TopRatingMovies,
-# )
+from apps.movies.views import TrendingMovies, TopRatingMovies, HomeMovies
 
 
 auth_patterns = [
@@ -31,10 +26,9 @@ auth_patterns = [
 ]
 
 movie_patterns = [
-    # path("trending/", TrendingMovies.as_view(), name="trending-movies"),
-    # path("top-rating/", TopRatingMovies.as_view(), name="top-movies"),
-    # path("<slug>/", MovieItem.as_view(), name="detail-movie"),
-    # path("<slug>/", GenreMovies.as_view(), name="genre-movies"),
+    path("home/", TopRatingMovies.as_view(), name="home-movies"),
+    path("trending/", TrendingMovies.as_view(), name="trending-movies"),
+    path("top-rating/", TopRatingMovies.as_view(), name="top-movies"),
 ]
 
 review_patterns = []
