@@ -39,15 +39,11 @@ class Movie(models.Model):
     director = models.CharField(
         max_length=settings.MOVIE_DIRECTOR_MAX_LENGTH, blank=True, null=True
     )
-    poster = ProcessedImageField(
-        upload_to=upload_to_movie_image_directory,
-        blank=False,
-        null=True,
-        format="JPEG",
-    )
+    poster = models.TextField(blank=False, null=True)
     imdb_rating = models.FloatField(null=True, blank=True, default=None)
-    rating = models.FloatField(null=True, blank=True, default=None)
-    slug = models.SlugField(default=None, unique=True)
+    rating_average = models.FloatField(null=True, blank=True, default=None)
+    rating_count = models.IntegerField(null=True, blank=True, default=None)
+    slug = models.SlugField(max_length=255, default=None, unique=True)
     genres = models.ManyToManyField(Genre, related_name="genres_of_movies")
 
     class Meta:
