@@ -24,8 +24,6 @@ const Register = () => {
     const history = useHistory();
 
     const handleChange = (e) => {
-        console.log(inputs);
-
         const { name, value } = e.target;
         setInputs((inputs) => ({
             ...inputs,
@@ -120,9 +118,8 @@ const Register = () => {
                             <Form.Group as={Col}>
                                 <Form.Control as="select" name="gender" onChange={handleChange} required>
                                     <option value="" label="Select gender" />
-                                    {genders.map((item, index) => (
-                                        <option key={index} value={item} label={item} />
-                                    ))}
+                                    <option value="M" label="Male" />
+                                    <option value="F" label="Female" />
                                 </Form.Control>
                             </Form.Group>
 
