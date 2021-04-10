@@ -19,6 +19,8 @@ from apps.common.responses import ApiMessageResponse
 
 
 class ObtainTokenPairWithColorView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+
     serializer_class = MyTokenObtainPairSerializer
 
 
@@ -52,7 +54,6 @@ class Register(APIView):
                 birthday=birthday,
                 gender=gender,
                 occupation=occupation,
-                avatar=avatar,
             )
             new_user.save()
 
