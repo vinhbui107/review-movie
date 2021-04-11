@@ -3,7 +3,7 @@ import { Row } from "react-bootstrap";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import "./style.scss";
 
-function Banner() {
+function Search() {
     const items = [
         {
             id: 0,
@@ -44,8 +44,8 @@ function Banner() {
     return (
         <Row className="search">
             <div>
-                <div className="search_title">
-                    <h2>Welcome.</h2>
+                <div className="search__title">
+                    <h1>Welcome.</h1>
                     <h3>Thousands of movies, TV shows and people to discover. Explore now.</h3>
                 </div>
                 <div className="search__form">
@@ -61,4 +61,4 @@ function Banner() {
     );
 }
 
-export default Banner;
+export default Search;

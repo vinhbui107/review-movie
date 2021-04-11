@@ -1,18 +1,16 @@
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React from "react";
 import { Row } from "react-bootstrap";
 import OwlCarousel from "react-owl-carousel";
-import productApi from "../../services/movie";
 import MovieCard from "../MovieCard";
-import style from "./style.scss";
+
+import style from "./style.module.scss";
 
 MovieList.propTypes = {
     movieList: PropTypes.array,
 };
 
-function MovieList(props) {
-    const { movieList } = props;
-
+function MovieList({ movieList }) {
     const renderMovieList = () => {
         return movieList?.map((movie, index) => {
             return (
@@ -25,16 +23,16 @@ function MovieList(props) {
 
     return (
         <Row>
-            <h1 className="title">123123</h1>
+            <h4 className="title">What's Popular</h4>
             <OwlCarousel
-                className={style["owl-theme"]}
+                className="owl-theme"
                 loop={true}
                 margin={10}
-                slideBy="12"
                 items="6"
                 lazyLoad="true"
                 smartSpeed="400"
                 nav="true"
+                dots="false"
             >
                 {renderMovieList()}
             </OwlCarousel>

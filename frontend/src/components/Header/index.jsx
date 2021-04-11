@@ -24,7 +24,7 @@ function Header() {
                 <Row>
                     <Navbar expand="lg">
                         <Navbar.Brand href="/">
-                            <img src={logo} style={{ width: "154px", height: "50px" }}></img>
+                            <img src={logo} style={{ width: "154px", height: "50px" }} alt="" />
                         </Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">

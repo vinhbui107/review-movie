@@ -1,43 +1,56 @@
-import React, { useEffect } from "react";
-import { Col } from "react-bootstrap";
+import React from "react";
+import { Card } from "react-bootstrap";
+import { Doughnut } from "react-chartjs-2";
 import { Link } from "react-router-dom";
-import WOW from "wowjs";
-import "./style.scss";
+import style from "./style.module.scss";
+
 MovieCard.propTypes = {};
 
-function MovieCard(props) {
-    const { movie } = props;
-
+const BarChart = () => {
     return (
-        <>
-            <div className="item">
-                <div className="item__inner">
-                    <div className="item__inner--img">
-                        <Link to="/">
-                            <img src={movie.hinhAnh} alt="" />
-                        </Link>
-                    </div>
+        <div>
+            <Doughnut
+                data={{
+                    datasets: [
+                        {
+                            label: "# of votes",
+                            data: [100, 10],
+                            backgroundColor: ["rgba(255, 99, 132, 0.2)"],
+                            borderColor: ["rgba(255, 99, 132, 1)", "rgb(54, 162, 235)"],
+                        },
+                    ],
+                }}
+                option={{
+                    title: {
+                        display: true,
+                        text: "Predicted world population (millions) in 2050",
+                    },
+                }}
+            />
+        </div>
+    );
+};
 
-                    <div className="item__inner--detail">
-                        <div className="d-flex justify-content-between mb-3 ml-2 mr-2">
-                            <div>
-                                <i className="fa fa-star mr-1"></i>
-                                <span>7.8</span>
-                            </div>
-                            <div>2020</div>
-                        </div>
+function MovieCard({ movie }) {
+    return (
+        <Card className={style.card}>
+            <Link to="/">
+                <Card.Img variant="top" src={movie.hinhAnh} />
 
-                        <div>
-                            <Link to="/">
-                                <p>{movie.tenPhim}</p>
-                            </Link>
+                {/* {BarChart()} */}
+                <span className={style["card--rating"]}>7.6</span>
+            </Link>
 
-                            <p>{movie.ngayKhoiChieu}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
+            <Card.Body className={style["card-body"]}>
+                <Link to="/">
+                    <Card.Title className={style["card-title"]}>{movie.tenPhim}</Card.Title>
+                </Link>
+
+                <Card.Text className={style["card-text"]}>
+                    <span>2021</span>
+                </Card.Text>
+            </Card.Body>
+        </Card>
     );
 }
 
