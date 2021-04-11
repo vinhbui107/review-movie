@@ -1,9 +1,9 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import SearchForm from "../../components/SearchForm";
-import Carousel from "../../components/Carousel";
-import Header from "../../components/Header";
+import { Pie, defaults } from "react-chartjs-2";
 import MovieList from "../../components/MovieList";
+import MovieRecommend from "../../components/MovieRecommend";
+import Search from "../../components/Search";
 import "./style.scss";
 
 function Home() {
@@ -113,7 +113,7 @@ function Home() {
     return (
         <div>
             <Container>
-                <SearchForm />
+                <Search />
 
                 <MovieList movieList={movieList} />
 
