@@ -10,7 +10,20 @@
     background-size: cover;
     background-repeat: no-repeat;
     color: #fff;
+    display: flex;
+    align-items: center;
     &__form {
         width: 100%;
+    }
+    font-weight: 900;
+
+    h1,
+    h3 {
+        color: #fff;
+    }
+
+    h1 {
+        font-weight: 700;
+        font-size: 3rem;
     }
 }
