@@ -8,6 +8,15 @@
     background-size: cover;
     background-repeat: no-repeat;
 
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #fff;
+    }
+
     h1 {
         font-size: 3rem;
         font-weight: 600;
@@ -15,6 +24,11 @@
 
     p {
         font-size: 1rem;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
     }
 
     &::before {
@@ -32,63 +46,75 @@
         );
     }
 
-    &__item {
+    &__wrapper {
         padding: 30px;
 
-        &--detail {
-            padding-top: 30px;
-
-            position: relative;
-        }
-
-        &--rate {
-            ul {
-                padding-left: 0;
-                margin: 20px 0;
-                li {
-                    display: inline-block;
-                    margin-right: 20px;
-
-                    button {
-                        width: 35px;
-                        height: 35px;
-                        border-radius: 50%;
-                        background-color: #032541;
-                        border: none;
-                    }
-
-                    i {
-                        color: #fff;
-                        font-size: 0.8rem;
-                    }
-                }
-            }
-
-            &--score {
-                padding: 1rem;
-                border-radius: 50%;
-                background-color: #032541;
-                font-weight: 800;
-            }
-        }
-
-        &--time {
-            position: absolute;
-            bottom: 0px;
-            width: 100%;
-
-            display: flex;
-            justify-content: space-between;
+        &--row {
             align-items: center;
+        }
 
-            p {
-                font-size: 0.9rem;
-            }
+        &--left {
+        }
+
+        &--right {
         }
     }
 
-    img {
-        width: 100%;
-        height: 100%;
+    &__title {
+        padding-top: 30px;
+        position: relative;
+    }
+
+    &__action {
+        padding-left: 0;
+        margin: 20px 0;
+
+        &__list {
+            display: inline-block;
+            margin-right: 20px;
+
+            button {
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                background-color: #032541;
+                border: none;
+            }
+
+            i {
+                color: #fff;
+                font-size: 0.8rem;
+            }
+        }
+
+        &--rating {
+            position: relative;
+
+            &-star {
+                position: absolute;
+                display: flex !important;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.8s ease-out;
+            }
+
+            &:hover &-star {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        &--score {
+            padding: 1rem;
+            border-radius: 50%;
+            background-color: #032541;
+            font-weight: 800;
+        }
+    }
+
+    &__people {
+        p {
+            font-size: 0.9rem;
+        }
     }
 }
