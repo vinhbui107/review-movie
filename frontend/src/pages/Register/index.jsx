@@ -70,109 +70,107 @@ const Register = () => {
     };
 
     return (
-        <div className="register-form">
-            <Form className="register-form" onSubmit={handleSubmit}>
-                <div className="register-form__item">
-                    <div className="register-form__item__info">
-                        <Link to="/">
-                            <img src={logo} alt="Logo"></img>
-                        </Link>
-                        <Form.Group>
-                            <InputGroup>
-                                <Form.Control
-                                    type="email"
-                                    placeholder="Email"
-                                    name="email"
-                                    value={email}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </InputGroup>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <InputGroup>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Username"
-                                    name="username"
-                                    value={username}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </InputGroup>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <InputGroup>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Password"
-                                    name="password"
-                                    value={password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </InputGroup>
-                        </Form.Group>
-
-                        <Form.Row>
-                            <Form.Group as={Col}>
-                                <Form.Control as="select" name="gender" onChange={handleChange} required>
-                                    <option value="" label="Select gender" />
-                                    {genders.map((item, index) => (
-                                        <option key={index} value={item} label={item} />
-                                    ))}
-                                </Form.Control>
-                            </Form.Group>
-
-                            <Form.Group as={Col}>
-                                <Form.Control
-                                    type="date"
-                                    placeholder="Birthday"
-                                    name="birthday"
-                                    value={birthday}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </Form.Group>
-                        </Form.Row>
-
-                        <Form.Group>
+        <Form className="register" onSubmit={handleSubmit}>
+            <div className="register__wrapper">
+                <div className="register__wrapper--inner">
+                    <Link to="/">
+                        <img src={logo} alt="Logo"></img>
+                    </Link>
+                    <Form.Group>
+                        <InputGroup>
                             <Form.Control
-                                as="select"
-                                defaultValue={occupation}
-                                name="occupation"
+                                type="email"
+                                placeholder="Email"
+                                name="email"
+                                value={email}
                                 onChange={handleChange}
-                                options={occupations}
                                 required
-                            >
-                                <option value="" label="Select occupation" />
-                                {occupations.map((item, index) => (
+                            />
+                        </InputGroup>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <InputGroup>
+                            <Form.Control
+                                type="text"
+                                placeholder="Username"
+                                name="username"
+                                value={username}
+                                onChange={handleChange}
+                                required
+                            />
+                        </InputGroup>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <InputGroup>
+                            <Form.Control
+                                type="password"
+                                placeholder="Password"
+                                name="password"
+                                value={password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </InputGroup>
+                    </Form.Group>
+
+                    <Form.Row>
+                        <Form.Group as={Col}>
+                            <Form.Control as="select" name="gender" onChange={handleChange} required>
+                                <option value="" label="Select gender" />
+                                {genders.map((item, index) => (
                                     <option key={index} value={item} label={item} />
                                 ))}
                             </Form.Control>
                         </Form.Group>
 
-                        <div className="register-form__item__info__msg">
-                            <h5>{message}</h5>
-                        </div>
+                        <Form.Group as={Col}>
+                            <Form.Control
+                                type="date"
+                                placeholder="Birthday"
+                                name="birthday"
+                                value={birthday}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+                    </Form.Row>
 
-                        <Button type="submit" className="register-form__item__info__btnLogin">
-                            Register
-                        </Button>
+                    <Form.Group>
+                        <Form.Control
+                            as="select"
+                            defaultValue={occupation}
+                            name="occupation"
+                            onChange={handleChange}
+                            options={occupations}
+                            required
+                        >
+                            <option value="" label="Select occupation" />
+                            {occupations.map((item, index) => (
+                                <option key={index} value={item} label={item} />
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
 
-                        <div className="register-form__item__info__bd"></div>
+                    <div className="register__msg">
+                        <h5>{message}</h5>
+                    </div>
 
-                        <div>
-                            <p>
-                                Already have an account ? - <Link to="/login">Login</Link>
-                            </p>
-                        </div>
+                    <Button type="submit" className="register__btn">
+                        Register
+                    </Button>
+
+                    <div className="register__horizon"></div>
+
+                    <div>
+                        <p>
+                            Already have an account ? - <Link to="/login">Login</Link>
+                        </p>
                     </div>
                 </div>
-            </Form>
-        </div>
+            </div>
+        </Form>
     );
 };
 

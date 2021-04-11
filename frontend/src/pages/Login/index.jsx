@@ -56,58 +56,56 @@ const Login = () => {
     };
 
     return (
-        <div className="login-form">
-            <Form className="login-form" onSubmit={handleSubmit}>
-                <div className="login-form__item">
-                    <div className="login-form__item__info">
-                        <Link to="/">
-                            <img src={logo} alt="Logo"></img>
-                        </Link>
-                        <Form.Group>
-                            <InputGroup hasValidation>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Username"
-                                    name="username"
-                                    value={username}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </InputGroup>
-                        </Form.Group>
+        <Form className="login" onSubmit={handleSubmit}>
+            <div className="login__wrapper">
+                <div className="login__wrapper--inner">
+                    <Link to="/">
+                        <img src={logo} alt="Logo"></img>
+                    </Link>
+                    <Form.Group>
+                        <InputGroup hasValidation>
+                            <Form.Control
+                                type="text"
+                                placeholder="Username"
+                                name="username"
+                                value={username}
+                                onChange={handleChange}
+                                required
+                            />
+                        </InputGroup>
+                    </Form.Group>
 
-                        <Form.Group>
-                            <InputGroup hasValidation>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Password"
-                                    name="password"
-                                    value={password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </InputGroup>
-                        </Form.Group>
+                    <Form.Group>
+                        <InputGroup hasValidation>
+                            <Form.Control
+                                type="password"
+                                placeholder="Password"
+                                name="password"
+                                value={password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </InputGroup>
+                    </Form.Group>
 
-                        <div className="login-form__item__info__msg">
-                            <h5>{message}</h5>
-                        </div>
+                    <div className="login__msg">
+                        <h5>{message}</h5>
+                    </div>
 
-                        <Button type="submit" className="login-form__item__info__btnLogin">
-                            Login
-                        </Button>
+                    <Button type="submit" className="login__btn">
+                        Login
+                    </Button>
 
-                        <div className="login-form__item__info__bd"></div>
+                    <div className="login__horizon"></div>
 
-                        <div>
-                            <p>
-                                Don't have an account ? - <Link to="/register">Register</Link>
-                            </p>
-                        </div>
+                    <div>
+                        <p>
+                            Don't have an account ? - <Link to="/register">Register</Link>
+                        </p>
                     </div>
                 </div>
-            </Form>
-        </div>
+            </div>
+        </Form>
     );
 };
 
