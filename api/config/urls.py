@@ -9,7 +9,12 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from apps.accounts.views import ObtainTokenPairWithColorView, Register, Logout
+from apps.accounts.views import (
+    ObtainTokenPairWithColorView,
+    Register,
+    Logout,
+    UserProfile,
+)
 
 from apps.movies.views import TrendingMovies, TopRatingMovies, HomeMovies
 
@@ -33,10 +38,15 @@ movie_patterns = [
 
 review_patterns = []
 
+user_patterns = [
+    path("<int:user_id>", UserProfile.as_view(), name="user_profile")
+]
+
 api_patterns = [
     path("auth/", include(auth_patterns)),
     path("movies/", include(movie_patterns)),
     path("reviews/", include(review_patterns)),
+    path("users/", include(user_patterns)),
 ]
 
 
