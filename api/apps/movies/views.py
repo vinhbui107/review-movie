@@ -1,4 +1,9 @@
 from rest_framework.views import APIView
+from rest_framework.exceptions import status
+from rest_framework.response import Response
+
+from apps.movies.models import Movie, Genre, Rating
+from apps.accounts.models import User
 
 
 class MovieItem(APIView):
@@ -25,7 +30,8 @@ class TopRatingMovies(APIView):
     """
 
     def get(self, request):
-        return
+        top_rating_movies = Movie.get_top_rating_movies()
+        return Response(top_rating_movies, status=status.HTTP_200_OK)
 
 
 class HomeMovies(APIView):
