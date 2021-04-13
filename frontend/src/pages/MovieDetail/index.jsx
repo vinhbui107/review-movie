@@ -1,6 +1,8 @@
 import { Rate } from "antd";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import Comments from "../../components/Comments";
+
 import MovieRecommend from "../../components/MovieRecommend";
 import "./style.scss";
 
@@ -150,7 +152,7 @@ function MovieDetail(props) {
                                     </li>
                                     <li className="poster__action__list poster__action--like">
                                         <button>
-                                            <i className="fa fa-star" />
+                                            <i className="fa fa-thumbs-up"></i>
                                         </button>
                                     </li>
                                     <li className="poster__action__list">
@@ -193,6 +195,8 @@ function MovieDetail(props) {
             </div>
             <Container>
                 <MovieRecommend movieListRec={movieList} />
+                <hr />
+                <Comments />
             </Container>
         </div>
     );
