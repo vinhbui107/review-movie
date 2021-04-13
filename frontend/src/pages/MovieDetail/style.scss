@@ -96,6 +96,7 @@
                 opacity: 0;
                 visibility: hidden;
                 transition: all 0.8s ease-out;
+                transform: translateX(-37%);
             }
 
             &:hover &-star {

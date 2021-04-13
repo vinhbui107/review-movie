@@ -17,6 +17,9 @@ function MovieRecommend({ movieListRec }) {
                     <Link to="/" className={style.card__link}>
                         <Card.Img variant="top" src={movie.hinhAnh} loading="lazy" />
                         <p className={`${style["card__datetime"]} mb-0`}>{movie.ngayKhoiChieu}</p>
+                        <div className={style.card__overlay}>
+                            <i className="fa fa-play"></i>
+                        </div>
                     </Link>
                     <p>{movie.tenPhim}</p>
                 </div>
@@ -25,8 +28,11 @@ function MovieRecommend({ movieListRec }) {
     };
     return (
         <div>
-            <h1 className="title">Recommend</h1>
-            <OwlCarousel
+            <h1 className="title title--rec">Recommend</h1>
+            <div className={style.scroller}>
+                <div className={style["scroller__wrapper"]}>{renderMovieListRec(movieListRec)}</div>
+            </div>
+            {/* <OwlCarousel
                 className="owl-theme"
                 loop={true}
                 margin={10}
@@ -36,8 +42,8 @@ function MovieRecommend({ movieListRec }) {
                 nav="true"
                 dots="false"
             >
-                {renderMovieListRec(movieListRec)}
-            </OwlCarousel>
+
+            </OwlCarousel> */}
         </div>
     );
 }

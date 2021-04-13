@@ -1,0 +1,30 @@
+.commentList {
+    width: 70%;
+    margin: 10px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    border: 1px solid rgba(227, 227, 227, 1);
+
+    &--left {
+        text-align: center;
+    }
+
+    &--right {
+        padding-left: 0;
+    }
+
+    &__avatar {
+        border-radius: 50%;
+
+        img {
+            display: block;
+        }
+    }
+
+    &__author {
+        margin-bottom: 10px;
+        h3 {
+            margin-bottom: 0;
+        }
+    }
+}

@@ -10,6 +10,18 @@ MovieList.propTypes = {
     movieList: PropTypes.array,
 };
 
+const options = {
+    0: {
+        items: 1,
+    },
+    600: {
+        items: 3,
+    },
+    1000: {
+        items: 6,
+    },
+};
+
 function MovieList({ movieList }) {
     const renderMovieList = () => {
         return movieList?.map((movie, index) => {
@@ -33,6 +45,7 @@ function MovieList({ movieList }) {
                 smartSpeed="400"
                 nav="true"
                 dots="false"
+                responsive={options}
             >
                 {renderMovieList()}
             </OwlCarousel>
