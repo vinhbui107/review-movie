@@ -52,6 +52,18 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
+    @classmethod
+    def get_movie_with_id(cls, movie_id):
+        return cls.objects.filter(pk=movie_id)
+
+    @classmethod
+    def get_top_rating_movies(cls):
+        return cls.objects.order_by("-imdb_rating")
+
+    @classmethod
+    def get_trending_movies(cls):
+        return cls.objects.order_by("-year")
+
 
 class Rating(models.Model):
     movie = models.ForeignKey(
@@ -68,9 +80,13 @@ class Rating(models.Model):
         null=False,
         blank=False,
     )
-    rating = models.IntegerField(blank=False, null=False)
+    rating = models.FloatField(blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "rating"
+
+    @classmethod
+    def get_rating_with_movie_id(cls):
+        return
