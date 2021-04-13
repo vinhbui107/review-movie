@@ -29,6 +29,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "corsheaders",
     "django_extensions",
+    "django_elasticsearch_dsl",
     "rest_framework_simplejwt.token_blacklist",
 ]
 
@@ -166,7 +167,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -189,8 +190,71 @@ SIMPLE_JWT = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
 
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
+
+# =============================================================================
+# Elastic stack config
+# =============================================================================
+
+ELASTICSEARCH_DSL = {
+    "default": {"hosts": "localhost:9200"},
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {"format": "velname)s %(message)s"},
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "logstash": {
+            "level": "WARNING",
+            "class": "logstash.TCPLogstashHandler",
+            "host": "localhost",
+            "port": 5959,
+            "version": 1,  # Version of logstash event schema. Default value: 0 (for backward compatibility of the library)
+            "message_type": "django",  # 'type' field in logstash message. Default value: 'logstash'.
+            "fqdn": False,  # Fully qualified domain name. Default value: false.
+            "tags": ["django.request"],  # list of tags. Default: None.
+        },
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["logstash"],
+            "level": "WARNING",
+            "propagate": True,
+        },
+        "django": {
+            "handlers": ["console"],
+            "propagate": True,
+        },
+    },
+}
 # =============================================================================
 # Review Movie Config
 # =============================================================================
@@ -209,4 +273,3 @@ MOVIE_TRAILER_MAX_LENGTH = 255
 GENRE_NAME_MAX_LENGTH = 100
 RATE_RATING_MAX_LENGTH = 1
 # Review
-# Recommendation
