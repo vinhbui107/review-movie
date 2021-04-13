@@ -102,3 +102,16 @@ class User(AbstractUser):
             return True
         except User.DoesNotExist:
             return False
+
+    @classmethod
+    def get_user_profile_with_id(cls, id):
+        try:
+            return cls.objects.get(pk=id)
+        except User.DoesNotExist:
+            return None
+
+    @classmethod
+    def update_user_profile(
+        cls, id, username, password, email, birthday, gender, occupation
+    ):
+        return
