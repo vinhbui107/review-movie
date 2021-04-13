@@ -2,43 +2,19 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { Doughnut } from "react-chartjs-2";
 import { Link } from "react-router-dom";
+import { CircularProgressbar } from "react-circular-progressbar";
 import style from "./style.module.scss";
 
 MovieCard.propTypes = {};
 
-const BarChart = () => {
-    return (
-        <div>
-            <Doughnut
-                data={{
-                    datasets: [
-                        {
-                            label: "# of votes",
-                            data: [100, 10],
-                            backgroundColor: ["rgba(255, 99, 132, 0.2)"],
-                            borderColor: ["rgba(255, 99, 132, 1)", "rgb(54, 162, 235)"],
-                        },
-                    ],
-                }}
-                option={{
-                    title: {
-                        display: true,
-                        text: "Predicted world population (millions) in 2050",
-                    },
-                }}
-            />
-        </div>
-    );
-};
+const percentage = 20;
 
 function MovieCard({ movie }) {
     return (
         <Card className={style.card}>
-            <Link to="/">
+            <Link to="/movie/1314">
                 <Card.Img variant="top" src={movie.hinhAnh} />
-
-                {/* {BarChart()} */}
-                <span className={style["card--rating"]}>7.6</span>
+                <CircularProgressbar value={percentage} text={`${percentage}%`} className={style["card--rating"]} />
             </Link>
 
             <Card.Body className={style["card-body"]}>
