@@ -97,10 +97,32 @@ def load_data_movie_genres():
     print("Finished import data movie genre table. \n")
 
 
+def load_data_rating():
+    print("Start import data into rating table....")
+
+    ratings_df = pd.read_csv(
+        os.path.join(workpath, "data/ratings.csv"), low_memory=False
+    )
+
+    bulk_mgr = BulkCreateManager(chunk_size=10)
+    for row in ratings_df.itertuples():
+        bulk_mgr.add(
+            Rating(
+                movie_id=row.movie_id, user_id=row.user_id, rating=row.rating
+            )
+        )
+
+    bulk_mgr.done()
+    print("Finished import data into rating table. \n")
+
+
 def run():
-    # load_data_user()
-    # print("-------------------------")
-    # load_data_genre()
-    # print("-------------------------")
-    # load_data_movie()
-    # load_data_movie_genres()
+    load_data_user()
+    print("-------------------------")
+    load_data_genre()
+    print("-------------------------")
+    load_data_movie()
+    print("-------------------------")
+    load_data_movie_genres()
+    print("-------------------------")
+    load_data_rating()
