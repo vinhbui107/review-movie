@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import CommentList from "../CommentList";
-import ModalComment from "../ModalComment";
 import "./index.scss";
 
 export default function Comments() {
