@@ -10,6 +10,39 @@ from apps.accounts.validators import (
     user_username_exists,
 )
 
+from apps.accounts.models import User
+
+
+class UpdateUserProfileRequestSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField(required=True)
+    username = serializers.CharField(
+        max_length=settings.USERNAME_MAX_LENGTH,
+        required=True,
+        validators=[
+            username_characters_validator,
+            username_not_taken_validator,
+        ],
+    )
+    email = serializers.EmailField(validators=[email_not_taken_validator])
+    birthday = serializers.DateField()
+    occupation = serializers.CharField(
+        max_length=settings.OCCUPATION_MAX_LENGTH
+    )
+    gender = serializers.CharField(max_length=settings.GENDER_MAX_LENGTH)
+
+
+class GetUserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "email",
+            "birthday",
+            "gender",
+            "occupation",
+            "avatar",
+        )
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
