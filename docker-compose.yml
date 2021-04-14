@@ -20,13 +20,10 @@ services:
         restart: always
         container_name: review_movie_api
         build: ./api
-        command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
         volumes:
-            - ./api:/app/api
+            - ./api:/app
         ports:
             - "8000:8000"
-        expose:
-            - "8000"
         environment:
             - DB_HOST=db
             - DB_NAME=review_movie
@@ -35,15 +32,20 @@ services:
         depends_on:
             - db
 
-    # frontend:
-    #     restart: always
-    #     container_name: review_movie_frontend
-    #     build: ./frontend
-    #     command: ["npm", "start"]
-    #     volumes:
-    #         - ./frontend:/app/frontend
-    #     ports:
-    #         - "3000:3000"
+    frontend:
+        restart: always
+        container_name: review_movie_frontend
+        build: ./frontend
+        environment:
+            CHOKIDAR_USEPOLLING: "true"
+        volumes:
+            - ./frontend:/app
+            - /app/node_modules
+        stdin_open: true
+        ports:
+            - "3000:3000"
+        depends_on: 
+            - api
 
 volumes:
     postgres_data:
