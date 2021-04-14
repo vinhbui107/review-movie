@@ -2,30 +2,48 @@ version: "3"
 
 services:
     db:
-        image: postgres
+        restart: always
+        container_name: review_movie_db
+        image: postgres:13.0-alpine
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        ports:
+            - "5433:5432"
+        expose:
+            - "5433"
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=review_movie
 
     api:
-        build: ./backend
+        restart: always
+        container_name: review_movie_api
+        build: ./api
+        command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
         volumes:
-            - ./backend:/app/backend
+            - ./api:/app/api
         ports:
             - "8000:8000"
-        stdin_open: true
-        tty: true
-        command: sh -c "cd src && python3 manage.py runserver 0.0.0.0:8000"
+        expose:
+            - "8000"
+        environment:
+            - DB_HOST=db
+            - DB_NAME=review_movie
+            - DB_USER=postgres
+            - DB_PASSWORD=postgres
         depends_on:
             - db
 
-    frontend:
-        build: ./frontend
-        volumes:
-            - ./frontend:/app/frontend
-            # One-way volume to use node_modules from inside image
-            - /app/frontend/node_modules
-        ports:
-            - "3000:3000"
-        environment:
-            - NODE_ENV=development
-        depends_on:
-            - backend
-        command: npm start
+    # frontend:
+    #     restart: always
+    #     container_name: review_movie_frontend
+    #     build: ./frontend
+    #     command: ["npm", "start"]
+    #     volumes:
+    #         - ./frontend:/app/frontend
+    #     ports:
+    #         - "3000:3000"
+
+volumes:
+    postgres_data:
