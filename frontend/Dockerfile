@@ -1,17 +1,14 @@
-# FROM node:13.12.0-alpine as build
+FROM node:15
 
-# WORKDIR /app/frontend
+WORKDIR /app
 
-# COPY ./frontend/package.json /app/frontend
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# COPY ./frontend/package-lock.json /app/frontend
+COPY ./package*.json ./
 
-# RUN npm ci --silent
+RUN npm install --legacy-peer-deps --silent
 
-# COPY ./frontend/ ./
+EXPOSE 3000
 
-# RUN npm run build
-
-# EXPOSE 3000
-
-# CMD ["npm", "start"]
+CMD ["npm", "start"]
