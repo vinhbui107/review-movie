@@ -7,10 +7,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Adding backend directory to make absolute filepaths consistent across services
-WORKDIR /app/api
+WORKDIR /app
 
 # Install Python dependencies
-COPY requirements.txt /app/api
+COPY requirements.txt /app
 RUN pip install -r requirements.txt
 
 EXPOSE 8000
