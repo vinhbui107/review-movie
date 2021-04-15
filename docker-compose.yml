@@ -44,8 +44,24 @@ services:
         stdin_open: true
         ports:
             - "3000:3000"
-        depends_on: 
+        depends_on:
             - api
+
+    # recommendation_system:
+    #     restart: always
+    #     container_name: recommendation_system
+    #     build: ./recommendation_system
+    #     volumes:
+    #         - ./recommendation_system:/app
+    #     ports:
+    #         - "4000:4000"
+    #     environment:
+    #         - DB_HOST=db
+    #         - DB_NAME=review_movie
+    #         - DB_USER=postgres
+    #         - DB_PASSWORD=postgres
+    #     depends_on:
+    #         - db
 
 volumes:
     postgres_data:
