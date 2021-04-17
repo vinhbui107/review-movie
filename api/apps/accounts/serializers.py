@@ -18,17 +18,19 @@ class UpdateUserProfileRequestSerializer(serializers.Serializer):
     username = serializers.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
         required=True,
-        validators=[
-            username_characters_validator,
-            username_not_taken_validator,
-        ],
     )
-    email = serializers.EmailField(validators=[email_not_taken_validator])
-    birthday = serializers.DateField()
+    email = serializers.EmailField(required=True)
+    birthday = serializers.DateField(required=True)
     occupation = serializers.CharField(
-        max_length=settings.OCCUPATION_MAX_LENGTH
+        max_length=settings.OCCUPATION_MAX_LENGTH, required=True
     )
-    gender = serializers.CharField(max_length=settings.GENDER_MAX_LENGTH)
+    gender = serializers.CharField(
+        max_length=settings.GENDER_MAX_LENGTH, required=True
+    )
+    password = serializers.CharField(
+        min_length=settings.PASSWORD_MIN_LENGTH,
+        max_length=settings.PASSWORD_MAX_LENGTH,
+    )
 
 
 class GetUserProfileSerializer(serializers.ModelSerializer):
