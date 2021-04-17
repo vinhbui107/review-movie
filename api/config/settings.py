@@ -16,6 +16,7 @@ DEBUG = config("DEBUG", cast=bool)
 
 # ALLOWED_HOSTS = config("ALLOWED_HOSTS", "*")
 ALLOWED_HOSTS = ["*"]
+
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -38,6 +39,7 @@ LOCAL_APPS = [
     "apps.movies",
     "apps.common",
     "apps.comments",
+    "apps.search",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -220,41 +222,41 @@ ELASTICSEARCH_DSL = {
     "default": {"hosts": "localhost:9200"},
 }
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "simple": {"format": "velname)s %(message)s"},
-    },
-    "handlers": {
-        "console": {
-            "level": "INFO",
-            "class": "logging.StreamHandler",
-            "formatter": "simple",
-        },
-        "logstash": {
-            "level": "WARNING",
-            "class": "logstash.TCPLogstashHandler",
-            "host": "localhost",
-            "port": 5959,
-            "version": 1,  # Version of logstash event schema. Default value: 0 (for backward compatibility of the library)
-            "message_type": "django",  # 'type' field in logstash message. Default value: 'logstash'.
-            "fqdn": False,  # Fully qualified domain name. Default value: false.
-            "tags": ["django.request"],  # list of tags. Default: None.
-        },
-    },
-    "loggers": {
-        "django.request": {
-            "handlers": ["logstash"],
-            "level": "WARNING",
-            "propagate": True,
-        },
-        "django": {
-            "handlers": ["console"],
-            "propagate": True,
-        },
-    },
-}
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "formatters": {
+#         "simple": {"format": "velname)s %(message)s"},
+#     },
+#     "handlers": {
+#         "console": {
+#             "level": "INFO",
+#             "class": "logging.StreamHandler",
+#             "formatter": "simple",
+#         },
+#         "logstash": {
+#             "level": "WARNING",
+#             "class": "logstash.TCPLogstashHandler",
+#             "host": "localhost",
+#             "port": 5959,
+#             "version": 1,  # Version of logstash event schema. Default value: 0 (for backward compatibility of the library)
+#             "message_type": "django",  # 'type' field in logstash message. Default value: 'logstash'.
+#             "fqdn": False,  # Fully qualified domain name. Default value: false.
+#             "tags": ["django.request"],  # list of tags. Default: None.
+#         },
+#     },
+#     "loggers": {
+#         "django.request": {
+#             "handlers": ["logstash"],
+#             "level": "WARNING",
+#             "propagate": True,
+#         },
+#         "django": {
+#             "handlers": ["console"],
+#             "propagate": True,
+#         },
+#     },
+# }
 # =============================================================================
 # Review Movie Config
 # =============================================================================
