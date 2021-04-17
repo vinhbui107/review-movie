@@ -114,6 +114,7 @@ class UserProfile(APIView):
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
+        user_id = data.get("user_id")
         username = data.get("username")
         password = data.get("password")
         email = data.get("email")
@@ -125,8 +126,8 @@ class UserProfile(APIView):
 
         try:
             with transaction.atomic():
-                user.update_user_profile(
-                    id=id,
+                user_profile_updated = user.update_user_profile_with_id(
+                    user_id=user_id,
                     username=username,
                     password=password,
                     email=email,
@@ -135,9 +136,15 @@ class UserProfile(APIView):
                     occupation=occupation,
                 )
         except DatabaseError:
-            pass
+            return ApiMessageResponse(
+                DatabaseError, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
-        return super().put(request, *args, **kwargs)
+        user_profile_serializer = GetUserProfileSerializer(
+            user_profile_updated, context={"request": request}
+        )
+
+        return Response(user_profile_serializer.data, status.HTTP_200_OK)
 
     def _get_request_data(self, request, user_id):
         request_data = request.data.copy()
