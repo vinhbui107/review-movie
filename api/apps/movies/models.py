@@ -44,7 +44,7 @@ class Movie(models.Model):
     rating_average = models.FloatField(null=True, blank=True, default=None)
     rating_count = models.IntegerField(null=True, blank=True, default=None)
     slug = models.SlugField(max_length=255, default=None, unique=True)
-    genres = models.ManyToManyField(Genre, related_name="genres_of_movies")
+    genres = models.ManyToManyField(Genre, related_name="movies_genres")
 
     class Meta:
         db_table = "movie"
@@ -86,7 +86,3 @@ class Rating(models.Model):
 
     class Meta:
         db_table = "rating"
-
-    @classmethod
-    def get_rating_with_movie_id(cls):
-        return
