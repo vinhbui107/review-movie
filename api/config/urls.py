@@ -15,40 +15,49 @@ from apps.accounts.views import (
     Logout,
     UserProfile,
 )
+from apps.movies.views import TrendingMovies, TopRatingMovies, MovieItem
+from apps.comments.views import MovieComments
 
-from apps.movies.views import TrendingMovies, TopRatingMovies, HomeMovies
-
-
-auth_patterns = [
+auth_auth_patterns = [
     path(
         "login/",
         ObtainTokenPairWithColorView.as_view(),
-        name="token_obtain_pair",
+        name="login-user",
     ),
-    path("login/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("logout/", Logout.as_view(), name="auth_logout"),
-    path("register/", Register.as_view(), name="auth_register"),
+    path("login/refresh/", TokenRefreshView.as_view(), name="login-refresh"),
+    path("logout/", Logout.as_view(), name="logout-user"),
+    path("register/", Register.as_view(), name="register-user"),
 ]
-
-movie_patterns = [
-    path("home/", TopRatingMovies.as_view(), name="home-movies"),
-    path("trending/", TrendingMovies.as_view(), name="trending-movies"),
-    path("top-rating/", TopRatingMovies.as_view(), name="top-movies"),
-]
-
-review_patterns = []
 
 user_patterns = [
-    path("<int:user_id>", UserProfile.as_view(), name="user_profile")
+    path("<int:user_id>", UserProfile.as_view(), name="user"),
+]
+
+auth_patterns = [
+    path("", include(auth_auth_patterns)),
+    path("users/", include(user_patterns)),
+]
+
+
+movie_patterns = [
+    path("", MovieItem.as_view(), name="movie"),
+    path("comments/", MovieComments.as_view(), name="movie-comments"),
+    # path("comments/<int:movie_comment_id>"),
+    # path("ratings/"),
+    # path("ratings/<int:movie_rating_id>"),
+    # path("search/"),
+]
+
+movies_patterns = [
+    path("<int:movie_id>/", include(movie_patterns)),
+    path("trending/", TrendingMovies.as_view(), name="trending-movies"),
+    path("top/", TopRatingMovies.as_view(), name="top-movies"),
 ]
 
 api_patterns = [
     path("auth/", include(auth_patterns)),
-    path("movies/", include(movie_patterns)),
-    path("reviews/", include(review_patterns)),
-    path("users/", include(user_patterns)),
+    path("movies/", include(movies_patterns)),
 ]
-
 
 urlpatterns = [
     path("api/", include(api_patterns)),
