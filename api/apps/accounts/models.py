@@ -1,11 +1,16 @@
-from imagekit.models import ProcessedImageField
-
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
-from .helpers import upload_to_user_avatar_directory
+from imagekit.models import ProcessedImageField
+
+from apps.accounts.helpers import upload_to_user_avatar_directory
+from apps.common.model_loaders import (
+    get_movie_model,
+    get_rating_model,
+    get_comment_model,
+)
 
 
 class User(AbstractUser):
@@ -123,3 +128,26 @@ class User(AbstractUser):
 
         user.save()
         return user
+
+    def comment_movie_with_id(self, movie_id, user, content):
+        Movie = get_movie_model()
+        movie = Movie.objects.filter(pk=movie_id).get()
+        return self.comment_movie(movie=movie, user=user, content=content)
+
+    def comment_movie(self, movie, user, content):
+        Comment = get_comment_model()
+        comment = Comment.objects.create(
+            movie=movie, user=user, content=content
+        )
+        comment.save()
+        return comment
+
+    def rating_movie_with_id(self, movie_id, user, rating):
+        Movie = get_movie_model()
+        movie = Movie.objects.filter(pk=movie_id).get()
+        return self.rating_movie(movie=movie, user=user, rating=rating)
+
+    def rating_movie(self, movie, user, rating):
+        Rating = get_rating_model()
+        rating = Rating.objects.create(movie=movie, user=user, rating=rating)
+        return rating
