@@ -22,7 +22,6 @@ class MovieDocument(Document):
 
     class Django:
         model = get_movie_model()
-        Genre = get_genre_model()
         fields = [
             "id",
             "title",
