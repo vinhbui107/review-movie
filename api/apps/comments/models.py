@@ -30,3 +30,15 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content
+
+    @classmethod
+    def get_comment_with_id(cls, comment_id):
+        return cls.objects.get(pk=comment_id)
+
+    @classmethod
+    def is_comment_not_exist(cls, comment_id):
+        try:
+            cls.objects.get(pk=comment_id)
+            return False
+        except cls.DoesNotExist:
+            return True
