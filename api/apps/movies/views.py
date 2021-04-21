@@ -1,8 +1,15 @@
+from django.db import transaction
+
 from rest_framework.views import APIView
 from rest_framework.exceptions import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from apps.movies.serializers import (
+    MovieSerializer,
+    PostRatingMovieSerializer,
+    MovieRatingSerializer,
+)
 from apps.common.model_loaders import (
     get_movie_model,
     get_genre_model,
@@ -10,7 +17,7 @@ from apps.common.model_loaders import (
     get_comment_model,
 )
 from apps.common.responses import ApiMessageResponse
-from apps.movies.serializers import MovieSerializer
+from apps.common.permissions import CustomPermission
 
 
 class MovieItem(APIView):
@@ -21,7 +28,7 @@ class MovieItem(APIView):
     def get(self, request, movie_id):
         Movie = get_movie_model()
         try:
-            movie = Movie.objects.get(pk=movie_id)
+            movie = Movie.get_movie_with_id(movie_id)
             movie_serializer = MovieSerializer(
                 movie, context={"request": request}
             )
@@ -60,24 +67,51 @@ class TopRatingMovies(APIView):
         return Response(movies_serializer.data, status=status.HTTP_200_OK)
 
 
-class RatingMovie(APIView):
+class MovieRatings(APIView):
     """
     The API for rating of movie
     """
 
+    permission_classes = (CustomPermission,)
+
     def get(self, request, movie_id):
-        return
+        # Todo check movie
+        Movie = get_movie_model()
+        movie_ratings = Movie.get_ratings_with_movie_id(movie_id=movie_id)
+        movie_ratings_serializer = MovieRatingSerializer(
+            movie_ratings, many=True, context={"request": request}
+        )
+        return Response(
+            movie_ratings_serializer.data, status=status.HTTP_200_OK
+        )
 
     def post(self, request, movie_id):
-        return
+        request_data = self._get_request_data(request, movie_id)
 
+        serializer = PostRatingMovieSerializer(data=request_data)
+        serializer.is_valid(raise_exception=True)
 
-class UserRatingMovie(APIView):
-    """
-    The API to get rating of current user for movie
-    """
+        data = serializer.validated_data
+        movie_id = data.get("movie_id")
+        rating = data.get("rating")
 
-    permission_classes = [IsAuthenticated]
+        user = request.user
 
-    def get(self, request, movie_id):
-        return
+        with transaction.atomic():
+            movie_rating = user.rating_movie_with_id(
+                movie_id=movie_id, user=user, rating=rating
+            )
+
+        movie_rating_serializer = MovieRatingSerializer(
+            movie_rating, context={"request": request}
+        )
+        return Response(
+            movie_rating_serializer.data, status=status.HTTP_201_CREATED
+        )
+
+    def _get_request_data(self, request, movie_id):
+        request_data = request.data.copy()
+        query_params = request.query_params.dict()
+        request_data.update(query_params)
+        request_data["movie_id"] = movie_id
+        return request_data
