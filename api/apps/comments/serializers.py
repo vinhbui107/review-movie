@@ -14,10 +14,16 @@ class MovieCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_comment_model()
 
-        fields = ("id", "content", "created_at", "updated_at", "user")
+        fields = (
+            "id",
+            "content",
+            "user",
+            "created_at",
+            "updated_at",
+        )
 
 
-class PostCommentMovieSerializer(serializers.Serializer):
+class PostMovieCommentSerializer(serializers.Serializer):
     movie_id = serializers.IntegerField(
         validators=[movie_id_exists],
         required=True,
@@ -25,7 +31,18 @@ class PostCommentMovieSerializer(serializers.Serializer):
     content = serializers.CharField(required=True)
 
 
-class GetCommentMovieSerializer(serializers.Serializer):
+class GetMovieCommentSerializer(serializers.Serializer):
+    movie_id = serializers.IntegerField(
+        validators=[movie_id_exists],
+        required=True,
+    )
+    comment_id = serializers.IntegerField(
+        validators=[movie_comment_id_exists],
+        required=True,
+    )
+
+
+class RequestMovieCommentSerializer(serializers.Serializer):
     movie_id = serializers.IntegerField(
         validators=[movie_id_exists],
         required=True,
