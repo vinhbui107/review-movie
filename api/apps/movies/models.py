@@ -10,6 +10,11 @@ from .helpers import (
     upload_to_actor_image_directory,
     upload_to_movie_image_directory,
 )
+from apps.common.model_loaders import (
+    get_user_model,
+    get_comment_model,
+    get_rating_model,
+)
 from apps.accounts.models import User
 
 
@@ -54,7 +59,7 @@ class Movie(models.Model):
 
     @classmethod
     def get_movie_with_id(cls, movie_id):
-        return cls.objects.filter(pk=movie_id)
+        return cls.objects.get(pk=movie_id)
 
     @classmethod
     def get_top_rating_movies(cls):
@@ -63,6 +68,26 @@ class Movie(models.Model):
     @classmethod
     def get_trending_movies(cls):
         return cls.objects.order_by("-year")
+
+    @classmethod
+    def is_movie_not_exist(cls, movie_id):
+        try:
+            cls.objects.get(pk=movie_id)
+            return False
+        except cls.DoesNotExist:
+            return True
+
+    @classmethod
+    def get_comments_with_movie_id(cls, movie_id):
+        movie = cls.objects.get(pk=movie_id)
+        Comment = get_comment_model()
+        return Comment.objects.filter(movie_id=movie)
+
+    @classmethod
+    def get_ratings_with_movie_id(cls, movie_id):
+        movie = cls.objects.get(pk=movie_id)
+        Rating = get_rating_model()
+        return Rating.objects.filter(movie_id=movie)
 
 
 class Rating(models.Model):
