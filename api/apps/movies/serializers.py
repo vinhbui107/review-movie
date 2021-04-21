@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
+from apps.accounts.serializers import GetUserProfileSerializer
 from apps.common.model_loaders import get_movie_model, get_rating_model
+from apps.movies.validators import movie_id_exists
 
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -21,16 +23,27 @@ class MovieSerializer(serializers.ModelSerializer):
         )
 
 
-class RatingSerializer(serializers.ModelSerializer):
+class MovieRatingSerializer(serializers.ModelSerializer):
+    user = GetUserProfileSerializer(read_only=True)
     # change format datetime field
     created_at = serializers.DateTimeField(format="%Y-%m-%d")
     updated_at = serializers.DateTimeField(format="%Y-%m-%d")
 
     class Meta:
         model = get_rating_model()
-        fields = ("user_id", "movie_id", "rating", "created_at", "updated_at")
+        fields = (
+            "id",
+            "user",
+            "movie_id",
+            "rating",
+            "created_at",
+            "updated_at",
+        )
 
 
-class RateMovieSerializer(serializers.Serializer):
-    movie_id = serializers.IntegerField(required=True)
+class PostRatingMovieSerializer(serializers.Serializer):
+    movie_id = serializers.IntegerField(
+        validators=[movie_id_exists],
+        required=True,
+    )
     rating = serializers.FloatField(required=True)
