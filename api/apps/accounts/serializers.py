@@ -7,15 +7,19 @@ from apps.accounts.validators import (
     username_characters_validator,
     username_not_taken_validator,
     email_not_taken_validator,
-    user_username_exists,
+    username_exists,
+    user_id_exist,
 )
-
-from apps.accounts.models import User
+from apps.common.model_loaders import get_user_model
 
 
 class UpdateUserProfileRequestSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField(required=True)
+    user_id = serializers.IntegerField(
+        validators=[user_id_exist],
+        required=True,
+    )
     username = serializers.CharField(
+        validators=[username_exists],
         max_length=settings.USERNAME_MAX_LENGTH,
         required=True,
     )
@@ -35,7 +39,7 @@ class UpdateUserProfileRequestSerializer(serializers.Serializer):
 
 class GetUserProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = get_user_model()
         fields = (
             "username",
             "email",
