@@ -15,8 +15,13 @@ from apps.accounts.views import (
     Logout,
     UserProfile,
 )
-from apps.movies.views import TrendingMovies, TopRatingMovies, MovieItem
-from apps.comments.views import MovieComments
+from apps.movies.views import (
+    TrendingMovies,
+    TopRatingMovies,
+    MovieItem,
+    MovieRatings,
+)
+from apps.comments.views import MovieComments, MovieCommentItem
 
 auth_auth_patterns = [
     path(
@@ -29,29 +34,32 @@ auth_auth_patterns = [
     path("register/", Register.as_view(), name="register-user"),
 ]
 
-user_patterns = [
-    path("<int:user_id>", UserProfile.as_view(), name="user"),
+auth_users_patterns = [
+    path("<int:user_id>/", UserProfile.as_view(), name="user"),
 ]
 
 auth_patterns = [
     path("", include(auth_auth_patterns)),
-    path("users/", include(user_patterns)),
+    path("users/", include(auth_users_patterns)),
 ]
 
 
 movie_patterns = [
     path("", MovieItem.as_view(), name="movie"),
     path("comments/", MovieComments.as_view(), name="movie-comments"),
-    # path("comments/<int:movie_comment_id>"),
-    # path("ratings/"),
-    # path("ratings/<int:movie_rating_id>"),
-    # path("search/"),
+    path(
+        "comments/<int:movie_comment_id>/",
+        MovieCommentItem.as_view(),
+        name="movie-comment",
+    ),
+    path("ratings/", MovieRatings.as_view(), name="movie-rating"),
 ]
 
 movies_patterns = [
     path("<int:movie_id>/", include(movie_patterns)),
     path("trending/", TrendingMovies.as_view(), name="trending-movies"),
     path("top/", TopRatingMovies.as_view(), name="top-movies"),
+    # path("search/")
 ]
 
 api_patterns = [
