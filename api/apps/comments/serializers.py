@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from apps.common.model_loaders import get_comment_model
 from apps.accounts.serializers import GetUserProfileSerializer
+from apps.comments.validators import movie_id_exists, movie_comment_id_exists
 
 
 class MovieCommentSerializer(serializers.ModelSerializer):
@@ -16,10 +17,20 @@ class MovieCommentSerializer(serializers.ModelSerializer):
         fields = ("id", "content", "created_at", "updated_at", "user")
 
 
-class CommentMovieSerializer(serializers.Serializer):
+class PostCommentMovieSerializer(serializers.Serializer):
     movie_id = serializers.IntegerField(
+        validators=[movie_id_exists],
         required=True,
     )
-    content = serializers.CharField(
+    content = serializers.CharField(required=True)
+
+
+class GetCommentMovieSerializer(serializers.Serializer):
+    movie_id = serializers.IntegerField(
+        validators=[movie_id_exists],
+        required=True,
+    )
+    movie_comment_id = serializers.IntegerField(
+        validators=[movie_comment_id_exists],
         required=True,
     )
