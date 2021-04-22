@@ -14,3 +14,15 @@ class CustomPermission(permissions.BasePermission):
         if request.method == "GET":
             return True
         return request.user and request.user.is_authenticated
+
+
+class SearchPermission(permissions.BasePermission):
+    """
+    Custom permission for search request from user
+
+    return Allowany
+    """
+
+    def has_permission(self, request, view):
+        if request.method:
+            return True
