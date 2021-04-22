@@ -1,40 +1,61 @@
-from django_elasticsearch_dsl_drf.constants import (
-    LOOKUP_FILTER_TERMS,
-    LOOKUP_FILTER_RANGE,
-    LOOKUP_FILTER_PREFIX,
-    LOOKUP_FILTER_WILDCARD,
-    LOOKUP_QUERY_IN,
-    LOOKUP_QUERY_GT,
-    LOOKUP_QUERY_GTE,
-    LOOKUP_QUERY_LT,
-    LOOKUP_QUERY_LTE,
-    LOOKUP_QUERY_EXCLUDE,
-)
 from django_elasticsearch_dsl_drf.filter_backends import (
     FilteringFilterBackend,
-    IdsFilterBackend,
     OrderingFilterBackend,
-    DefaultOrderingFilterBackend,
     SearchFilterBackend,
 )
-from django_elasticsearch_dsl_drf.viewsets import BaseDocumentViewSet
-from django_elasticsearch_dsl_drf.pagination import PageNumberPagination
+from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 
-from .documents import MovieDocument
-from .serializers import MovieDocumentSerializer
+from apps.search.documents import MovieDocument
+from apps.search.serializers.movie import MovieDocumentSerializer
+from apps.common.permissions import SearchPermission
 
 
-# class MovieDocumentView(BaseDocumentViewSet):
-#     document = MovieDocument
-#     serializer_class = MovieDocumentSerializer
-#     pagination_class = PageNumberPagination
+class MovieDocumentView(DocumentViewSet):
 
-#     filter_backends = [
-#         FilteringFilterBackend,
-#         IdsFilterBackend,
-#         OrderingFilterBackend,
-#         DefaultOrderingFilterBackend,
-#         SearchFilterBackend,
-#     ]
+    permission_classes = (SearchPermission,)
 
-#     search_fields = ("title", "description", "year")
+    document = MovieDocument
+    serializer_class = MovieDocumentSerializer
+    lookup_field = "id"
+    filter_backends = [
+        FilteringFilterBackend,
+        OrderingFilterBackend,
+        SearchFilterBackend,
+    ]
+
+    # Define search fields
+    search_fields = (
+        "title",
+        "description",
+        "year",
+        "director",
+        "genres",
+        "imdb_rating",
+    )
+
+    # Define filtering fields
+    filter_fields = {
+        "id": None,
+        "title": "title.raw",
+        "year": "year.raw",
+        "rating_average": "rating_average.raw",
+        "genres": "genres.raw",
+        "imdb_rating": "imdb_rating.raw",
+    }
+
+    # Define ordering fields
+    ordering_fields = {
+        "id": None,
+        "title": None,
+        "year": None,
+        "rating_average": None,
+        "genres": None,
+        "imdb_rating": None,
+    }
+
+    # Specify default ordering
+    ordering = (
+        "id",
+        "imdb_rating",
+        "rating_average",
+    )
