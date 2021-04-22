@@ -15,13 +15,10 @@ from apps.accounts.views import (
     Logout,
     UserProfile,
 )
-from apps.movies.views import (
-    TrendingMovies,
-    TopRatingMovies,
-    MovieItem,
-    MovieRatings,
-)
+from apps.movies.views import MovieItem, MovieRatings
 from apps.comments.views import MovieComments, MovieCommentItem
+from apps.search import urls as search_index_urls
+
 
 auth_auth_patterns = [
     path(
@@ -57,14 +54,13 @@ movie_patterns = [
 
 movies_patterns = [
     path("<int:movie_id>/", include(movie_patterns)),
-    path("trending/", TrendingMovies.as_view(), name="trending-movies"),
-    path("top/", TopRatingMovies.as_view(), name="top-movies"),
-    # path("search/")
 ]
 
 api_patterns = [
     path("auth/", include(auth_patterns)),
     path("movies/", include(movies_patterns)),
+    # elastic search for movie document
+    path("search/", include(search_index_urls)),
 ]
 
 urlpatterns = [
