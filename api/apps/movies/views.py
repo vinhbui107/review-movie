@@ -25,6 +25,8 @@ class MovieItem(APIView):
     The API to get movie detail
     """
 
+    permission_classes = (CustomPermission,)
+
     def get(self, request, movie_id):
         Movie = get_movie_model()
         try:
@@ -37,34 +39,6 @@ class MovieItem(APIView):
             return ApiMessageResponse(
                 "Movie not found", status=status.HTTP_404_NOT_FOUND
             )
-
-
-class TrendingMovies(APIView):
-    """
-    The API to get trending movies
-    """
-
-    def get(self, request):
-        Movie = get_movie_model()
-        movies = Movie.get_trending_movies()[:30]
-        movies_serializer = MovieSerializer(
-            movies, many=True, context={"request": request}
-        )
-        return Response(movies_serializer.data, status=status.HTTP_200_OK)
-
-
-class TopRatingMovies(APIView):
-    """
-    The API to get top rating movies
-    """
-
-    def get(self, request):
-        Movie = get_movie_model()
-        movies = Movie.get_top_rating_movies()[:30]
-        movies_serializer = MovieSerializer(
-            movies, many=True, context={"request": request}
-        )
-        return Response(movies_serializer.data, status=status.HTTP_200_OK)
 
 
 class MovieRatings(APIView):
