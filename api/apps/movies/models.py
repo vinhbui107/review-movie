@@ -38,9 +38,7 @@ class Movie(models.Model):
         max_length=settings.MOVIE_TITLE_MAX_LENGTH, blank=False, null=False
     )
     description = models.TextField(blank=True, null=True)
-    year = models.CharField(
-        max_length=settings.MOVIE_YEAR_MAX_LENGTH, blank=True, null=True
-    )
+    year = models.IntegerField(blank=True, null=True)
     director = models.CharField(
         max_length=settings.MOVIE_DIRECTOR_MAX_LENGTH, blank=True, null=True
     )
@@ -53,9 +51,18 @@ class Movie(models.Model):
 
     class Meta:
         db_table = "movie"
+        ordering = ["id"]
 
     def __str__(self):
         return self.title
+
+    @property
+    def genres_indexing(self):
+        """Genres for indexing.
+
+        Used in Elasticsearch indexing.
+        """
+        return [genre.name for genre in self.genres.all()]
 
     @classmethod
     def get_movie_with_id(cls, movie_id):
