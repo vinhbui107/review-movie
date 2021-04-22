@@ -29,8 +29,10 @@ services:
             - DB_NAME=review_movie
             - DB_USER=postgres
             - DB_PASSWORD=postgres
+            - ES_HOST=elasticsearch
         depends_on:
             - db
+            - elasticsearch
 
     frontend:
         restart: always
@@ -47,21 +49,18 @@ services:
         depends_on:
             - api
 
-    # recommendation_system:
-    #     restart: always
-    #     container_name: recommendation_system
-    #     build: ./recommendation_system
-    #     volumes:
-    #         - ./recommendation_system:/app
-    #     ports:
-    #         - "4000:4000"
-    #     environment:
-    #         - DB_HOST=db
-    #         - DB_NAME=review_movie
-    #         - DB_USER=postgres
-    #         - DB_PASSWORD=postgres
-    #     depends_on:
-    #         - db
+    elasticsearch:
+        image: elasticsearch:7.12.0
+        environment:
+            - node.max_local_storage_nodes=1
+            - discovery.type=single-node
+        volumes:
+            - esdata:/app/elasticsearch/data
+        ports:
+            - "9200:9200"
+            - "9300:9300"
 
 volumes:
     postgres_data:
+    esdata:
+        driver: local
