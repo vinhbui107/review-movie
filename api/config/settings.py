@@ -14,7 +14,8 @@ SECRET_KEY = config("SECRET_KEY", default=string.ascii_letters)
 
 DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
+# ALLOWED_HOSTS = config("ALLOWED_HOSTS", "*")
+ALLOWED_HOSTS = ["*"]
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -28,6 +29,8 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "corsheaders",
+    "django_extensions",
+    "django_elasticsearch_dsl",
     "rest_framework_simplejwt.token_blacklist",
 ]
 
@@ -36,6 +39,7 @@ LOCAL_APPS = [
     "apps.movies",
     "apps.common",
     "apps.comments",
+    "apps.search",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -44,9 +48,9 @@ ROOT_URLCONF = "config.urls"
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-ROOT_URLCONF = "config.urls"
-
 AUTH_USER_MODEL = "accounts.User"
+
+DJANGO_SETTINGS_MODULE = "config.settings"
 
 DATABASES = {
     "default": {
@@ -165,10 +169,13 @@ REST_FRAMEWORK = {
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
     ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 30,
+    "ORDERING_PARAM": "ordering",
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -191,7 +198,42 @@ SIMPLE_JWT = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
+
+# =============================================================================
+# Elastic stack config
+# =============================================================================
+
+ELASTICSEARCH_DSL = {
+    "default": {
+        "hosts": [
+            {
+                "host": config("ES_HOST", "127.0.0.1"),
+                "port": config("ES_PORT", "9200"),
+            }
+        ]
+    },
+}
 
 # =============================================================================
 # Review Movie Config
@@ -201,13 +243,13 @@ CORS_ALLOW_CREDENTIALS = True
 USERNAME_MAX_LENGTH = 30
 PASSWORD_MIN_LENGTH = 10
 PASSWORD_MAX_LENGTH = 100
+OCCUPATION_MAX_LENGTH = 30
+GENDER_MAX_LENGTH = 30
 # Movie
 MOVIE_TITLE_MAX_LENGTH = 255
 MOVIE_YEAR_MAX_LENGTH = 4
-MOVIE_DIRECTOR_MAX_LENGTH = 50
+MOVIE_DIRECTOR_MAX_LENGTH = 255
 MOVIE_TRAILER_MAX_LENGTH = 255
 GENRE_NAME_MAX_LENGTH = 100
-ACTOR_NAME_MAX_LENGTH = 100
 RATE_RATING_MAX_LENGTH = 1
 # Review
-# Recommendation

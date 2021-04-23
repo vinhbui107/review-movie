@@ -9,42 +9,59 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from apps.accounts.views import ObtainTokenPairWithColorView, Register, Logout
+from apps.accounts.views import (
+    ObtainTokenPairWithColorView,
+    Register,
+    Logout,
+    UserProfile,
+)
+from apps.movies.views import MovieItem, MovieRatings
+from apps.comments.views import MovieComments, MovieCommentItem
+from apps.search import urls as search_index_urls
 
-# from apps.accounts.views import (
-#     MovieItem,
-#     GenreMovies,
-#     TrendingMovies,
-#     TopRatingMovies,
-# )
 
-
-auth_patterns = [
+auth_auth_patterns = [
     path(
         "login/",
         ObtainTokenPairWithColorView.as_view(),
-        name="token_obtain_pair",
+        name="login-user",
     ),
-    path("login/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("logout/", Logout.as_view(), name="auth_logout"),
-    path("register/", Register.as_view(), name="auth_register"),
+    path("login/refresh/", TokenRefreshView.as_view(), name="login-refresh"),
+    path("logout/", Logout.as_view(), name="logout-user"),
+    path("register/", Register.as_view(), name="register-user"),
 ]
+
+auth_users_patterns = [
+    path("<int:user_id>/", UserProfile.as_view(), name="user"),
+]
+
+auth_patterns = [
+    path("", include(auth_auth_patterns)),
+    path("users/", include(auth_users_patterns)),
+]
+
 
 movie_patterns = [
-    # path("trending/", TrendingMovies.as_view(), name="trending-movies"),
-    # path("top-rating/", TopRatingMovies.as_view(), name="top-movies"),
-    # path("<slug>/", MovieItem.as_view(), name="detail-movie"),
-    # path("<slug>/", GenreMovies.as_view(), name="genre-movies"),
+    path("", MovieItem.as_view(), name="movie"),
+    path("comments/", MovieComments.as_view(), name="movie-comments"),
+    path(
+        "comments/<int:movie_comment_id>/",
+        MovieCommentItem.as_view(),
+        name="movie-comment",
+    ),
+    path("ratings/", MovieRatings.as_view(), name="movie-rating"),
 ]
 
-review_patterns = []
+movies_patterns = [
+    path("<int:movie_id>/", include(movie_patterns)),
+]
 
 api_patterns = [
     path("auth/", include(auth_patterns)),
-    path("movies/", include(movie_patterns)),
-    path("reviews/", include(review_patterns)),
+    path("movies/", include(movies_patterns)),
+    # elastic search for movie document
+    path("search/", include(search_index_urls)),
 ]
-
 
 urlpatterns = [
     path("api/", include(api_patterns)),

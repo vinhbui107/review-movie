@@ -7,8 +7,47 @@ from apps.accounts.validators import (
     username_characters_validator,
     username_not_taken_validator,
     email_not_taken_validator,
-    user_username_exists,
+    username_exists,
+    user_id_exist,
 )
+from apps.common.model_loaders import get_user_model
+
+
+class UpdateUserProfileRequestSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField(
+        validators=[user_id_exist],
+        required=True,
+    )
+    username = serializers.CharField(
+        validators=[username_exists],
+        max_length=settings.USERNAME_MAX_LENGTH,
+        required=True,
+    )
+    email = serializers.EmailField(required=True)
+    birthday = serializers.DateField(required=True)
+    occupation = serializers.CharField(
+        max_length=settings.OCCUPATION_MAX_LENGTH, required=True
+    )
+    gender = serializers.CharField(
+        max_length=settings.GENDER_MAX_LENGTH, required=True
+    )
+    password = serializers.CharField(
+        min_length=settings.PASSWORD_MIN_LENGTH,
+        max_length=settings.PASSWORD_MAX_LENGTH,
+    )
+
+
+class GetUserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = (
+            "username",
+            "email",
+            "birthday",
+            "gender",
+            "occupation",
+            "avatar",
+        )
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -35,3 +74,8 @@ class RegisterSerializer(serializers.Serializer):
         ],
     )
     email = serializers.EmailField(validators=[email_not_taken_validator])
+    birthday = serializers.DateField()
+    occupation = serializers.CharField(
+        max_length=settings.OCCUPATION_MAX_LENGTH
+    )
+    gender = serializers.CharField(max_length=settings.GENDER_MAX_LENGTH)

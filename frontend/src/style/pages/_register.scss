@@ -1,0 +1,66 @@
+@import "../main";
+
+.register {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center;
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            color: rgb(1, 180, 228) !important;
+            text-decoration: none;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: black;
+        }
+
+        h5 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: red;
+        }
+
+        img {
+            width: 200px;
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        &--inner {
+            width: 350px;
+            margin: 10px;
+        }
+    }
+    &__horizon {
+        border: 1px solid gray;
+        height: 2px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+    &__btn {
+        @include Button;
+    }
+}

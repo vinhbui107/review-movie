@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+    db:
+        restart: always
+        container_name: review_movie_db
+        image: postgres:13.0-alpine
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        ports:
+            - "5433:5432"
+        expose:
+            - "5433"
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=review_movie
+
+    api:
+        restart: always
+        container_name: review_movie_api
+        build: ./api
+        volumes:
+            - ./api:/app
+        ports:
+            - "8000:8000"
+        environment:
+            - DB_HOST=db
+            - DB_NAME=review_movie
+            - DB_USER=postgres
+            - DB_PASSWORD=postgres
+            - ES_HOST=elasticsearch
+        depends_on:
+            - db
+            - elasticsearch
+
+    frontend:
+        restart: always
+        container_name: review_movie_frontend
+        build: ./frontend
+        environment:
+            CHOKIDAR_USEPOLLING: "true"
+        volumes:
+            - ./frontend:/app
+            - /app/node_modules
+        stdin_open: true
+        ports:
+            - "3000:3000"
+        depends_on:
+            - api
+
+    elasticsearch:
+        image: elasticsearch:7.12.0
+        environment:
+            - node.max_local_storage_nodes=1
+            - discovery.type=single-node
+        volumes:
+            - esdata:/app/elasticsearch/data
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+
+volumes:
+    postgres_data:
+    esdata:
+        driver: local
