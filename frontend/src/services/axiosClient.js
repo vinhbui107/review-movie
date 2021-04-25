@@ -1,10 +1,10 @@
 import axios from "axios";
 import queryString from "query-string";
-import { urlRefresh } from "../utils/defines";
+import { BASE_URL_API } from "../utils/defines";
 import * as Helpers from "../utils/helpers";
 
 const axiosClient = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL: BASE_URL_API,
     headers: {
         "content-type": "application/json",
         accept: "application/json",
@@ -33,13 +33,17 @@ axiosClient.interceptors.response.use(
         const originalRequest = error.config;
         const refreshToken = Helpers.getLocalStorage("refresh_token");
         if (refreshToken && error.response.status === 401 && !originalRequest._retry) {
-            return axios.post(urlRefresh, { refreshToken }).then((res) => {
+            return axios.post(`${BASE_URL_API}/auth/login/refresh/`, { refreshToken }).then((res) => {
                 if (res.status === 200) {
                     const access_token = res.data.accessToken;
                     Helpers.saveLocalStorage("access_token", access_token);
                     axios.defaults.headers.common["Authorization"] = "Bearer " + access_token;
                     console.log("it works");
                     return axios(originalRequest);
+                } else {
+                    Helpers.removeLocalStorage("name");
+                    Helpers.removeLocalStorage("access_token");
+                    Helpers.removeLocalStorage("refresh_token");
                 }
             });
         }

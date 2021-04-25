@@ -1,13 +1,13 @@
 import { lazy } from "react";
 
-const LoginPage = lazy(() => import("../pages/login"));
-const RegiserPage = lazy(() => import("../pages/register"));
-const HomePage = lazy(() => import("../pages/home"));
+const LoginPage = lazy(() => import("./Login"));
+const RegiserPage = lazy(() => import("./Register"));
+const HomePage = lazy(() => import("./Home"));
 // const SearchPage = lazy(() => import("../pages/search"));
-const MovieDetailPage = lazy(() => import("../pages/movie-detail"));
-const MovieGenrePage = lazy(() => import("../pages/movie-genre"));
-const NotFoundPage = lazy(() => import("../pages/notfound"));
-const ProfilePage = lazy(() => import("../pages/profile"));
+const MovieDetailPage = lazy(() => import("./MovieDetail"));
+const MovieGenrePage = lazy(() => import("./MoviesGenre"));
+const NotFoundPage = lazy(() => import("./NotFound"));
+const ProfilePage = lazy(() => import("./Profile"));
 
 const routes = [
     {
@@ -35,7 +35,7 @@ const routes = [
         isAppLayout: true,
     },
     {
-        path: "/movie/:slug",
+        path: "/movies/:movieId",
         exact: true,
         component: MovieDetailPage,
         isAppLayout: true,

@@ -1,19 +1,27 @@
 import axiosClient from "./axiosClient";
+import { BASE_URL_API } from "../utils/defines";
 
 const movieApi = {
-    getMovieDetail: (slug) => {
-        const url = `/movies/ + ${slug}`;
-        return axiosClient.post(url, slug);
+    getMoviesRecommend: (page) => {},
+
+    getMoviesTrending: (page) => {
+        const url = `${BASE_URL_API}/search/movies/?ordering=-year&page=${page}`;
+        return axiosClient.get(url);
     },
 
-    getMovieGenre: (slug) => {
-        const url = `/auth/register`;
-        return axiosClient.get(url, slug);
+    getMoviesPopular: (page) => {
+        const url = `${BASE_URL_API}/search/movies/?ordering=-imdb_rating&page=${page}`;
+        return axiosClient.get(url);
     },
 
-    getMovieRecommend: (slug) => {
-        const url = `/auth/register`;
-        return axiosClient.get(url, slug);
+    getMovieComments: (movieId) => {
+        const url = `${BASE_URL_API}/movies/${movieId}/comments`;
+        return axiosClient.get(url);
+    },
+
+    getMovieItem: (movieId) => {
+        const url = `${BASE_URL_API}/search/movies/?id=${movieId}`;
+        return axiosClient.get(url);
     },
 };
 
