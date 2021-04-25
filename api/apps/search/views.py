@@ -27,10 +27,8 @@ class MovieDocumentView(DocumentViewSet):
     search_fields = (
         "title",
         "description",
-        "year",
         "director",
         "genres",
-        "imdb_rating",
     )
 
     # Define filtering fields
