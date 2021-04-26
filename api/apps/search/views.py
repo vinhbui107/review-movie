@@ -1,7 +1,13 @@
+from rest_framework.permissions import AllowAny
+from django_elasticsearch_dsl_drf.constants import (
+    SUGGESTER_COMPLETION,
+    FUNCTIONAL_SUGGESTER_COMPLETION_PREFIX,
+)
 from django_elasticsearch_dsl_drf.filter_backends import (
     FilteringFilterBackend,
     OrderingFilterBackend,
     SearchFilterBackend,
+    SuggesterFilterBackend,
 )
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 
@@ -11,9 +17,6 @@ from apps.common.permissions import SearchPermission
 
 
 class MovieDocumentView(DocumentViewSet):
-
-    permission_classes = (SearchPermission,)
-
     document = MovieDocument
     serializer_class = MovieDocumentSerializer
     lookup_field = "id"
@@ -22,6 +25,29 @@ class MovieDocumentView(DocumentViewSet):
         OrderingFilterBackend,
         SearchFilterBackend,
     ]
+
+    # Suggester fields
+    suggester_fields = {
+        "title_suggest": {
+            "field": "title.suggest",
+            "suggesters": [
+                SUGGESTER_COMPLETION,
+            ],
+            "default_suggester": SUGGESTER_COMPLETION,
+        },
+    }
+
+    # Functional suggester fields
+    functional_suggester_fields = {
+        "title_suggest": {
+            "field": "title.raw",
+            "suggesters": [
+                FUNCTIONAL_SUGGESTER_COMPLETION_PREFIX,
+            ],
+            "default_suggester": FUNCTIONAL_SUGGESTER_COMPLETION_PREFIX,
+            # 'serializer_field': 'title',
+        },
+    }
 
     # Define search fields
     search_fields = (

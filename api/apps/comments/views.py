@@ -77,24 +77,6 @@ class MovieCommentItem(APIView):
 
     permission_classes = (CustomPermission,)
 
-    def get(self, request, movie_id, movie_comment_id):
-        serializer = GetMovieCommentSerializer(
-            data={"movie_id": movie_id, "comment_id": movie_comment_id}
-        )
-        serializer.is_valid(raise_exception=True)
-
-        data = serializer.validated_data
-        movie_id = data.get("movie_id")
-        movie_comment_id = data.get("movie_comment_id")
-
-        Comment = get_comment_model()
-        comment = Comment.get_comment_with_id(comment_id=movie_comment_id)
-
-        comment_serializer = MovieCommentSerializer(
-            comment, context={"request": request}
-        )
-        return Response(comment_serializer.data, status=status.HTTP_200_OK)
-
     def put(self, request, movie_id, movie_comment_id):
         return
 

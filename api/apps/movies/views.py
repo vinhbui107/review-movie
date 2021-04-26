@@ -25,8 +25,6 @@ class MovieItem(APIView):
     The API to get movie detail
     """
 
-    permission_classes = (CustomPermission,)
-
     def get(self, request, movie_id):
         Movie = get_movie_model()
         try:
