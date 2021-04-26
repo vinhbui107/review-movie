@@ -1,12 +1,11 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { Pie, defaults } from "react-chartjs-2";
+
 import MovieList from "../components/MovieList";
-import MovieRecommend from "../components/Recommend";
-import Search from "../components/Search";
-import "../style/pages/_home.scss";
+import SearchForm from "../components/SearchForm";
 import movieApi from "../services/movie";
-import axios from "axios";
+import "../style/pages/_home.scss";
 
 function Home() {
     const [movieList, setMovieList] = useState({
@@ -24,7 +23,6 @@ function Home() {
 
         axios.all([reqRecommend, reqPopular, reqTrending]).then(
             axios.spread((...response) => {
-                console.log(response);
                 setMovieList((movieList) => ({
                     ...movieList,
                     recommend: response[0].results,
@@ -38,7 +36,7 @@ function Home() {
     return (
         <div>
             <Container>
-                <Search />
+                <SearchForm />
                 {trending?.length > 0 && popular?.length > 0 && recommend?.length > 0 && (
                     <>
                         <MovieList movies={recommend} title="Recommend" />

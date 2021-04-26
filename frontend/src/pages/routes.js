@@ -6,7 +6,7 @@ const HomePage = lazy(() => import("./Home"));
 // const SearchPage = lazy(() => import("../pages/search"));
 const MovieDetailPage = lazy(() => import("./MovieDetail"));
 const MovieGenrePage = lazy(() => import("./MoviesGenre"));
-const NotFoundPage = lazy(() => import("./NotFound"));
+const NotFoundPage = lazy(() => import("./Notfound"));
 const ProfilePage = lazy(() => import("./Profile"));
 
 const routes = [
