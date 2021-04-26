@@ -13,8 +13,6 @@ function Header() {
 
     const handleLogout = async () => {
         await userApi.logout();
-        Helpers.removeLocalStorage("access_token");
-        Helpers.removeLocalStorage("refresh_token");
         setUsername("");
     };
 

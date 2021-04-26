@@ -10,7 +10,10 @@ const userApi = {
 
     logout: () => {
         const refreshToken = Helpers.getLocalStorage("refresh_token");
+
         Helpers.removeLocalStorage("name");
+        Helpers.removeLocalStorage("access_token");
+        Helpers.removeLocalStorage("refresh_token");
 
         const urlLogout = `${BASE_URL_API}/auth/logout/`;
         const param = {
