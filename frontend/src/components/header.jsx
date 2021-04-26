@@ -31,7 +31,6 @@ function Header() {
                             <Nav className="mr-auto">
                                 <NavDropdown title="Movies" id="basic-nav-dropdown">
                                     <NavDropdown.Item href="#action/3.1">Popular</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.3">Top Rated</NavDropdown.Item>
                                 </NavDropdown>
                                 <Nav.Link href="#link">Recommend</Nav.Link>
                             </Nav>

@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import { Pie, defaults } from "react-chartjs-2";
 import MovieList from "../components/MovieList";
 import MovieRecommend from "../components/Recommend";
-import Search from "../components/Search";
+import SearchForm from "../components/SearchForm";
 import "../style/pages/_home.scss";
 import movieApi from "../services/movie";
 import axios from "axios";
@@ -38,7 +38,7 @@ function Home() {
     return (
         <div>
             <Container>
-                <Search />
+                <SearchForm />
                 {trending?.length > 0 && popular?.length > 0 && recommend?.length > 0 && (
                     <>
                         <MovieList movies={recommend} title="Recommend" />
