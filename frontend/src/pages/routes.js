@@ -3,7 +3,6 @@ import { lazy } from "react";
 const LoginPage = lazy(() => import("./Login"));
 const RegiserPage = lazy(() => import("./Register"));
 const HomePage = lazy(() => import("./Home"));
-// const SearchPage = lazy(() => import("../pages/search"));
 const MovieDetailPage = lazy(() => import("./MovieDetail"));
 const MovieGenrePage = lazy(() => import("./MoviesGenre"));
 const NotFoundPage = lazy(() => import("./Notfound"));
@@ -40,13 +39,6 @@ const routes = [
         component: MovieDetailPage,
         isAppLayout: true,
     },
-    {
-        path: "/genre/:slug",
-        exact: true,
-        component: MovieGenrePage,
-        isAppLayout: true,
-    },
-
     {
         path: "/404",
         exact: true,
