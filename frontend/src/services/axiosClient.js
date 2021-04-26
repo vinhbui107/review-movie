@@ -41,6 +41,7 @@ axiosClient.interceptors.response.use(
                     console.log("it works");
                     return axios(originalRequest);
                 } else {
+                    alert("Refresh token expired. Login again!!!");
                     Helpers.removeLocalStorage("name");
                     Helpers.removeLocalStorage("access_token");
                     Helpers.removeLocalStorage("refresh_token");
