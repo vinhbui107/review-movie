@@ -3,7 +3,7 @@ import { Row } from "react-bootstrap";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import "../style/components/_search.scss";
 
-function Search() {
+function SearchForm() {
     const items = [
         {
             id: 0,
@@ -61,4 +61,4 @@ function Search() {
     );
 }
 
-export default Search;
+export default SearchForm;

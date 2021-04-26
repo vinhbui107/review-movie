@@ -7,23 +7,22 @@ import style from "../style/components/_movie-card.module.scss";
 
 MovieCard.propTypes = {};
 
-const percentage = 80;
-
 function MovieCard({ movie }) {
+    const percentage = movie.imdb_rating * 10;
     return (
         <Card className={style.card}>
-            <Link to="/movie/1314">
-                <Card.Img variant="top" src={movie.hinhAnh} />
+            <Link to={`movies/${movie.id}`}>
+                <Card.Img variant="top" src={movie?.poster} />
                 <CircularProgressbar value={percentage} text={`${percentage}%`} className={style["card--rating"]} />
             </Link>
 
             <Card.Body className={style["card-body"]}>
-                <Link to="/">
-                    <Card.Title className={style["card-title"]}>{movie.tenPhim}</Card.Title>
+                <Link to={`movies/${movie.id}`}>
+                    <Card.Title className={style["card-title"]}>{movie?.title}</Card.Title>
                 </Link>
 
                 <Card.Text className={style["card-text"]}>
-                    <span>2021</span>
+                    <span>{movie.year}</span>
                 </Card.Text>
             </Card.Body>
         </Card>

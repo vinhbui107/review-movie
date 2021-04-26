@@ -14,14 +14,14 @@ function MovieRecommend({ movieListRec }) {
         return movieList?.map((movie, index) => {
             return (
                 <div className={style.card}>
-                    <Link to="/" className={style.card__link}>
-                        <Card.Img variant="top" src={movie.hinhAnh} loading="lazy" />
-                        <p className={`${style["card__datetime"]} mb-0`}>{movie.ngayKhoiChieu}</p>
+                    <Link to={`movies/${movie.id}`} className={style.card__link}>
+                        <Card.Img variant="top" src={movie.poster} loading="lazy" />
+                        <p className={`${style["card__datetime"]} mb-0`}>{movie.year}</p>
                         <div className={style.card__overlay}>
                             <i className="fa fa-play"></i>
                         </div>
                     </Link>
-                    <p>{movie.tenPhim}</p>
+                    <p>{movie.title}</p>
                 </div>
             );
         });
@@ -32,18 +32,6 @@ function MovieRecommend({ movieListRec }) {
             <div className={style.scroller}>
                 <div className={style["scroller__wrapper"]}>{renderMovieListRec(movieListRec)}</div>
             </div>
-            {/* <OwlCarousel
-                className="owl-theme"
-                loop={true}
-                margin={10}
-                items="4"
-                lazyLoad="true"
-                smartSpeed="400"
-                nav="true"
-                dots="false"
-            >
-
-            </OwlCarousel> */}
         </div>
     );
 }

@@ -4,7 +4,7 @@ import { Row } from "react-bootstrap";
 import OwlCarousel from "react-owl-carousel";
 
 import style from "../style/components/_movie-list.module.scss";
-import MovieCard from "./movie-card";
+import MovieCard from "./MovieCard";
 
 MovieList.propTypes = {
     movieList: PropTypes.array,
@@ -22,12 +22,12 @@ const options = {
     },
 };
 
-function MovieList({ movieList }) {
+function MovieList({ movies, title }) {
     const renderMovieList = () => {
-        return movieList?.map((movie, index) => {
+        return movies?.map((movie) => {
             return (
                 <>
-                    <MovieCard movie={movie} key={index} rec={true} />
+                    <MovieCard movie={movie} key={movie.id} rec={true} />
                 </>
             );
         });
@@ -35,7 +35,7 @@ function MovieList({ movieList }) {
 
     return (
         <Row>
-            <h4 className="title">What's Popular</h4>
+            <h4 className="title">{title}</h4>
             <OwlCarousel
                 className="owl-theme"
                 loop={true}
