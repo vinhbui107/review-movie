@@ -4,7 +4,6 @@ const LoginPage = lazy(() => import("./Login"));
 const RegiserPage = lazy(() => import("./Register"));
 const HomePage = lazy(() => import("./Home"));
 const MovieDetailPage = lazy(() => import("./MovieDetail"));
-const MovieGenrePage = lazy(() => import("./MoviesGenre"));
 const NotFoundPage = lazy(() => import("./Notfound"));
 const ProfilePage = lazy(() => import("./Profile"));
 
