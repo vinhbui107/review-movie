@@ -2,8 +2,6 @@ import axiosClient from "./axiosClient";
 import { BASE_URL_API } from "../utils/defines";
 
 const movieApi = {
-    getMoviesRecommend: (page) => {},
-
     getMoviesTrending: (page) => {
         const url = `${BASE_URL_API}/search/movies/?ordering=-year&page=${page}`;
         return axiosClient.get(url);

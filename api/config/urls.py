@@ -22,17 +22,17 @@ from apps.search import urls as search_index_urls
 
 auth_auth_patterns = [
     path(
-        "login/",
+        "login",
         ObtainTokenPairWithColorView.as_view(),
         name="login-user",
     ),
-    path("login/refresh/", TokenRefreshView.as_view(), name="login-refresh"),
-    path("logout/", Logout.as_view(), name="logout-user"),
-    path("register/", Register.as_view(), name="register-user"),
+    path("login/refresh", TokenRefreshView.as_view(), name="login-refresh"),
+    path("logout", Logout.as_view(), name="logout-user"),
+    path("register", Register.as_view(), name="register-user"),
 ]
 
 auth_users_patterns = [
-    path("<int:user_id>/", UserProfile.as_view(), name="user"),
+    path("<int:user_id>", UserProfile.as_view(), name="user"),
 ]
 
 auth_patterns = [
@@ -43,13 +43,13 @@ auth_patterns = [
 
 movie_patterns = [
     path("", MovieItem.as_view(), name="movie"),
-    path("comments/", MovieComments.as_view(), name="movie-comments"),
+    path("comments", MovieComments.as_view(), name="movie-comments"),
     path(
-        "comments/<int:movie_comment_id>/",
+        "comments/<int:movie_comment_id>",
         MovieCommentItem.as_view(),
         name="movie-comment",
     ),
-    path("ratings/", MovieRatings.as_view(), name="movie-rating"),
+    path("ratings", MovieRatings.as_view(), name="movie-rating"),
 ]
 
 movies_patterns = [
