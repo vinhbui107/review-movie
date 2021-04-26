@@ -24,6 +24,7 @@ class MovieDocumentView(DocumentViewSet):
         FilteringFilterBackend,
         OrderingFilterBackend,
         SearchFilterBackend,
+        SuggesterFilterBackend,
     ]
 
     # Suggester fields
@@ -33,19 +34,10 @@ class MovieDocumentView(DocumentViewSet):
             "suggesters": [
                 SUGGESTER_COMPLETION,
             ],
-            "default_suggester": SUGGESTER_COMPLETION,
-        },
-    }
-
-    # Functional suggester fields
-    functional_suggester_fields = {
-        "title_suggest": {
-            "field": "title.raw",
-            "suggesters": [
-                FUNCTIONAL_SUGGESTER_COMPLETION_PREFIX,
-            ],
-            "default_suggester": FUNCTIONAL_SUGGESTER_COMPLETION_PREFIX,
-            # 'serializer_field': 'title',
+            "options": {
+                "size": 10,  # Override default number of suggestions
+                "skip_duplicates": True,  # Whether duplicate suggestions should be filtered out.
+            },
         },
     }
 
