@@ -41,9 +41,17 @@ class MovieRatingSerializer(serializers.ModelSerializer):
         )
 
 
-class PostRatingMovieSerializer(serializers.Serializer):
+class PostMovieRatingSerializer(serializers.Serializer):
     movie_id = serializers.IntegerField(
         validators=[movie_id_exists],
         required=True,
     )
     rating = serializers.FloatField(required=True)
+
+
+class GetMovieRatingSerializer(serializers.Serializer):
+    movie_id = serializers.IntegerField(
+        validators=[movie_id_exists],
+        required=True,
+    )
+    rating_id = serializers.IntegerField()

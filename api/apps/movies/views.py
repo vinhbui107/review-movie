@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from apps.movies.serializers import (
     MovieSerializer,
-    PostRatingMovieSerializer,
+    PostMovieRatingSerializer,
     MovieRatingSerializer,
 )
 from apps.common.model_loaders import (
@@ -47,7 +47,6 @@ class MovieRatings(APIView):
     permission_classes = (CustomPermission,)
 
     def get(self, request, movie_id):
-        # Todo check movie
         Movie = get_movie_model()
         movie_ratings = Movie.get_ratings_with_movie_id(movie_id=movie_id)
         movie_ratings_serializer = MovieRatingSerializer(
@@ -60,7 +59,7 @@ class MovieRatings(APIView):
     def post(self, request, movie_id):
         request_data = self._get_request_data(request, movie_id)
 
-        serializer = PostRatingMovieSerializer(data=request_data)
+        serializer = PostMovieRatingSerializer(data=request_data)
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
@@ -86,4 +85,33 @@ class MovieRatings(APIView):
         query_params = request.query_params.dict()
         request_data.update(query_params)
         request_data["movie_id"] = movie_id
+        return request_data
+
+
+class MovieRatingItem(APIView):
+
+    permission_classes = (CustomPermission,)
+
+    def get(self, request, movie_id, movie_rating_id):
+        request_data = self._get_request_data(movie_id, movie_rating_id)
+
+        serializer = UpdateUserProfileRequestSerializer(data=request_data)
+        serializer.is_valid(raise_exception=True)
+
+        return
+
+    def put(self, request, movie_id, movie_rating_id):
+        request_data = self._get_request_data(movie_id, movie_rating_id)
+
+        serializer = UpdateUserProfileRequestSerializer(data=request_data)
+        serializer.is_valid(raise_exception=True)
+
+        return
+
+    def _get_request_data(self, request, movie_id, movie_rating_id):
+        request_data = request.data.copy()
+        query_params = request.query_params.dict()
+        request_data.update(query_params)
+        request_data["movie_id"] = movie_id
+        request_data["movie_rating_id"] = movie_rating_id
         return request_data
