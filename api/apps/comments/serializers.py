@@ -31,23 +31,8 @@ class PostMovieCommentSerializer(serializers.Serializer):
     content = serializers.CharField(required=True)
 
 
-class GetMovieCommentSerializer(serializers.Serializer):
+class GetMovieCommentsSerializer(serializers.Serializer):
     movie_id = serializers.IntegerField(
         validators=[movie_id_exists],
-        required=True,
-    )
-    comment_id = serializers.IntegerField(
-        validators=[movie_comment_id_exists],
-        required=True,
-    )
-
-
-class RequestMovieCommentSerializer(serializers.Serializer):
-    movie_id = serializers.IntegerField(
-        validators=[movie_id_exists],
-        required=True,
-    )
-    movie_comment_id = serializers.IntegerField(
-        validators=[movie_comment_id_exists],
         required=True,
     )
