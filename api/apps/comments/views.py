@@ -16,8 +16,9 @@ from apps.common.permissions import CustomPermission
 from apps.comments.serializers import (
     MovieCommentSerializer,
     PostMovieCommentSerializer,
-    GetMovieCommentSerializer,
+    GetMovieCommentsSerializer,
 )
+from apps.common.responses import ApiMessageResponse
 
 
 class MovieComments(APIView):
@@ -28,7 +29,14 @@ class MovieComments(APIView):
     permission_classes = (CustomPermission,)
 
     def get(self, request, movie_id):
-        # Todo check movie
+        request_data = self._get_request_data(request, movie_id)
+
+        serializer = GetMovieCommentsSerializer(data=request_data)
+        serializer.is_valid(raise_exception=True)
+
+        data = serializer.validated_data
+        movie_id = data.get("movie_id")
+
         Movie = get_movie_model()
         movie_comments = Movie.get_comments_with_movie_id(movie_id=movie_id)
         movie_comments_serializer = MovieCommentSerializer(
@@ -70,21 +78,33 @@ class MovieComments(APIView):
         return request_data
 
 
-class MovieCommentItem(APIView):
+class CommentItem(APIView):
     """
     API for Get/Put/Delete comment item
     """
 
     permission_classes = (CustomPermission,)
 
-    def put(self, request, movie_id, movie_comment_id):
+    def get(self, request, comment_id):
+        Comment = get_comment_model()
+        try:
+            movie = Comment.get_comment_with_id(comment_id)
+            movie_serializer = MovieCommentSerializer(
+                movie, context={"request": request}
+            )
+            return Response(movie_serializer.data, status=status.HTTP_200_OK)
+        except Comment.DoesNotExist:
+            return ApiMessageResponse(
+                "Comment not found", status=status.HTTP_404_NOT_FOUND
+            )
+
+    def put(self, request, comment_id):
         return
 
-    def delete(self, request, movie_id, movie_comment_id):
+    def delete(self, request, comment_id):
         return
 
-    def _get_request_data(self, request, movie_id, movie_comment_id):
+    def _get_request_data(self, request, comment_id):
         request_data = request.data.copy()
-        request_data["movie_id"] = movie_id
-        request_data["movie_comment_id"] = movie_comment_id
+        request_data["comment_id"] = comment_id
         return request_data
