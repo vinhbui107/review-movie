@@ -1,6 +1,6 @@
 from rest_framework.exceptions import ValidationError
 
-from apps.common.model_loaders import get_movie_model,
+from apps.common.model_loaders import get_movie_model, get_rating_model
 
 
 def movie_id_exists(movie_id):
@@ -11,4 +11,7 @@ def movie_id_exists(movie_id):
 
 
 def rating_id_exist(rating_id):
-    Rating = get
+    Rating = get_rating_model()
+
+    if Rating.is_rating_not_exist(rating_id):
+        raise ValidationError("Rating does not exist")

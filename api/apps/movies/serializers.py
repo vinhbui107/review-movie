@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from apps.accounts.serializers import GetUserProfileSerializer
 from apps.common.model_loaders import get_movie_model, get_rating_model
-from apps.movies.validators import movie_id_exists
+from apps.movies.validators import movie_id_exists, rating_id_exist
 
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -41,17 +41,21 @@ class MovieRatingSerializer(serializers.ModelSerializer):
         )
 
 
+class GetMovieRatingsSerializer(serializers.Serializer):
+    movie_id = serializers.IntegerField(
+        validators=[movie_id_exists], required=True
+    )
+
+
 class PostMovieRatingSerializer(serializers.Serializer):
     movie_id = serializers.IntegerField(
-        validators=[movie_id_exists],
-        required=True,
+        validators=[movie_id_exists], required=True
     )
     rating = serializers.FloatField(required=True)
 
 
-class GetMovieRatingSerializer(serializers.Serializer):
-    movie_id = serializers.IntegerField(
-        validators=[movie_id_exists],
-        required=True,
+class UpdateRatingSerializer(serializers.Serializer):
+    rating_id = serializers.IntegerField(
+        validators=[rating_id_exist], required=True
     )
-    rating_id = serializers.IntegerField()
+    rating = serializers.FloatField(required=True)
