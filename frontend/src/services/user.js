@@ -24,6 +24,10 @@ const userApi = {
         };
         return axiosClient.post(urlLogout, param);
     },
+
+    getUserProfile: () => {},
+
+    updateUserProfile: () => {},
 };
 
 export default userApi;
