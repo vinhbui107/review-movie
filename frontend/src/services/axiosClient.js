@@ -33,19 +33,18 @@ axiosClient.interceptors.response.use(
         const originalRequest = error.config;
         const refreshToken = Helpers.getLocalStorage("refresh_token");
         if (refreshToken && error.response.status === 401 && !originalRequest._retry) {
-            return axios.post(`${BASE_URL_API}/auth/login/refresh/`, { refreshToken }).then((res) => {
-                if (res.status === 200) {
-                    const access_token = res.data.accessToken;
-                    Helpers.saveLocalStorage("access_token", access_token);
-                    axios.defaults.headers.common["Authorization"] = "Bearer " + access_token;
-                    console.log("it works");
-                    return axios(originalRequest);
-                } else {
-                    Helpers.removeLocalStorage("name");
-                    Helpers.removeLocalStorage("access_token");
-                    Helpers.removeLocalStorage("refresh_token");
-                }
-            });
+            try {
+                const response = axios.post(`${BASE_URL_API}/auth/login/refresh`, { refreshToken });
+                const access_token = response.data.accessToken;
+                Helpers.saveLocalStorage("access_token", access_token);
+                axios.defaults.headers.common["Authorization"] = "Bearer " + access_token;
+                return axios(originalRequest);
+            } catch {
+                alert("Refresh token expired. Login again!!!");
+                Helpers.removeLocalStorage("name");
+                Helpers.removeLocalStorage("access_token");
+                Helpers.removeLocalStorage("refresh_token");
+            }
         }
 
         throw error;

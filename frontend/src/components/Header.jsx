@@ -12,8 +12,14 @@ function Header() {
     });
 
     const handleLogout = async () => {
-        await userApi.logout();
-        setUsername("");
+        try {
+            await userApi.logout().then();
+            Helpers.removeLocalStorage("access_token");
+            Helpers.removeLocalStorage("refresh_token");
+            setUsername("");
+        } catch {
+            alert("Logout Failed.");
+        }
     };
 
     return (

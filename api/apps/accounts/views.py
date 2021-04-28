@@ -33,7 +33,6 @@ class Register(APIView):
     """
 
     serializer_class = RegisterSerializer
-    permission_classes = (AllowAny,)
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -86,6 +85,8 @@ class UserProfile(APIView):
     """
     The API to update profile for user
     """
+
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, user_id):
         user = request.user

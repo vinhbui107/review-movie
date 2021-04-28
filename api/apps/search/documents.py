@@ -13,14 +13,10 @@ class MovieDocument(Document):
     title = fields.TextField(
         fields={
             "raw": fields.TextField(analyzer="keyword"),
+            "suggest": fields.CompletionField(),
         }
     )
     description = fields.TextField(
-        fields={
-            "raw": fields.TextField(analyzer="keyword"),
-        }
-    )
-    year = fields.IntegerField(
         fields={
             "raw": fields.TextField(analyzer="keyword"),
         }
@@ -30,37 +26,16 @@ class MovieDocument(Document):
             "raw": fields.TextField(analyzer="keyword"),
         }
     )
-    poster = fields.TextField(
-        fields={
-            "raw": fields.TextField(analyzer="keyword"),
-        }
-    )
-    imdb_rating = fields.FloatField(
-        fields={
-            "raw": fields.TextField(analyzer="keyword"),
-        }
-    )
-    rating_average = fields.FloatField(
-        fields={
-            "raw": fields.TextField(analyzer="keyword"),
-        }
-    )
-    rating_count = fields.IntegerField(
-        fields={
-            "raw": fields.TextField(analyzer="keyword"),
-        }
-    )
-    slug = fields.TextField(
-        fields={
-            "raw": fields.TextField(analyzer="keyword"),
-        }
-    )
-
+    year = fields.IntegerField()
+    poster = fields.TextField()
+    imdb_rating = fields.FloatField()
+    rating_average = fields.FloatField()
+    rating_count = fields.IntegerField()
+    slug = fields.TextField()
     genres = fields.TextField(
         attr="genres_indexing",
         fields={
             "raw": fields.TextField(analyzer="keyword", multi=True),
-            "suggest": fields.CompletionField(multi=True),
         },
         multi=True,
     )

@@ -118,3 +118,15 @@ class Rating(models.Model):
 
     class Meta:
         db_table = "rating"
+
+    @classmethod
+    def is_rating_not_exist(cls, rating_id):
+        try:
+            cls.objects.get(pk=rating_id)
+            return False
+        except cls.DoesNotExist:
+            return True
+
+    @classmethod
+    def get_rating_with_id(cls, rating_id):
+        return cls.objects.get(pk=rating_id)
