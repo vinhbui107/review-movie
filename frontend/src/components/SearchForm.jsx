@@ -1,46 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row } from "react-bootstrap";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
+import { useHistory } from "react-router-dom";
+import movieApi from "../services/movie";
 import "../style/components/_search.scss";
 
 function SearchForm() {
-    const items = [
-        {
-            id: 0,
-            name: "Cobol",
-        },
-        {
-            id: 1,
-            name: "JavaScript",
-        },
-        {
-            id: 2,
-            name: "Basic",
-        },
-        {
-            id: 3,
-            name: "PHP",
-        },
-        {
-            id: 4,
-            name: "Java",
-        },
-    ];
+    const [items, setItems] = useState([]);
+    const history = useHistory();
 
-    const handleOnSearch = (string, results) => {
-        // onSearch will have as the first callback parameter
-        // the string searched and for the second the results.
-        console.log(string, results);
+    const handleOnSearch = async (key) => {
+        let queryString = key.trim().replaceAll(" ", "+");
+        const response = await movieApi.suggestMovie(queryString);
+
+        const respItems = response.title_suggest__completion[0].options;
+        setItems(respItems);
     };
 
     const handleOnSelect = (item) => {
-        // the item selected
-        console.log(item);
+        const movieId = item._source.id;
+        history.push(`/movies/${movieId}`);
     };
 
-    const handleOnFocus = () => {
-        console.log("Focused");
+    const handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+            console.log("enter press here! ");
+        }
     };
+
     return (
         <Row className="search">
             <div>
@@ -48,12 +35,15 @@ function SearchForm() {
                     <h1>Welcome.</h1>
                     <h3>Thousands of movies, TV shows and people to discover. Explore now.</h3>
                 </div>
-                <div className="search__form">
+                <div className="search__form" onKeyPress={handleKeyPress}>
                     <ReactSearchAutocomplete
                         items={items}
                         onSearch={handleOnSearch}
+                        fuseOptions={{ keys: ["text"] }}
+                        resultStringKeyName="text"
                         onSelect={handleOnSelect}
-                        onFocus={handleOnFocus}
+                        maxResults={5}
+                        autoFocus
                     />
                 </div>
             </div>
