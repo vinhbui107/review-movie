@@ -1,5 +1,5 @@
 import axiosClient from "./axiosClient";
-import { BASE_URL_API } from "../utils/defines";
+import { BASE_URL_API } from "../utils/env";
 
 const movieApi = {
     getMoviesTrending: (page) => {
@@ -17,15 +17,7 @@ const movieApi = {
         return axiosClient.get(url);
     },
 
-    getMovieComments: (movieId) => {
-        const url = `${BASE_URL_API}/movies/${movieId}/comments`;
-        return axiosClient.get(url);
-    },
-
-    postComment: (movieId, content) => {},
-
-    deleteComment: (commentId) => {},
-
+    // Rate API
     getMovieRatings: (movieId) => {
         const url = `${BASE_URL_API}/movies/${movieId}/ratings`;
         return axiosClient.get(url);
@@ -33,8 +25,9 @@ const movieApi = {
 
     postRating: (movieId, value) => {},
 
+    // Search API
     searchMovie: (key) => {
-        const url = `${BASE_URL_API}/search/movies/suggest/?title_suggest__completion=${key}`;
+        const url = `${BASE_URL_API}/search/movies/?search=${key}`;
     },
 
     suggestMovie: (key) => {

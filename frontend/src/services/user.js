@@ -1,5 +1,5 @@
 import axiosClient from "./axiosClient";
-import { BASE_URL_API } from "../utils/defines";
+import { BASE_URL_API } from "../utils/env";
 import * as Helpers from "../utils/helpers";
 
 const userApi = {
