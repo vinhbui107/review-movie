@@ -13,16 +13,20 @@ function Recommend({ movies, title }) {
 
     const renderMovies = (movies) => {
         return movies?.map((movie) => {
-            replace;
             return (
-                <div className={style.card} key={movie.id} onClick={() => handleClick(movie.id)}>
-                    <div className={style.card__link}>
+                <div className={style.card} key={movie.id}>
+                    <Link
+                        className={style.card__link}
+                        onClick={() => {
+                            handleClick(movie.id);
+                        }}
+                    >
                         <Card.Img variant="top" src={movie.poster} loading="lazy" />
                         <p className={`${style["card__datetime"]} mb-0`}>{movie.year}</p>
                         <div className={style.card__overlay}>
                             <i className="fa fa-play"></i>
                         </div>
-                    </div>
+                    </Link>
                     <p>{movie.title}</p>
                 </div>
             );
