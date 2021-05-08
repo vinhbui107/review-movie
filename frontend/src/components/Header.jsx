@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown, Row, FormControl, Button, Form } from "react-bootstrap";
 import * as Helpers from "../utils/helpers.js";
 import logo from "../assets/img/logo.svg";
 import "../style/components/_header.scss";
@@ -38,6 +38,9 @@ function Header() {
                                 </NavDropdown>
                                 <Nav.Link href="#link">Recommend</Nav.Link>
                             </Nav>
+                            <Form inline>
+                                <FormControl type="text" placeholder="Search for a movie....." className="mr-md-4" />
+                            </Form>
                             {Helpers.isLogin() ? (
                                 <Nav>
                                     <NavDropdown
