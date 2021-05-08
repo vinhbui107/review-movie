@@ -24,7 +24,6 @@ function SearchForm() {
 
     const handleKeyPress = (event) => {
         if (event.key === "Enter") {
-            console.log("enter press here! ");
         }
     };
 
@@ -42,6 +41,7 @@ function SearchForm() {
                         fuseOptions={{ keys: ["text"] }}
                         resultStringKeyName="text"
                         onSelect={handleOnSelect}
+                        placeholder="Search for a movie....."
                         maxResults={5}
                         autoFocus
                     />

@@ -5,7 +5,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import Comments from "../components/Comment";
 import axios from "axios";
 
-import MovieRecommend from "../components/Recommend";
+import Recommend from "../components/Recommend";
 import movieApi from "../services/movie";
 import "../style/pages/_movie-detail.scss";
 
@@ -27,9 +27,8 @@ function MovieDetail() {
                 setMovieItem(response[1].results[0]);
             })
         );
-
-        console.log(movieItem);
     }, []);
+
     return (
         <div>
             {movieItem && (
@@ -100,7 +99,7 @@ function MovieDetail() {
                 </div>
             )}
             <Container>
-                <MovieRecommend movieListRec={moviesRecommend} />
+                <Recommend movies={moviesRecommend} />
                 <hr />
                 <Comments />
             </Container>

@@ -1,14 +1,7 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { Row } from "react-bootstrap";
 import OwlCarousel from "react-owl-carousel";
-
-import style from "../style/components/_movie-list.module.scss";
 import MovieCard from "./MovieCard";
-
-MovieList.propTypes = {
-    movieList: PropTypes.array,
-};
 
 const options = {
     0: {
@@ -25,11 +18,7 @@ const options = {
 function MovieList({ movies, title }) {
     const renderMovieList = () => {
         return movies?.map((movie) => {
-            return (
-                <>
-                    <MovieCard movie={movie} key={movie.id} rec={true} />
-                </>
-            );
+            return <MovieCard movie={movie} key={movie.id} rec={true} />;
         });
     };
 

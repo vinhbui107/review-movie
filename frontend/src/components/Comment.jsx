@@ -5,7 +5,6 @@ import style from "../style/components/_comments.scss";
 
 export default function Comments() {
     const [openForm, setOpenForm] = useState(false);
-    console.log("aaa", openForm);
     return (
         <div className="comments">
             <div className="comments__header">
