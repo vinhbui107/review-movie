@@ -1,13 +1,12 @@
 import { Rate } from "antd";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Col, Container, Row } from "react-bootstrap";
-import Comments from "../components/Comment";
 import axios from "axios";
-
+import React, { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import CommentList from "../components/CommentList";
 import Recommend from "../components/Recommend";
 import movieApi from "../services/movie";
-import "../style/pages/_movie-detail.scss";
+import "../style/pages/MovieDetail.scss";
 
 function MovieDetail() {
     const [movieItem, setMovieItem] = useState(null);
@@ -101,7 +100,7 @@ function MovieDetail() {
             <Container>
                 <Recommend movies={moviesRecommend} />
                 <hr />
-                <Comments />
+                <CommentList />
             </Container>
         </div>
     );

@@ -1,27 +1,26 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import { Doughnut } from "react-chartjs-2";
-import { Link } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
-import style from "../style/components/_movie-card.module.scss";
+import { Link } from "react-router-dom";
+import "../style/components/MovieCard.scss";
 
 MovieCard.propTypes = {};
 
 function MovieCard({ movie }) {
     const percentage = movie.imdb_rating * 10;
     return (
-        <Card className={style.card}>
+        <Card className="card">
             <Link to={`movies/${movie.id}`}>
                 <Card.Img variant="top" src={movie?.poster} />
-                <CircularProgressbar value={percentage} text={`${percentage}%`} className={style["card--rating"]} />
+                <CircularProgressbar value={percentage} text={`${percentage}%`} className="card--rating" />
             </Link>
 
-            <Card.Body className={style["card-body"]}>
+            <Card.Body className="card-body">
                 <Link to={`movies/${movie.id}`}>
-                    <Card.Title className={style["card-title"]}>{movie?.title}</Card.Title>
+                    <Card.Title className="card-title">{movie?.title}</Card.Title>
                 </Link>
 
-                <Card.Text className={style["card-text"]}>
+                <Card.Text className="card-text">
                     <span>{movie.year}</span>
                 </Card.Text>
             </Card.Body>

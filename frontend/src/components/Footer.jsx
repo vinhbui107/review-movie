@@ -1,5 +1,5 @@
 import React from "react";
-import "../style/components/_footer.scss";
+import "../style/components/Footer.scss";
 import logo from "../assets/img/logo.svg";
 
 function Footer() {

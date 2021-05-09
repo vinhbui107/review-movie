@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+// import React, { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
 
-function SearchResult() {
-    const [movies, setMovies] = useState([]);
-    const { searchKey } = useParams();
+// function ResultItem() {}
 
-    useEffect(async () => {});
+// function SearchResult() {
+//     const [movies, setMovies] = umovie - cardmovie - cardseState([]);
+//     const { searchKey } = useParams();
 
-    return (
-        <div>
-            <h2>MovieGenre</h2>
-        </div>
-    );
-}
+//     useEffect(async () => {});
 
-export default SearchResult;
+//     return (
+//         <div>
+//             <h2>MovieGenre</h2>
+//         </div>
+//     );
+// }
+
+// export default SearchResult;

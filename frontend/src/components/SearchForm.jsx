@@ -3,7 +3,7 @@ import { Row } from "react-bootstrap";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { useHistory } from "react-router-dom";
 import movieApi from "../services/movie";
-import "../style/components/_search.scss";
+import "../style/components/Search.scss";
 
 function SearchForm() {
     const [items, setItems] = useState([]);

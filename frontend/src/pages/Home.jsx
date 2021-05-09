@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap";
 import MovieList from "../components/MovieList";
 import SearchForm from "../components/SearchForm";
 import movieApi from "../services/movie";
-import "../style/pages/_home.scss";
+import "../style/pages/Home.scss";
 
 function Home() {
     const [movieList, setMovieList] = useState({

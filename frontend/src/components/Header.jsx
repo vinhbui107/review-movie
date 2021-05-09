@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Nav, Navbar, NavDropdown, Row, FormControl, Button, Form } from "react-bootstrap";
 import * as Helpers from "../utils/helpers.js";
 import logo from "../assets/img/logo.svg";
-import "../style/components/_header.scss";
+import "../style/components/Header.scss";
 import userApi from "../services/user.js";
 
 function Header() {

@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import userApi from "../services/user";
 import * as Helpers from "../utils/helpers";
 import logo from "../assets/img/logo.png";
-import "../style/pages/_login.scss";
+import "../style/pages/Login.scss";
 import { Messages } from "../utils/messages";
 
 const Login = () => {

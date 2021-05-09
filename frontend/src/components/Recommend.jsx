@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import style from "../style/components/_movie-recommend.module.scss";
+import "../style/components/Recommend.scss";
 
 function Recommend({ movies, title }) {
     const history = useHistory();
@@ -14,16 +14,16 @@ function Recommend({ movies, title }) {
     const renderMovies = (movies) => {
         return movies?.map((movie) => {
             return (
-                <div className={style.card} key={movie.id}>
+                <div className="recommendCard" key={movie.id}>
                     <Link
-                        className={style.card__link}
+                        className="recommendCard__link"
                         onClick={() => {
                             handleClick(movie.id);
                         }}
                     >
                         <Card.Img variant="top" src={movie.poster} loading="lazy" />
-                        <p className={`${style["card__datetime"]} mb-0`}>{movie.year}</p>
-                        <div className={style.card__overlay}>
+                        <p className="recommendCard__datetime mb-0">{movie.year}</p>
+                        <div className="recommendCard__overlay">
                             <i className="fa fa-play"></i>
                         </div>
                     </Link>
@@ -36,8 +36,8 @@ function Recommend({ movies, title }) {
     return (
         <div>
             <h1 className="title title--rec">{title}</h1>
-            <div className={style.scroller}>
-                <div className={style["scroller__wrapper"]}>{renderMovies(movies)}</div>
+            <div className="scroller">
+                <div className="scroller__wrapper">{renderMovies(movies)}</div>
             </div>
         </div>
     );

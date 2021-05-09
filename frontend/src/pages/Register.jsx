@@ -6,7 +6,7 @@ import userApi from "../services/user";
 import { genders, occupations } from "../utils/constants";
 import * as Helpers from "../utils/helpers";
 import { Messages } from "../utils/messages";
-import "../style/pages/_register.scss";
+import "../style/pages/Register.scss";
 
 const Register = () => {
     const [inputs, setInputs] = useState({
