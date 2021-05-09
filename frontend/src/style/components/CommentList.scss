@@ -1,0 +1,42 @@
+@import "../main";
+
+.commentList {
+    margin: 20px 0;
+    position: relative;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__avatar {
+        border-radius: 50%;
+
+        img {
+            display: block;
+        }
+    }
+
+    &__form {
+        transform: translateY(-50%);
+        position: absolute;
+        width: 100%;
+        margin: 0 auto;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s ease-in;
+
+        &--active {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0);
+            position: relative;
+            width: 100%;
+        }
+
+        &__submit {
+            @include Button;
+        }
+    }
+}
