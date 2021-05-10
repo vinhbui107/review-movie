@@ -40,9 +40,9 @@ const routes = [
         isAppLayout: true,
     },
     {
-        path: "/search/",
+        path: "/search",
         exact: true,
-        component: MovieDetailPage,
+        component: SearchResultPage,
         isAppLayout: true,
     },
     {
