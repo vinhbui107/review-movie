@@ -14,7 +14,7 @@ import "react-circular-progressbar/dist/styles.css";
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
+        <BrowserRouter forceRefresh={true}>
             <App />
         </BrowserRouter>
     </React.StrictMode>,
