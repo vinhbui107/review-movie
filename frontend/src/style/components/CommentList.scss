@@ -38,5 +38,13 @@
         &__submit {
             @include Button;
         }
+
+        &__avatar {
+            border-radius: 50%;
+
+            img {
+                display: block;
+            }
+        }
     }
 }
