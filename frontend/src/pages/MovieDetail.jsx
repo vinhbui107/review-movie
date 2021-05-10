@@ -7,12 +7,14 @@ import CommentList from "../components/CommentList";
 import Recommend from "../components/Recommend";
 import movieApi from "../services/movie";
 import "../style/pages/MovieDetail.scss";
+import { isLogin } from "../utils/helpers";
 
 function MovieDetail() {
     const [movieItem, setMovieItem] = useState(null);
     // const [comments, setComments] = useState([]);
     const [moviesRecommend, setMoviesRecommend] = useState([]);
-
+    const [rating, setRating] = useState(0);
+    const [comments, setComments] = useState([]);
     const { movieId } = useParams();
 
     useEffect(async () => {
@@ -27,6 +29,15 @@ function MovieDetail() {
             })
         );
     }, []);
+
+    const handleRating = (value) => {
+        if (isLogin()) {
+            setRating(value);
+            alert(value);
+        } else {
+            alert("You need to login!!!");
+        }
+    };
 
     return (
         <div>
@@ -77,7 +88,8 @@ function MovieDetail() {
                                                 allowHalf
                                                 style={{ display: "block" }}
                                                 className="poster__action--rating-star"
-                                                onChange={() => alert("Rating success")}
+                                                onChange={handleRating}
+                                                value={rating}
                                             />
                                         </li>
                                     </ul>
@@ -100,7 +112,7 @@ function MovieDetail() {
             <Container>
                 <Recommend movies={moviesRecommend} />
                 <hr />
-                <CommentList />
+                <CommentList comments={comments} setCommentState={setComments} />
             </Container>
         </div>
     );
