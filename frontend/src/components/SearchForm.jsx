@@ -7,12 +7,12 @@ import "../style/components/Search.scss";
 
 function SearchForm() {
     const [items, setItems] = useState([]);
+    const [searchText, setSearchText] = useState("");
     const history = useHistory();
 
     const handleOnSearch = async (key) => {
-        let queryString = key.trim().replaceAll(" ", "+");
-        const response = await movieApi.suggestMovie(queryString);
-
+        setSearchText(key.trim().replaceAll(" ", "+"));
+        const response = await movieApi.suggestMovie(searchText);
         const respItems = response.title_suggest__completion[0].options;
         setItems(respItems);
     };
@@ -23,7 +23,8 @@ function SearchForm() {
     };
 
     const handleKeyPress = (event) => {
-        if (event.key === "Enter") {
+        if (event.key === "Enter" && searchText.length > 0) {
+            history.push(`/search/?q=${searchText}`);
         }
     };
 
