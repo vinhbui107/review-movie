@@ -3,11 +3,11 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import CommentCard from "./CommentCard";
 import "../style/components/CommentList.scss";
 
-function CommentList() {
+function CommentList(comments) {
     const [openForm, setOpenForm] = useState(false);
 
     return (
-        <div className="commentList">
+        <>
             <div className="commentList__header">
                 <h1 className="title">Reviews</h1>
 
@@ -22,7 +22,7 @@ function CommentList() {
                             <img
                                 src="https://www.themoviedb.org/t/p/w64_and_h64_face/xNLOqXXVJf9m7WngUMLIMFsjKgh.jpg"
                                 alt=""
-                                className="commentList__avatar"
+                                className="commentList__form__avatar"
                             />
                         </Col>
                         <Col md="11">
@@ -39,7 +39,12 @@ function CommentList() {
             </Form>
 
             <CommentCard />
-        </div>
+            {/* {comments.length > 0 ? (
+                comments?.map((comment) => <CommentCard comment={comment} />)
+            ) : (
+                <p style={{ textAlign: "center" }}>{"We don't have any reviews for this movie :)"}</p>
+            )} */}
+        </>
     );
 }
 
