@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { Container, Nav, Navbar, NavDropdown, Row, FormControl, Button, Form } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown, Row, FormControl, Button, Form, InputGroup } from "react-bootstrap";
 import * as Helpers from "../utils/helpers.js";
 import logo from "../assets/img/logo.svg";
 import "../style/components/Header.scss";
 import userApi from "../services/user.js";
+import { useHistory } from "react-router";
 
 function Header() {
     const [username, setUsername] = useState(() => {
         const initUsername = Helpers.getLocalStorage("name");
         return initUsername;
     });
+    const [inputSearch, setInputSearch] = useState("");
+    const history = useHistory();
 
     const handleLogout = async () => {
         try {
@@ -19,6 +22,14 @@ function Header() {
             setUsername("");
         } catch {
             alert("Logout Failed.");
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (inputSearch.length > 0) {
+            const searchText = inputSearch.trim().replaceAll(" ", "+");
+            history.push(`/search/?q=${searchText}`);
         }
     };
 
@@ -35,11 +46,21 @@ function Header() {
                             <Nav className="mr-auto">
                                 <NavDropdown title="Movies" id="basic-nav-dropdown">
                                     <NavDropdown.Item href="#action/3.1">Popular</NavDropdown.Item>
+                                    <NavDropdown.Item href="#action/3.1">Trending</NavDropdown.Item>
                                 </NavDropdown>
                                 <Nav.Link href="#link">Recommend</Nav.Link>
                             </Nav>
-                            <Form inline>
-                                <FormControl type="text" placeholder="Search for a movie....." className="mr-md-4" />
+                            <Form inline onSubmit={handleSubmit}>
+                                <InputGroup>
+                                    <FormControl
+                                        type="text"
+                                        placeholder="Search for a movie....."
+                                        className="mr-md-4"
+                                        onChange={(e) => {
+                                            setInputSearch(e.target.value);
+                                        }}
+                                    />
+                                </InputGroup>
                             </Form>
                             {Helpers.isLogin() ? (
                                 <Nav>
