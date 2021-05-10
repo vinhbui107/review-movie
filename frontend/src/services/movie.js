@@ -26,12 +26,13 @@ const movieApi = {
     postRating: (movieId, value) => {},
 
     // Search API
-    searchMovie: (key) => {
-        const url = `${BASE_URL_API}/search/movies/?search=${key}`;
+    searchMovie: (searchText) => {
+        const url = `${BASE_URL_API}/search/movies/?search=${searchText}`;
+        return axiosClient.get(url);
     },
 
-    suggestMovie: (key) => {
-        const url = `${BASE_URL_API}/search/movies/suggest/?title_suggest__completion=${key}`;
+    suggestMovie: (searchText) => {
+        const url = `${BASE_URL_API}/search/movies/suggest/?title_suggest__completion=${searchText}`;
         return axiosClient.get(url);
     },
 };
