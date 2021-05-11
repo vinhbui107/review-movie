@@ -6,7 +6,7 @@ from django_elasticsearch_dsl_drf.constants import (
 from django_elasticsearch_dsl_drf.filter_backends import (
     FilteringFilterBackend,
     OrderingFilterBackend,
-    SearchFilterBackend,
+    CompoundSearchFilterBackend,
     SuggesterFilterBackend,
 )
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
@@ -23,7 +23,7 @@ class MovieDocumentView(DocumentViewSet):
     filter_backends = [
         FilteringFilterBackend,
         OrderingFilterBackend,
-        SearchFilterBackend,
+        CompoundSearchFilterBackend,
         SuggesterFilterBackend,
     ]
 
