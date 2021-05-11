@@ -16,21 +16,25 @@ function Home() {
 
     const { trending, popular, recommend } = movieList;
 
-    useEffect(async () => {
-        const reqRecommend = await movieApi.getMoviesTrending(2);
-        const reqTrending = await movieApi.getMoviesTrending(1);
-        const reqPopular = await movieApi.getMoviesPopular(1);
+    useEffect(() => {
+        async function fetchData() {
+            const reqRecommend = await movieApi.getMoviesTrending(2);
+            const reqTrending = await movieApi.getMoviesTrending(1);
+            const reqPopular = await movieApi.getMoviesPopular(1);
 
-        axios.all([reqRecommend, reqPopular, reqTrending]).then(
-            axios.spread((...response) => {
-                setMovieList((movieList) => ({
-                    ...movieList,
-                    recommend: response[0].results,
-                    trending: response[1].results,
-                    popular: response[2].results,
-                }));
-            })
-        );
+            axios.all([reqRecommend, reqPopular, reqTrending]).then(
+                axios.spread((...response) => {
+                    setMovieList((movieList) => ({
+                        ...movieList,
+                        recommend: response[0].results,
+                        trending: response[1].results,
+                        popular: response[2].results,
+                    }));
+                })
+            );
+        }
+
+        fetchData();
     }, []);
 
     return (

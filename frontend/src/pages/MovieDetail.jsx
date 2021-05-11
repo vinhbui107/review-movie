@@ -17,17 +17,21 @@ function MovieDetail() {
     const [comments, setComments] = useState([]);
     const { movieId } = useParams();
 
-    useEffect(async () => {
-        const reqRecommend = await movieApi.getMoviesTrending(1);
-        // const reqComments = await movieApi.getMovieComments(movieId);
-        const reqMovieItem = await movieApi.getMovieItem(movieId);
+    useEffect(() => {
+        async function fetchData() {
+            const reqRecommend = await movieApi.getMoviesTrending(1);
+            // const reqComments = await movieApi.getMovieComments(movieId);
+            const reqMovieItem = await movieApi.getMovieItem(movieId);
 
-        axios.all([reqRecommend, reqMovieItem]).then(
-            axios.spread((...response) => {
-                setMoviesRecommend(response[0].results);
-                setMovieItem(response[1].results[0]);
-            })
-        );
+            axios.all([reqRecommend, reqMovieItem]).then(
+                axios.spread((...response) => {
+                    setMoviesRecommend(response[0].results);
+                    setMovieItem(response[1].results[0]);
+                })
+            );
+        }
+
+        fetchData();
     }, []);
 
     const handleRating = (value) => {
