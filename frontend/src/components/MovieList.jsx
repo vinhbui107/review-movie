@@ -17,8 +17,8 @@ const options = {
 
 function MovieList({ movies, title }) {
     const renderMovieList = () => {
-        return movies?.map((movie) => {
-            return <MovieCard movie={movie} key={movie.id} rec={true} />;
+        return movies?.map((movie, index) => {
+            return <MovieCard movie={movie} key={index} rec={true} />;
         });
     };
 

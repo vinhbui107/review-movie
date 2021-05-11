@@ -13,7 +13,7 @@ function ResultItem(movie) {
     };
 
     return (
-        <Card className="resultItem" onClick={(e) => handleOnClick(e)}>
+        <Card className="resultItem" onClick={handleOnClick} key={movie.id}>
             <Card.Body className="resultItem__body">
                 <Row>
                     <Col md="2" className="resultItem--left">
@@ -40,20 +40,22 @@ function useQuery() {
 function SearchResult() {
     const [movies, setMovies] = useState([]);
     const query = useQuery();
+    const searchText = query.get("q");
 
-    useEffect(async () => {
-        if (query.get("q")) {
-            const searchText = query.get("q").replaceAll(" ", "+");
-            const response = await movieApi.searchMovie(searchText);
+    useEffect(() => {
+        async function fetchData() {
+            const response = await movieApi.searchMovie(searchText.replaceAll(" ", "+"));
             setMovies(response.results);
         }
-    });
+
+        fetchData();
+    }, []);
 
     return (
         <Container>
-            <h3 className="title">Result search: {query.get("q")}</h3>
+            <h3 className="title">Result search: {searchText}</h3>
             {movies.length > 0 ? (
-                movies?.map((movie) => {
+                movies?.map((movie, index) => {
                     return ResultItem(movie);
                 })
             ) : (
