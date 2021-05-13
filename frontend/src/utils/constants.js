@@ -1,5 +1,5 @@
 // constants for choice model field
-export const occupations = [
+export const OCCUPATIONS = [
     "Student",
     "PhD Student",
     "Assistant",
@@ -32,4 +32,4 @@ export const occupations = [
     "Other",
 ];
 
-export const genders = ["Male", "Female"];
+export const GENDERS = ["Male", "Female"];

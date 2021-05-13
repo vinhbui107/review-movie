@@ -1,37 +1,47 @@
+import React, { useEffect, useState } from "react";
 import { Rate } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import CommentList from "../components/CommentList";
 import Recommend from "../components/Recommend";
+import commentApi from "../services/comment";
 import movieApi from "../services/movie";
 import "../style/pages/MovieDetail.scss";
-import { isLogin } from "../utils/helpers";
+import { getLocalStorage, isLogin } from "../utils/helpers.js";
+import DefaultMovie from "../assets/img/default-movie.png";
 
 function MovieDetail() {
     const [movieItem, setMovieItem] = useState(null);
-    // const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState([]);
     const [moviesRecommend, setMoviesRecommend] = useState([]);
     const [rating, setRating] = useState(0);
-    const [comments, setComments] = useState([]);
     const { movieId } = useParams();
+    const currentUser = getLocalStorage("currentUser");
 
     useEffect(() => {
-        async function fetchData() {
-            const reqRecommend = await movieApi.getMoviesTrending(1);
-            // const reqComments = await movieApi.getMovieComments(movieId);
+        async function _fetchData() {
+            let reqRecommend = await movieApi.getMoviesPopular(2);
+            if (isLogin()) {
+                reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
+            }
+            const reqComments = await commentApi.getMovieComments(movieId);
             const reqMovieItem = await movieApi.getMovieItem(movieId);
 
-            axios.all([reqRecommend, reqMovieItem]).then(
+            axios.all([reqRecommend, reqMovieItem, reqComments]).then(
                 axios.spread((...response) => {
-                    setMoviesRecommend(response[0].results);
+                    let moviesRecommend = response[0].results;
+                    if (isLogin()) {
+                        moviesRecommend = response[0].movies;
+                    }
+                    setMoviesRecommend(moviesRecommend);
                     setMovieItem(response[1].results[0]);
+                    setComments(response[2]);
                 })
             );
         }
 
-        fetchData();
+        _fetchData();
     }, []);
 
     const handleRating = (value) => {
@@ -44,81 +54,85 @@ function MovieDetail() {
     };
 
     return (
-        <div>
+        <>
             {movieItem && (
-                <div
-                    style={{
-                        backgroundImage: `url(${movieItem.poster})`,
-                    }}
-                    className="poster"
-                >
-                    <div className="poster__wrapper">
-                        <Container fluid style={{ width: "85%" }}>
-                            <Row className="poster__wrapper--row">
-                                <Col md="3" xs="12" className="poster__wrapper--left">
-                                    <img src={`${movieItem.poster}`} alt="" />
-                                </Col>
-                                <Col md="9" xs="12" className="poster__wrapper--right">
-                                    <div className="poster__title">
-                                        <h1>{`${movieItem.title} (${movieItem.year})`}</h1>
-                                        {/* <p>{movieItem.genres[0]}</p> */}
-                                    </div>
+                <>
+                    <div className="poster">
+                        <div className="poster__wrapper">
+                            <Container fluid style={{ width: "85%" }}>
+                                <Row className="poster__wrapper--row">
+                                    <Col md="3" xs="12" className="poster__wrapper--left">
+                                        <div
+                                            style={{
+                                                backgroundImage: `url(${DefaultMovie})`,
+                                                backgroundSize: "cover",
+                                            }}
+                                        >
+                                            <img src={`${movieItem.poster}`} alt="" />
+                                        </div>
+                                    </Col>
+                                    <Col md="9" xs="12" className="poster__wrapper--right">
+                                        <div className="poster__title">
+                                            <h1>{`${movieItem.title} (${movieItem.year})`}</h1>
+                                            {/* <p>{movieItem.genres[0]}</p> */}
+                                        </div>
 
-                                    <ul className="poster__action">
-                                        <li className="poster__action__list poster__action--score mr-3">
-                                            <span>{movieItem.imdb_rating}</span>
-                                        </li>
+                                        <ul className="poster__action">
+                                            <li className="poster__action__list poster__action--score mr-3">
+                                                <span>{movieItem.imdb_rating}</span>
+                                            </li>
 
-                                        <li className="poster__action__list">
-                                            <button>
-                                                <i className="fa fa-bookmark"></i>
-                                            </button>
-                                        </li>
-                                        <li className="poster__action__list poster__action--like">
-                                            <button>
-                                                <i className="fa fa-thumbs-up"></i>
-                                            </button>
-                                        </li>
-                                        <li className="poster__action__list">
-                                            <button>
-                                                <i className="fa fa-heart" />
-                                            </button>
-                                        </li>
-                                        <li className="poster__action__list poster__action--rating">
-                                            <button>
-                                                <i className="fa fa-star" />
-                                            </button>
-                                            <Rate
-                                                allowHalf
-                                                style={{ display: "block" }}
-                                                className="poster__action--rating-star"
-                                                onChange={handleRating}
-                                                value={rating}
-                                            />
-                                        </li>
-                                    </ul>
+                                            <li className="poster__action__list">
+                                                <button>
+                                                    <i className="fa fa-bookmark"></i>
+                                                </button>
+                                            </li>
+                                            <li className="poster__action__list poster__action--like">
+                                                <button>
+                                                    <i className="fa fa-thumbs-up"></i>
+                                                </button>
+                                            </li>
+                                            <li className="poster__action__list">
+                                                <button>
+                                                    <i className="fa fa-heart" />
+                                                </button>
+                                            </li>
+                                            <li className="poster__action__list poster__action--rating">
+                                                <button>
+                                                    <i className="fa fa-star" />
+                                                </button>
+                                                <Rate
+                                                    allowHalf
+                                                    style={{ display: "block" }}
+                                                    className="poster__action--rating-star"
+                                                    onChange={handleRating}
+                                                    value={rating}
+                                                />
+                                            </li>
+                                        </ul>
 
-                                    <div className="poster__overview my-4">
-                                        <h3 className="poster__overview--title">Overview</h3>
-                                        <p className="poster__overview--description">{movieItem.description}</p>
-                                    </div>
+                                        <div className="poster__overview my-4">
+                                            <h3 className="poster__overview--title">Overview</h3>
+                                            <p className="poster__overview--description">{movieItem.description}</p>
+                                        </div>
 
-                                    <div className="poster__people">
-                                        <h5>{movieItem.director}</h5>
-                                        <p>Director</p>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Container>
+                                        <div className="poster__people">
+                                            <h5>{movieItem.director}</h5>
+                                            <p>Director</p>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </div>
                     </div>
-                </div>
+                    <Container>
+                        <Recommend movies={moviesRecommend} title={"Recommend for you"} />
+                        <hr />
+                        <CommentList comments={comments} setCommentsSate={setComments} movieId={movieId} />
+                    </Container>
+                </>
             )}
-            <Container>
-                <Recommend movies={moviesRecommend} />
-                <hr />
-                <CommentList comments={comments} setCommentState={setComments} />
-            </Container>
-        </div>
+        </>
     );
 }
 

@@ -15,9 +15,6 @@ const userApi = {
 
     logout: () => {
         const refreshToken = Helpers.getLocalStorage("refresh_token");
-
-        Helpers.removeLocalStorage("name");
-
         const urlLogout = `${BASE_URL_API}/auth/logout`;
         const param = {
             refresh: refreshToken,
@@ -25,7 +22,28 @@ const userApi = {
         return axiosClient.post(urlLogout, param);
     },
 
-    getUserProfile: () => {},
+    refresh: () => {
+        const refreshToken = Helpers.getLocalStorage("refresh_token");
+        const urlRefresh = `${BASE_URL_API}/auth/login/refresh`;
+        const param = {
+            refresh: refreshToken,
+        };
+        return axiosClient.post(urlRefresh, param);
+    },
+
+    getUserProfile: (username) => {
+        const urlGetUserProfile = `${BASE_URL_API}/auth/users/${username}`;
+        axiosClient.get(urlGetUserProfile);
+    },
+
+    getCurrentUser: () => {
+        const urlCurrentUser = `${BASE_URL_API}/auth/current-user`;
+        return axiosClient.get(urlCurrentUser);
+    },
+
+    updateUserProfile: () => {},
+
+    deleteAccount: () => {},
 
     updateUserProfile: () => {},
 };

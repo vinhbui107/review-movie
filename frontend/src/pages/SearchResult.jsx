@@ -4,6 +4,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import { useLocation, useHistory } from "react-router-dom";
 import movieApi from "../services/movie";
 import "../style/pages/SearchResult.scss";
+import DefaultMovie from "../assets/img/default-movie.png";
 
 function ResultItem(movie) {
     const history = useHistory();
@@ -15,17 +16,17 @@ function ResultItem(movie) {
     return (
         <Card className="resultItem" onClick={handleOnClick} key={movie.id}>
             <Card.Body className="resultItem__body">
-                <Row>
+                <Row style={{ height: "100%" }}>
                     <Col md="2" className="resultItem--left">
-                        <img src={movie.poster} alt="" className="resultItem__poster" />
+                        <img src={movie.poster} className="resultItem__poster" />
                     </Col>
                     <Col md="10" className="resultItem--right">
-                        <div className="resultItem__author">
+                        <div className="resultItem__title">
                             <h3>{movie.title}</h3>
                             <small>{movie.year}</small>
                         </div>
 
-                        <Card.Text className="resultItem__list">{movie.description}</Card.Text>
+                        <Card.Text className="resultItem__description">{movie.description}</Card.Text>
                     </Col>
                 </Row>
             </Card.Body>

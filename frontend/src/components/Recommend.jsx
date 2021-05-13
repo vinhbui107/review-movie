@@ -2,6 +2,7 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import "../style/components/Recommend.scss";
+import DefaultMovie from "../assets/img/default-movie.png";
 
 function Recommend({ movies, title }) {
     const renderMovies = (movies) => {
@@ -9,7 +10,16 @@ function Recommend({ movies, title }) {
             return (
                 <div className="recommendCard" key={index}>
                     <Link className="recommendCard__link" to={`/movies/${movie.id}`}>
-                        <Card.Img variant="top" src={movie.poster} loading="lazy" />
+                        <div
+                            style={{
+                                backgroundImage: `url(${DefaultMovie})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center,0 0",
+                                backgroundSize: "100% auto",
+                            }}
+                        >
+                            <Card.Img variant="top" src={movie.poster} loading="lazy" />
+                        </div>
                         <p className="recommendCard__datetime mb-0">{movie.year}</p>
                         <div className="recommendCard__overlay">
                             <i className="fa fa-play"></i>

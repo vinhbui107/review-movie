@@ -1,25 +1,36 @@
-import React, { useState } from "react";
-import { Container, Nav, Navbar, NavDropdown, Row, FormControl, Button, Form, InputGroup } from "react-bootstrap";
-import * as Helpers from "../utils/helpers.js";
-import logo from "../assets/img/logo.svg";
-import "../style/components/Header.scss";
-import userApi from "../services/user.js";
+import React, { useEffect, useState } from "react";
+import { Container, Form, FormControl, InputGroup, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
 import { useHistory } from "react-router";
+import logo from "../assets/img/logo.svg";
+import userApi from "../services/user.js";
+import "../style/components/Header.scss";
+import * as Helpers from "../utils/helpers.js";
 
 function Header() {
-    const [username, setUsername] = useState(() => {
-        const initUsername = Helpers.getLocalStorage("name");
-        return initUsername;
+    const [currentUser, setCurrentUser] = useState({
+        username: "",
     });
     const [inputSearch, setInputSearch] = useState("");
     const history = useHistory();
 
+    useEffect(() => {
+        if (Helpers.isLogin()) {
+            async function fetchData() {
+                const response = await userApi.getCurrentUser();
+                Helpers.saveLocalStorage("currentUser", response);
+                setCurrentUser({
+                    username: response.username,
+                });
+            }
+            fetchData();
+        }
+    }, []);
+
     const handleLogout = async () => {
         try {
             await userApi.logout().then();
-            Helpers.removeLocalStorage("access_token");
-            Helpers.removeLocalStorage("refresh_token");
-            setUsername("");
+            Helpers.removeAuth();
+            setCurrentUser({});
         } catch {
             alert("Logout Failed.");
         }
@@ -45,10 +56,10 @@ function Header() {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
                                 <NavDropdown title="Movies" id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="#action/3.1">Popular</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.1">Trending</NavDropdown.Item>
+                                    <NavDropdown.Item href="/">Popular</NavDropdown.Item>
+                                    <NavDropdown.Item href="/">Top Rated</NavDropdown.Item>
                                 </NavDropdown>
-                                <Nav.Link href="#link">Recommend</Nav.Link>
+                                <Nav.Link href="/">Recommend</Nav.Link>
                             </Nav>
                             <Form inline onSubmit={handleSubmit}>
                                 <InputGroup>
@@ -65,7 +76,7 @@ function Header() {
                             {Helpers.isLogin() ? (
                                 <Nav>
                                     <NavDropdown
-                                        title={username}
+                                        title={currentUser.username}
                                         id="basic-nav-dropdown"
                                         className="dropdown-menu-lg-right"
                                     >

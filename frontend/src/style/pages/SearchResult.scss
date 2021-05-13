@@ -8,28 +8,35 @@
     }
 
     &--right {
-        padding: 10px;
+        padding-top: 30px;
+        padding-left: 0;
     }
 
     &__poster {
         margin-right: 10px;
         border-radius: 10px;
-        height: 100%;
-        width: 100%;
-        img {
-            padding: 0;
-            display: block;
-        }
+        height: 170px;
+        width: 150px;
     }
 
-    &__author {
+    &__title {
         margin-bottom: 10px;
         h3 {
+            font-size: 18px;
+            font-weight: 600;
             margin-bottom: 0;
         }
     }
 
     &__body {
         padding: 0;
+        height: 170px;
+    }
+
+    &__description {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 }

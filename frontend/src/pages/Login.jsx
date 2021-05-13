@@ -43,8 +43,7 @@ const Login = () => {
                 const response = await userApi.login(inputs);
                 Helpers.saveLocalStorage("access_token", response.access);
                 Helpers.saveLocalStorage("refresh_token", response.refresh);
-                Helpers.saveLocalStorage("name", inputs.username);
-                history.push("/");
+                history.goBack();
             } catch (error) {
                 setMessage(Messages.loginFailed);
                 setInputs({

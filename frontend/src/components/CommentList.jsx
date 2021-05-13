@@ -1,21 +1,53 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import CommentCard from "./CommentCard";
+import commentApi from "../services/comment";
 import "../style/components/CommentList.scss";
+import { isLogin, sortByID } from "../utils/helpers.js";
+import CommentCard from "./CommentCard";
 
-function CommentList(comments) {
+function CommentList({ comments, setCommentsSate, movieId }) {
     const [openForm, setOpenForm] = useState(false);
+    const [inputComment, setInputComment] = useState("");
+
+    const handleOpenForm = () => {
+        if (isLogin()) {
+            setOpenForm(!openForm);
+        } else {
+            alert("Login to review this movie");
+        }
+    };
+
+    const handleSubmitComment = async (e) => {
+        e.preventDefault();
+
+        if (inputComment.length > 0) {
+            try {
+                const response = await commentApi.postComment(movieId, { content: inputComment });
+                const newComments = [...comments, response];
+                setCommentsSate(sortByID(newComments));
+                setOpenForm(!openForm);
+                setInputComment("");
+            } catch (error) {}
+        }
+    };
+
+    const handleChange = (e) => {
+        setInputComment(e.target.value);
+    };
 
     return (
         <>
             <div className="commentList__header">
                 <h1 className="title">Reviews</h1>
 
-                <button className="btn btn-primary" onClick={() => setOpenForm(!openForm)}>
+                <button className="btn btn-primary" onClick={handleOpenForm}>
                     <i className={`fa fa-${openForm ? "times" : "pen"}`} />
                 </button>
             </div>
-            <Form className={`commentList__form ${openForm ? "commentList__form--active" : ""}`}>
+            <Form
+                className={`commentList__form ${openForm ? "commentList__form--active" : ""}`}
+                onSubmit={handleSubmitComment}
+            >
                 <Form.Group controlId="Write your comment">
                     <Row>
                         <Col md="1">
@@ -26,7 +58,14 @@ function CommentList(comments) {
                             />
                         </Col>
                         <Col md="11">
-                            <Form.Control as="textarea" maxLength="100" rows={3} />
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                onChange={handleChange}
+                                name="inputComment"
+                                value={inputComment}
+                                required
+                            />
                         </Col>
                     </Row>
                 </Form.Group>
@@ -38,12 +77,11 @@ function CommentList(comments) {
                 </Form.Group>
             </Form>
 
-            <CommentCard />
-            {/* {comments.length > 0 ? (
-                comments?.map((comment) => <CommentCard comment={comment} />)
+            {comments.length > 0 ? (
+                comments?.map((comment, index) => <CommentCard comment={comment} key={index} />)
             ) : (
                 <p style={{ textAlign: "center" }}>{"We don't have any reviews for this movie :)"}</p>
-            )} */}
+            )}
         </>
     );
 }
