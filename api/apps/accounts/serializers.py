@@ -14,15 +14,7 @@ from apps.common.model_loaders import get_user_model
 
 
 class UpdateUserProfileRequestSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField(
-        validators=[user_id_exist],
-        required=True,
-    )
-    username = serializers.CharField(
-        validators=[username_exists],
-        max_length=settings.USERNAME_MAX_LENGTH,
-        required=True,
-    )
+    username = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
     birthday = serializers.DateField(required=True)
     occupation = serializers.CharField(

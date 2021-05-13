@@ -100,16 +100,15 @@ class User(AbstractUser):
             return False
 
     @classmethod
-    def get_user_profile_with_id(cls, id):
+    def get_user_profile_with_username(cls, username):
         try:
-            return cls.objects.get(pk=id)
+            return cls.objects.get(username=username)
         except User.DoesNotExist:
             return None
 
     @classmethod
-    def update_user_profile_with_id(
+    def update_user_profile_with_username(
         cls,
-        user_id,
         username,
         password,
         email,
@@ -117,7 +116,7 @@ class User(AbstractUser):
         gender,
         occupation,
     ):
-        user = cls.objects.get(pk=user_id)
+        user = cls.objects.get(username=username)
 
         user.username = username
         user.set_password(password)
