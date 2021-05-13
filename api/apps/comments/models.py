@@ -22,11 +22,12 @@ class Comment(models.Model):
         blank=False,
     )
     content = models.TextField()
-    created_at = timezone.now()
-    updated_at = timezone.now()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "comment"
+        ordering = ["-id"]
 
     def __str__(self):
         return self.content
