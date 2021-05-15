@@ -1,23 +1,27 @@
 import React from "react";
-import PropTypes from "prop-types";
-import OwlCarousel from "react-owl-carousel";
 import { Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import style from "../style/components/_movie-recommend.module.scss";
+import { Link, useHistory } from "react-router-dom";
+import "../style/components/Recommend.scss";
+import DefaultMovie from "../assets/img/default-movie.png";
 
-MovieRecommend.propTypes = {
-    movieListRec: PropTypes.array,
-};
-
-function MovieRecommend({ movieListRec }) {
-    const renderMovieListRec = (movieList) => {
-        return movieList?.map((movie, index) => {
+function Recommend({ movies, title }) {
+    const renderMovies = (movies) => {
+        return movies?.map((movie, index) => {
             return (
-                <div className={style.card}>
-                    <Link to={`movies/${movie.id}`} className={style.card__link}>
-                        <Card.Img variant="top" src={movie.poster} loading="lazy" />
-                        <p className={`${style["card__datetime"]} mb-0`}>{movie.year}</p>
-                        <div className={style.card__overlay}>
+                <div className="recommendCard" key={index}>
+                    <Link className="recommendCard__link" to={`/movies/${movie.id}`}>
+                        <div
+                            style={{
+                                backgroundImage: `url(${DefaultMovie})`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center,0 0",
+                                backgroundSize: "100% auto",
+                            }}
+                        >
+                            <Card.Img variant="top" src={movie.poster} loading="lazy" />
+                        </div>
+                        <p className="recommendCard__datetime mb-0">{movie.year}</p>
+                        <div className="recommendCard__overlay">
                             <i className="fa fa-play"></i>
                         </div>
                     </Link>
@@ -26,14 +30,15 @@ function MovieRecommend({ movieListRec }) {
             );
         });
     };
+
     return (
         <div>
-            <h1 className="title title--rec">Recommend</h1>
-            <div className={style.scroller}>
-                <div className={style["scroller__wrapper"]}>{renderMovieListRec(movieListRec)}</div>
+            <h1 className="title title--rec">{title}</h1>
+            <div className="scroller">
+                <div className="scroller__wrapper">{renderMovies(movies)}</div>
             </div>
         </div>
     );
 }
 
-export default MovieRecommend;
+export default Recommend;

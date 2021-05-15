@@ -100,16 +100,15 @@ class User(AbstractUser):
             return False
 
     @classmethod
-    def get_user_profile_with_id(cls, id):
+    def get_user_profile_with_username(cls, username):
         try:
-            return cls.objects.get(pk=id)
+            return cls.objects.get(username=username)
         except User.DoesNotExist:
             return None
 
     @classmethod
-    def update_user_profile_with_id(
+    def update_user_profile_with_username(
         cls,
-        user_id,
         username,
         password,
         email,
@@ -117,7 +116,7 @@ class User(AbstractUser):
         gender,
         occupation,
     ):
-        user = cls.objects.get(pk=user_id)
+        user = cls.objects.get(username=username)
 
         user.username = username
         user.set_password(password)
@@ -149,8 +148,10 @@ class User(AbstractUser):
 
     def rating_movie(self, movie, user, rating):
         Rating = get_rating_model()
-        rating = Rating.objects.create(movie=movie, user=user, rating=rating)
-        return self.update_average_rating(movie=movie, rating=rating)
+        obj, created = Rating.objects.update_or_create(
+            movie=movie, user=user, defaults={"rating": rating}
+        )
+        return self.update_average_rating(movie=movie, rating=obj)
 
     def update_average_rating(self, movie, rating):
         Rating = get_rating_model()
@@ -165,3 +166,8 @@ class User(AbstractUser):
         movie.save()
 
         return rating
+
+    @classmethod
+    def get_ratings_of_user(cls):
+        Rating = get_rating_model()
+        return Rating.objects.filter(user_id=user)

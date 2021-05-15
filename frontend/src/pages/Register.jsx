@@ -3,10 +3,10 @@ import { Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import logo from "../assets/img/logo.png";
 import userApi from "../services/user";
-import { genders, occupations } from "../utils/constants";
+import { GENDERS, OCCUPATIONS } from "../utils/constants";
 import * as Helpers from "../utils/helpers";
 import { Messages } from "../utils/messages";
-import "../style/pages/_register.scss";
+import "../style/pages/Register.scss";
 
 const Register = () => {
     const [inputs, setInputs] = useState({
@@ -51,7 +51,7 @@ const Register = () => {
             try {
                 await userApi.register(inputs);
                 alert("Create user successfully.");
-                history.push("/login");
+                history.replace("/login");
             } catch (error) {
                 // get first error message
                 const [first] = Object.keys(error.response.data);
@@ -117,7 +117,7 @@ const Register = () => {
                         <Form.Group as={Col}>
                             <Form.Control as="select" name="gender" onChange={handleChange} required>
                                 <option value="" label="Select gender" />
-                                {genders.map((item, index) => (
+                                {GENDERS.map((item, index) => (
                                     <option key={index} value={item} label={item} />
                                 ))}
                             </Form.Control>
@@ -141,11 +141,11 @@ const Register = () => {
                             defaultValue={occupation}
                             name="occupation"
                             onChange={handleChange}
-                            options={occupations}
+                            options={OCCUPATIONS}
                             required
                         >
                             <option value="" label="Select occupation" />
-                            {occupations.map((item, index) => (
+                            {OCCUPATIONS.map((item, index) => (
                                 <option key={index} value={item} label={item} />
                             ))}
                         </Form.Control>

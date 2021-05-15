@@ -1,24 +1,47 @@
-import React, { useState } from "react";
-import { Container, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
-import * as Helpers from "../utils/helpers.js";
+import React, { useEffect, useState } from "react";
+import { Container, Form, FormControl, InputGroup, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
+import { useHistory } from "react-router";
 import logo from "../assets/img/logo.svg";
-import "../style/components/_header.scss";
 import userApi from "../services/user.js";
+import "../style/components/Header.scss";
+import { GENRES } from "../utils/constants";
+import * as Helpers from "../utils/helpers.js";
 
 function Header() {
-    const [username, setUsername] = useState(() => {
-        const initUsername = Helpers.getLocalStorage("name");
-        return initUsername;
+    const [currentUser, setCurrentUser] = useState({
+        username: "",
     });
+    const [inputSearch, setInputSearch] = useState("");
+    const history = useHistory();
+
+    useEffect(() => {
+        if (Helpers.isLogin()) {
+            async function fetchData() {
+                const response = await userApi.getCurrentUser();
+                Helpers.saveLocalStorage("currentUser", response);
+                setCurrentUser({
+                    username: response.username,
+                });
+            }
+            fetchData();
+        }
+    }, []);
 
     const handleLogout = async () => {
         try {
             await userApi.logout().then();
-            Helpers.removeLocalStorage("access_token");
-            Helpers.removeLocalStorage("refresh_token");
-            setUsername("");
+            Helpers.removeAuth();
+            setCurrentUser({});
         } catch {
             alert("Logout Failed.");
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (inputSearch.length > 0) {
+            const searchText = inputSearch.trim().replaceAll(" ", "+");
+            history.push(`/search/?q=${searchText}`);
         }
     };
 
@@ -28,20 +51,37 @@ function Header() {
                 <Row>
                     <Navbar expand="lg">
                         <Navbar.Brand href="/">
-                            <img src={logo} style={{ width: "154px", height: "50px" }} alt="" />
+                            <img src={logo} style={{ width: "140px", height: "40px" }} alt="" />
                         </Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
-                                <NavDropdown title="Movies" id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="#action/3.1">Popular</NavDropdown.Item>
+                                <NavDropdown title="Genres" id="basic-nav-dropdown">
+                                    {GENRES.map((genre, index) => {
+                                        return (
+                                            <NavDropdown.Item href="/" key={index}>
+                                                {genre}
+                                            </NavDropdown.Item>
+                                        );
+                                    })}
                                 </NavDropdown>
-                                <Nav.Link href="#link">Recommend</Nav.Link>
                             </Nav>
+                            <Form inline onSubmit={handleSubmit}>
+                                <InputGroup>
+                                    <FormControl
+                                        type="text"
+                                        placeholder="Search for a movie....."
+                                        className="mr-md-4"
+                                        onChange={(e) => {
+                                            setInputSearch(e.target.value);
+                                        }}
+                                    />
+                                </InputGroup>
+                            </Form>
                             {Helpers.isLogin() ? (
                                 <Nav>
                                     <NavDropdown
-                                        title={username}
+                                        title={currentUser.username}
                                         id="basic-nav-dropdown"
                                         className="dropdown-menu-lg-right"
                                     >

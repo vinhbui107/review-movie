@@ -29,6 +29,7 @@
     img {
         width: 100%;
         height: 100%;
+        text-indent: -10000px;
     }
 
     &::before {
@@ -52,14 +53,11 @@
         &--row {
             align-items: center;
         }
-
-        &--left {
-        }
-
-        &--right {
-        }
     }
-
+    &__image {
+        width: 100%;
+        height: 100%;
+    }
     &__title {
         padding-top: 30px;
         position: relative;

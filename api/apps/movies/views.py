@@ -1,5 +1,5 @@
 from django.db import transaction
-
+import logging
 from rest_framework.views import APIView
 from rest_framework.exceptions import status
 from rest_framework.response import Response
@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from apps.movies.serializers import (
     MovieSerializer,
-    MovieRatingSerializer,
+    RatingSerializer,
     PostMovieRatingSerializer,
     UpdateRatingSerializer,
     GetMovieRatingsSerializer,
@@ -53,7 +53,7 @@ class MovieRatings(APIView):
 
         Movie = get_movie_model()
         movie_ratings = Movie.get_ratings_with_movie_id(movie_id=movie_id)
-        movie_ratings_serializer = MovieRatingSerializer(
+        movie_ratings_serializer = RatingSerializer(
             movie_ratings, many=True, context={"request": request}
         )
         return Response(
@@ -77,11 +77,11 @@ class MovieRatings(APIView):
                 movie_id=movie_id, user=user, rating=rating
             )
 
-        movie_rating_serializer = MovieRatingSerializer(
+        movie_rating_serializer = RatingSerializer(
             movie_rating, context={"request": request}
         )
         return Response(
-            movie_rating_serializer.data, status=status.HTTP_201_CREATED
+            movie_rating_serializer.data, status=status.HTTP_200_OK
         )
 
     def _get_request_data(self, request, movie_id):
@@ -99,11 +99,11 @@ class RatingItem(APIView):
     def get(self, request, rating_id):
         Rating = get_rating_model()
         try:
-            movie = Rating.get_rating_with_id(rating_id)
-            movie_serializer = MovieRatingSerializer(
-                movie, context={"request": request}
+            ratings = Rating.get_rating_with_id(rating_id)
+            ratings_serializer = RatingSerializer(
+                ratings, context={"request": request}
             )
-            return Response(movie_serializer.data, status=status.HTTP_200_OK)
+            return Response(ratings_serializer.data, status=status.HTTP_200_OK)
         except Rating.DoesNotExist:
             return ApiMessageResponse(
                 "Rating not found", status=status.HTTP_404_NOT_FOUND

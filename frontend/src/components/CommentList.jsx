@@ -1,33 +1,89 @@
-import React from "react";
-import { Card, Col, Row } from "react-bootstrap";
-import "../style/components/_comment-list.scss";
+import React, { useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import commentApi from "../services/comment";
+import "../style/components/CommentList.scss";
+import { isLogin, sortByID } from "../utils/helpers.js";
+import CommentCard from "./CommentCard";
 
-export default function CommentList() {
+function CommentList({ comments, setCommentsSate, movieId }) {
+    const [openForm, setOpenForm] = useState(false);
+    const [inputComment, setInputComment] = useState("");
+
+    const handleOpenForm = () => {
+        if (isLogin()) {
+            setOpenForm(!openForm);
+        } else {
+            alert("Login to review this movie");
+        }
+    };
+
+    const handleSubmitComment = async (e) => {
+        e.preventDefault();
+
+        if (inputComment.length > 0) {
+            try {
+                const response = await commentApi.postComment(movieId, { content: inputComment });
+                const newComments = [...comments, response];
+                setCommentsSate(sortByID(newComments));
+                setOpenForm(!openForm);
+                setInputComment("");
+            } catch (error) {}
+        }
+    };
+
+    const handleChange = (e) => {
+        setInputComment(e.target.value);
+    };
+
     return (
-        <Card className="commentList">
-            <Card.Body>
-                <Row>
-                    <Col md="2" className="commentList--left">
-                        <img
-                            src="https://www.themoviedb.org/t/p/w64_and_h64_face/xNLOqXXVJf9m7WngUMLIMFsjKgh.jpg"
-                            alt=""
-                            className="commentList__avatar"
-                        />
-                    </Col>
-                    <Col md="10" className="commentList--right">
-                        <div className="commentList__author">
-                            <h3>A review by JPV852</h3>
-                            <small>March 31, 2021</small>
-                        </div>
+        <>
+            <div className="commentList__header">
+                <h1 className="title">Reviews</h1>
 
-                        <Card.Text className="commentList__list">
-                            Satisfying through and through. Also they seemed to learn from the past mistakes (with
-                            Godzilla and Godzilla: King of the Monsters) of doing too much with the human characters,
-                            here they are thankfully just window dressing for the battle between the two titans.
-                        </Card.Text>
-                    </Col>
-                </Row>
-            </Card.Body>
-        </Card>
+                <button className="btn btn-primary" onClick={handleOpenForm}>
+                    <i className={`fa fa-${openForm ? "times" : "pen"}`} />
+                </button>
+            </div>
+            <Form
+                className={`commentList__form ${openForm ? "commentList__form--active" : ""}`}
+                onSubmit={handleSubmitComment}
+            >
+                <Form.Group controlId="Write your comment">
+                    <Row>
+                        <Col md="1">
+                            <img
+                                src="https://www.themoviedb.org/t/p/w64_and_h64_face/xNLOqXXVJf9m7WngUMLIMFsjKgh.jpg"
+                                alt=""
+                                className="commentList__form__avatar"
+                            />
+                        </Col>
+                        <Col md="11">
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                onChange={handleChange}
+                                name="inputComment"
+                                value={inputComment}
+                                required
+                            />
+                        </Col>
+                    </Row>
+                </Form.Group>
+
+                <Form.Group className="text-right">
+                    <Button type="submit" className="commentList__form__submit">
+                        Submit
+                    </Button>
+                </Form.Group>
+            </Form>
+
+            {comments.length > 0 ? (
+                comments?.map((comment, index) => <CommentCard comment={comment} key={index} />)
+            ) : (
+                <p style={{ textAlign: "center" }}>{"We don't have any reviews for this movie :)"}</p>
+            )}
+        </>
     );
 }
+
+export default CommentList;

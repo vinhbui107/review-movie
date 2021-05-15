@@ -23,11 +23,12 @@ class MovieSerializer(serializers.ModelSerializer):
         )
 
 
-class MovieRatingSerializer(serializers.ModelSerializer):
+class RatingSerializer(serializers.ModelSerializer):
     user = GetUserProfileSerializer(read_only=True)
     # change format datetime field
     created_at = serializers.DateTimeField(format="%Y-%m-%d")
     updated_at = serializers.DateTimeField(format="%Y-%m-%d")
+    rating = serializers.FloatField()
 
     class Meta:
         model = get_rating_model()

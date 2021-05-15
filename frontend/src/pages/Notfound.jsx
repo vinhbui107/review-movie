@@ -1,19 +1,11 @@
 import React from "react";
-import "../style/pages/_notfound.scss";
+import "../style/pages/NotFound.scss";
+import NotFoundImg from "../assets/img/404.gif";
 
 function NotFound() {
     return (
         <div className="not-found">
-            <h2>NotFound</h2>
-            <h2>NotFound</h2>
-            <h2>NotFound</h2>
-            <h2>NotFound</h2>
-            <h2>NotFound</h2>
-            <h2>NotFound</h2>
-            <h2>NotFound</h2>
-            <h2>NotFound</h2>
-            <h2>NotFound</h2>
-            <h2>NotFound</h2>
+            <img src={NotFoundImg}></img>
         </div>
     );
 }

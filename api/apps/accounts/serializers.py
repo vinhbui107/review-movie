@@ -1,28 +1,20 @@
-from rest_framework import serializers
 from django.conf import settings
 from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from apps.accounts.validators import (
-    username_characters_validator,
-    username_not_taken_validator,
     email_not_taken_validator,
-    username_exists,
     user_id_exist,
+    username_characters_validator,
+    username_not_exists,
+    username_not_taken_validator,
 )
-from apps.common.model_loaders import get_user_model
+from apps.common.model_loaders import get_user_model, get_rating_model
 
 
 class UpdateUserProfileRequestSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField(
-        validators=[user_id_exist],
-        required=True,
-    )
-    username = serializers.CharField(
-        validators=[username_exists],
-        max_length=settings.USERNAME_MAX_LENGTH,
-        required=True,
-    )
+    username = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
     birthday = serializers.DateField(required=True)
     occupation = serializers.CharField(
@@ -38,6 +30,8 @@ class UpdateUserProfileRequestSerializer(serializers.Serializer):
 
 
 class GetUserProfileSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format="%Y-%m-%d")
+
     class Meta:
         model = get_user_model()
         fields = (
@@ -47,6 +41,7 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
             "gender",
             "occupation",
             "avatar",
+            "created_at",
         )
 
 
@@ -54,7 +49,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
-        token["name"] = user.username
         token["user_id"] = user.id
         return token
 
@@ -79,3 +73,9 @@ class RegisterSerializer(serializers.Serializer):
         max_length=settings.OCCUPATION_MAX_LENGTH
     )
     gender = serializers.CharField(max_length=settings.GENDER_MAX_LENGTH)
+
+
+class UserRatingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_rating_model()
+        fields = ("id", "rating", "movie_id", "created_at", "updated_at")

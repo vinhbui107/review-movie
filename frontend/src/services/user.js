@@ -4,28 +4,46 @@ import * as Helpers from "../utils/helpers";
 
 const userApi = {
     login: (params) => {
-        const urlLogin = `${BASE_URL_API}/auth/login`;
-        return axiosClient.post(urlLogin, params);
+        const url = `${BASE_URL_API}/auth/login`;
+        return axiosClient.post(url, params);
     },
 
     register: (params) => {
-        const urlRegister = `${BASE_URL_API}/auth/register`;
-        return axiosClient.post(urlRegister, params);
+        const url = `${BASE_URL_API}/auth/register`;
+        return axiosClient.post(url, params);
     },
 
     logout: () => {
         const refreshToken = Helpers.getLocalStorage("refresh_token");
-
-        Helpers.removeLocalStorage("name");
-
-        const urlLogout = `${BASE_URL_API}/auth/logout`;
+        const url = `${BASE_URL_API}/auth/logout`;
         const param = {
             refresh: refreshToken,
         };
-        return axiosClient.post(urlLogout, param);
+        return axiosClient.post(url, param);
     },
 
-    getUserProfile: () => {},
+    refresh: () => {
+        const refreshToken = Helpers.getLocalStorage("refresh_token");
+        const url = `${BASE_URL_API}/auth/login/refresh`;
+        const param = {
+            refresh: refreshToken,
+        };
+        return axiosClient.post(url, param);
+    },
+
+    getUserProfile: (username) => {
+        const url = `${BASE_URL_API}/auth/users/${username}`;
+        axiosClient.get(url);
+    },
+
+    getCurrentUser: () => {
+        const url = `${BASE_URL_API}/auth/current-user`;
+        return axiosClient.get(url);
+    },
+
+    updateUserProfile: () => {},
+
+    deleteAccount: () => {},
 
     updateUserProfile: () => {},
 };

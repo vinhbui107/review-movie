@@ -5,43 +5,56 @@ import { Container } from "react-bootstrap";
 import MovieList from "../components/MovieList";
 import SearchForm from "../components/SearchForm";
 import movieApi from "../services/movie";
-import "../style/pages/_home.scss";
+import "../style/pages/Home.scss";
+import { isUsingRS, getLocalStorage } from "../utils/helpers.js";
 
 function Home() {
     const [movieList, setMovieList] = useState({
-        trending: [],
-        popular: [],
         recommend: [],
+        popular: [],
+        topRated: [],
     });
 
-    const { trending, popular, recommend } = movieList;
+    const { topRated, popular, recommend } = movieList;
+    const currentUser = getLocalStorage("currentUser");
 
-    useEffect(async () => {
-        const reqRecommend = await movieApi.getMoviesTrending(2);
-        const reqTrending = await movieApi.getMoviesTrending(1);
-        const reqPopular = await movieApi.getMoviesPopular(1);
+    useEffect(() => {
+        async function fetchData() {
+            let reqRecommend = await movieApi.getMoviesPopular(2);
+            if (isUsingRS()) {
+                reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
+            }
+            const reqPopular = await movieApi.getMoviesPopular(1);
+            const reqTopRated = await movieApi.getMoviesTopRated(1);
 
-        axios.all([reqRecommend, reqPopular, reqTrending]).then(
-            axios.spread((...response) => {
-                setMovieList((movieList) => ({
-                    ...movieList,
-                    recommend: response[0].results,
-                    trending: response[1].results,
-                    popular: response[2].results,
-                }));
-            })
-        );
+            axios.all([reqRecommend, reqPopular, reqTopRated]).then(
+                axios.spread((...response) => {
+                    let moviesRecommend = response[0].results;
+                    if (isUsingRS()) {
+                        moviesRecommend = response[0].movies;
+                    }
+                    setMovieList((movieList) => ({
+                        ...movieList,
+                        recommend: moviesRecommend,
+                        popular: response[1].results,
+                        topRated: response[2].results,
+                    }));
+                })
+            );
+        }
+
+        fetchData();
     }, []);
 
     return (
         <div>
             <Container>
                 <SearchForm />
-                {trending?.length > 0 && popular?.length > 0 && recommend?.length > 0 && (
+                {topRated?.length > 0 && popular?.length > 0 && recommend?.length > 0 && (
                     <>
-                        <MovieList movies={recommend} title="Recommend" />
-                        <MovieList movies={trending} title="Trending" />
-                        <MovieList movies={popular} title="Popular" />
+                        <MovieList movies={recommend} title="Recommend for you" />
+                        <MovieList movies={popular} title="What's Popular" />
+                        <MovieList movies={topRated} title="Top Rated" />
                     </>
                 )}
             </Container>

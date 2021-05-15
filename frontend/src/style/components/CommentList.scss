@@ -1,9 +1,8 @@
 @import "../main";
 
-.comments {
+.commentList {
     margin: 20px 0;
     position: relative;
-    // overflow-y: scroll;
 
     &__header {
         display: flex;
@@ -11,10 +10,17 @@
         align-items: center;
     }
 
+    &__avatar {
+        border-radius: 50%;
+
+        img {
+            display: block;
+        }
+    }
+
     &__form {
         transform: translateY(-50%);
         position: absolute;
-        width: 100%;
         margin: 0 auto;
         opacity: 0;
         visibility: hidden;
@@ -30,6 +36,14 @@
 
         &__submit {
             @include Button;
+        }
+
+        &__avatar {
+            border-radius: 50%;
+
+            img {
+                display: block;
+            }
         }
     }
 }

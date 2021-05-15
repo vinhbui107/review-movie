@@ -1,24 +1,44 @@
 export const getLocalStorage = (key) => {
-    return window.localStorage.getItem(key);
+    return JSON.parse(window.localStorage.getItem(key));
 };
 
 export const saveLocalStorage = (key, value) => {
-    window.localStorage.setItem(key, value);
+    window.localStorage.setItem(key, JSON.stringify(value));
 };
 
 export const removeLocalStorage = (key) => {
     window.localStorage.removeItem(key);
 };
 
+export const removeAuth = () => {
+    removeLocalStorage("access_token");
+    removeLocalStorage("refresh_token");
+    removeLocalStorage("currentUser");
+};
+
 export const isLogin = () => {
-    if (getLocalStorage("access_token")) {
+    if (getLocalStorage("access_token") && getLocalStorage("refresh_token")) {
         return true;
     }
+    removeAuth();
     return false;
 };
 
+export const isUsingRS = () => {
+    if (isLogin()) {
+        const moment = require("moment");
+        const currentUser = getLocalStorage("currentUser");
+        const createdDate = currentUser.created_at;
+        var today = moment().format("YYYY-MM-DD");
+        const isAfterCreatedDate = moment(today).isAfter(createdDate);
+        if (isAfterCreatedDate) return true;
+        else return false;
+    }
+};
+
 export const isEmail = (email) => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 };
 
@@ -31,3 +51,16 @@ export const isValidBirthday = (birthday) => {
     const isValidBirthdate = require("is-valid-birthdate");
     return isValidBirthdate(birthday);
 };
+
+export const sortByID = (arr) => {
+    arr.sort(function (a, b) {
+        return b.id - a.id;
+    });
+    return arr;
+};
+
+// export const encodeToken = () => {
+//     const accessToken = getLocalStorage("access_token");
+
+//     const jwt_decode = require("jwt-decode");
+// };

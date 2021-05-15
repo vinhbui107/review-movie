@@ -13,13 +13,17 @@ const AppRoute = ({ component: Component, isAppLayout, ...rest }) => (
         render={(props) =>
             isAppLayout ? (
                 <AppLayout {...rest}>
-                    <Component {...props} />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Component {...props} />
+                    </Suspense>
                 </AppLayout>
             ) : isLogin() ? (
                 <Redirect to="/" />
             ) : (
                 <PublicLayout {...rest}>
-                    <Component {...props} />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Component {...props} />
+                    </Suspense>
                 </PublicLayout>
             )
         }
@@ -41,14 +45,13 @@ function App() {
                 );
             });
         }
+        // </Suspense>
     };
     return (
-        <Suspense fallback={<div>Loading</div>}>
-            <Switch>
-                {showItem(routes)}
-                <Redirect from="*" to="/404" />
-            </Switch>
-        </Suspense>
+        <Switch>
+            {showItem(routes)}
+            <Redirect from="*" to="/404" />
+        </Switch>
     );
 }
 

@@ -8,8 +8,8 @@ from apps.comments.validators import movie_id_exists, movie_comment_id_exists
 class MovieCommentSerializer(serializers.ModelSerializer):
     user = GetUserProfileSerializer(read_only=True)
     # change format date time field
-    created_at = serializers.DateTimeField(format="%Y-%m-%d")
-    updated_at = serializers.DateTimeField(format="%Y-%m-%d")
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = get_comment_model()

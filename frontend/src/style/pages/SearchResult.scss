@@ -1,0 +1,42 @@
+.resultItem {
+    margin: 20px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    &--left {
+        text-align: center;
+    }
+
+    &--right {
+        padding-top: 30px;
+        padding-left: 0;
+    }
+
+    &__poster {
+        margin-right: 10px;
+        border-radius: 10px;
+        height: 170px;
+        width: 150px;
+    }
+
+    &__title {
+        margin-bottom: 10px;
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+    }
+
+    &__body {
+        padding: 0;
+        height: 170px;
+    }
+
+    &__description {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}

@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.db import transaction, DatabaseError
-from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.exceptions import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -17,8 +16,14 @@ from apps.accounts.serializers import (
     MyTokenObtainPairSerializer,
     GetUserProfileSerializer,
     UpdateUserProfileRequestSerializer,
+    UserRatingsSerializer,
 )
 from apps.common.responses import ApiMessageResponse
+from apps.common.model_loaders import (
+    get_movie_model,
+    get_rating_model,
+    get_user_model,
+)
 
 
 class ObtainTokenPairWithColorView(TokenObtainPairView):
@@ -88,9 +93,9 @@ class UserProfile(APIView):
 
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, user_id):
+    def get(self, request, username):
         user = request.user
-        user_profile = user.get_user_profile_with_id(user_id)
+        user_profile = user.get_user_profile_with_username(username)
 
         if user_profile:
             user_profile_serializer = GetUserProfileSerializer(
@@ -104,14 +109,13 @@ class UserProfile(APIView):
                 "User not found", status=status.HTTP_404_NOT_FOUND
             )
 
-    def put(self, request, user_id):
-        request_data = self._get_request_data(request, user_id)
+    def put(self, request, username):
+        request_data = self._get_request_data(request, username)
 
         serializer = UpdateUserProfileRequestSerializer(data=request_data)
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
-        user_id = data.get("user_id")
         username = data.get("username")
         password = data.get("password")
         email = data.get("email")
@@ -123,8 +127,7 @@ class UserProfile(APIView):
 
         try:
             with transaction.atomic():
-                user_profile_updated = user.update_user_profile_with_id(
-                    user_id=user_id,
+                user_profile_updated = user.update_user_profile_with_username(
                     username=username,
                     password=password,
                     email=email,
@@ -143,7 +146,43 @@ class UserProfile(APIView):
 
         return Response(user_profile_serializer.data, status.HTTP_200_OK)
 
-    def _get_request_data(self, request, user_id):
+    def _get_request_data(self, request, username):
         request_data = request.data.copy()
-        request_data["user_id"] = user_id
+        request_data["username"] = username
         return request_data
+
+
+class CurrentUser(APIView):
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        user = request.user
+
+        user_profile_serializer = GetUserProfileSerializer(
+            user, context={"request": request}
+        )
+        return Response(
+            user_profile_serializer.data, status=status.HTTP_200_OK
+        )
+
+
+class UserRatings(APIView):
+
+    permission_classes = (AllowAny,)
+
+    def get(self, request, username):
+        Rating = get_rating_model()
+        User = get_user_model()
+        user = User.objects.get(username=username)
+
+        if user:
+            ratings = Rating.objects.filter(user_id=user)
+            ratings_serializer = UserRatingsSerializer(
+                ratings, context={"request": request}, many=True
+            )
+            return Response(ratings_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return ApiMessageResponse(
+                "User not found", status=status.HTTP_404_NOT_FOUND
+            )

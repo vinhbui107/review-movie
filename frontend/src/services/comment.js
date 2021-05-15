@@ -7,7 +7,10 @@ const commentApi = {
         return axiosClient.get(url);
     },
 
-    postComment: (movieId, content) => {},
+    postComment: (movieId, params) => {
+        const url = `${BASE_URL_API}/movies/${movieId}/comments`;
+        return axiosClient.post(url, params);
+    },
 
     deleteComment: (commentId) => {},
 };
