@@ -148,8 +148,10 @@ class User(AbstractUser):
 
     def rating_movie(self, movie, user, rating):
         Rating = get_rating_model()
-        rating = Rating.objects.create(movie=movie, user=user, rating=rating)
-        return self.update_average_rating(movie=movie, rating=rating)
+        obj, created = Rating.objects.update_or_create(
+            movie=movie, user=user, defaults={"rating": rating}
+        )
+        return self.update_average_rating(movie=movie, rating=obj)
 
     def update_average_rating(self, movie, rating):
         Rating = get_rating_model()
@@ -164,3 +166,8 @@ class User(AbstractUser):
         movie.save()
 
         return rating
+
+    @classmethod
+    def get_ratings_of_user(cls):
+        Rating = get_rating_model()
+        return Rating.objects.filter(user_id=user)

@@ -25,7 +25,7 @@ def email_not_taken_validator(email):
         raise ValidationError("An account for the email already exists.")
 
 
-def username_exists(username):
+def username_not_exists(username):
     User = get_user_model()
 
     if not User.objects.filter(username=username).exist():

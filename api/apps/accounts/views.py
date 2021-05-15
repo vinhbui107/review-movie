@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.db import transaction, DatabaseError
-from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.exceptions import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -17,8 +16,14 @@ from apps.accounts.serializers import (
     MyTokenObtainPairSerializer,
     GetUserProfileSerializer,
     UpdateUserProfileRequestSerializer,
+    UserRatingsSerializer,
 )
 from apps.common.responses import ApiMessageResponse
+from apps.common.model_loaders import (
+    get_movie_model,
+    get_rating_model,
+    get_user_model,
+)
 
 
 class ObtainTokenPairWithColorView(TokenObtainPairView):
@@ -148,6 +153,7 @@ class UserProfile(APIView):
 
 
 class CurrentUser(APIView):
+
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
@@ -159,3 +165,24 @@ class CurrentUser(APIView):
         return Response(
             user_profile_serializer.data, status=status.HTTP_200_OK
         )
+
+
+class UserRatings(APIView):
+
+    permission_classes = (AllowAny,)
+
+    def get(self, request, username):
+        Rating = get_rating_model()
+        User = get_user_model()
+        user = User.objects.get(username=username)
+
+        if user:
+            ratings = Rating.objects.filter(user_id=user)
+            ratings_serializer = UserRatingsSerializer(
+                ratings, context={"request": request}, many=True
+            )
+            return Response(ratings_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return ApiMessageResponse(
+                "User not found", status=status.HTTP_404_NOT_FOUND
+            )

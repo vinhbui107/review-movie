@@ -15,6 +15,7 @@ from apps.accounts.views import (
     Logout,
     UserProfile,
     CurrentUser,
+    UserRatings,
 )
 from apps.movies.views import MovieItem, MovieRatings, RatingItem
 from apps.comments.views import CommentItem, MovieComments
@@ -34,6 +35,7 @@ auth_auth_patterns = [
 
 auth_users_patterns = [
     path("<str:username>", UserProfile.as_view(), name="user"),
+    path("<str:username>/ratings", UserRatings.as_view(), name="user-ratings"),
 ]
 
 auth_patterns = [
