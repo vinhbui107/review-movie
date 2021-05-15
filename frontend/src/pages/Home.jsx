@@ -6,7 +6,7 @@ import MovieList from "../components/MovieList";
 import SearchForm from "../components/SearchForm";
 import movieApi from "../services/movie";
 import "../style/pages/Home.scss";
-import * as Helpers from "../utils/helpers.js";
+import { isUsingRS, getLocalStorage } from "../utils/helpers.js";
 
 function Home() {
     const [movieList, setMovieList] = useState({
@@ -16,12 +16,12 @@ function Home() {
     });
 
     const { topRated, popular, recommend } = movieList;
-    const currentUser = Helpers.getLocalStorage("currentUser");
+    const currentUser = getLocalStorage("currentUser");
 
     useEffect(() => {
         async function fetchData() {
             let reqRecommend = await movieApi.getMoviesPopular(2);
-            if (Helpers.isLogin()) {
+            if (isUsingRS()) {
                 reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
             }
             const reqPopular = await movieApi.getMoviesPopular(1);
@@ -30,7 +30,7 @@ function Home() {
             axios.all([reqRecommend, reqPopular, reqTopRated]).then(
                 axios.spread((...response) => {
                     let moviesRecommend = response[0].results;
-                    if (Helpers.isLogin()) {
+                    if (isUsingRS()) {
                         moviesRecommend = response[0].movies;
                     }
                     setMovieList((movieList) => ({

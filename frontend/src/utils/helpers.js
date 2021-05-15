@@ -24,6 +24,18 @@ export const isLogin = () => {
     return false;
 };
 
+export const isUsingRS = () => {
+    if (isLogin()) {
+        const moment = require("moment");
+        const currentUser = getLocalStorage("currentUser");
+        const createdDate = currentUser.created_at;
+        var today = moment().format("YYYY-MM-DD");
+        const isAfterCreatedDate = moment(today).isAfter(createdDate);
+        if (isAfterCreatedDate) return true;
+        else return false;
+    }
+};
+
 export const isEmail = (email) => {
     const re =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -46,3 +58,9 @@ export const sortByID = (arr) => {
     });
     return arr;
 };
+
+// export const encodeToken = () => {
+//     const accessToken = getLocalStorage("access_token");
+
+//     const jwt_decode = require("jwt-decode");
+// };

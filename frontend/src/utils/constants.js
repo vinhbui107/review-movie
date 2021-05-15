@@ -33,3 +33,31 @@ export const OCCUPATIONS = [
 ];
 
 export const GENDERS = ["Male", "Female"];
+
+export const GENRES = [
+    "Action",
+    "Adventure",
+    "Animation",
+    "Comedy",
+    "Crime",
+    "Documentary",
+    "Drama",
+    "Family",
+    "Fantasy",
+    "Foreign",
+    "Game Show",
+    "History",
+    "Horror",
+    "Music",
+    "Musical",
+    "Mystery",
+    "Reality TV",
+    "Romance",
+    "Sci-Fi",
+    "Sports",
+    "Superhero",
+    "Thriller",
+    "TV Movie",
+    "War",
+    "Western",
+];

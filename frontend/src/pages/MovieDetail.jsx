@@ -8,46 +8,68 @@ import Recommend from "../components/Recommend";
 import commentApi from "../services/comment";
 import movieApi from "../services/movie";
 import "../style/pages/MovieDetail.scss";
-import { getLocalStorage, isLogin } from "../utils/helpers.js";
+import { getLocalStorage, isLogin, isUsingRS } from "../utils/helpers.js";
 import DefaultMovie from "../assets/img/default-movie.png";
 
 function MovieDetail() {
     const [movieItem, setMovieItem] = useState(null);
     const [comments, setComments] = useState([]);
     const [moviesRecommend, setMoviesRecommend] = useState([]);
-    const [rating, setRating] = useState(0);
     const { movieId } = useParams();
     const currentUser = getLocalStorage("currentUser");
+    const [rating, setRating] = useState(null);
+
+    async function _fetchMovieData() {
+        let reqRecommend = await movieApi.getMoviesPopular(2);
+        if (isUsingRS()) {
+            reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
+        }
+        const reqComments = await commentApi.getMovieComments(movieId);
+        const reqMovieItem = await movieApi.getMovieItem(movieId);
+
+        axios.all([reqRecommend, reqMovieItem, reqComments]).then(
+            axios.spread((...response) => {
+                let moviesRecommend = response[0].results;
+                if (isUsingRS()) {
+                    moviesRecommend = response[0].movies;
+                }
+                setMoviesRecommend(moviesRecommend);
+                setMovieItem(response[1].results[0]);
+                setComments(response[2]);
+            })
+        );
+    }
+
+    const _fetchUserRating = async () => {
+        if (isLogin()) {
+            try {
+                const response = await movieApi.getUserRatings(currentUser.username);
+                response.find((rating) => {
+                    if (String(rating.movie_id) === movieId) {
+                        setRating(rating.rating);
+                    }
+                });
+            } catch (error) {
+                alert(error);
+            }
+        }
+    };
 
     useEffect(() => {
-        async function _fetchData() {
-            let reqRecommend = await movieApi.getMoviesPopular(2);
-            if (isLogin()) {
-                reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
-            }
-            const reqComments = await commentApi.getMovieComments(movieId);
-            const reqMovieItem = await movieApi.getMovieItem(movieId);
-
-            axios.all([reqRecommend, reqMovieItem, reqComments]).then(
-                axios.spread((...response) => {
-                    let moviesRecommend = response[0].results;
-                    if (isLogin()) {
-                        moviesRecommend = response[0].movies;
-                    }
-                    setMoviesRecommend(moviesRecommend);
-                    setMovieItem(response[1].results[0]);
-                    setComments(response[2]);
-                })
-            );
-        }
-
-        _fetchData();
+        _fetchMovieData();
+        _fetchUserRating();
     }, []);
 
-    const handleRating = (value) => {
+    const handleRating = async (value) => {
         if (isLogin()) {
-            setRating(value);
-            alert(value);
+            try {
+                const params = {
+                    rating: value,
+                };
+                const response = await movieApi.postRating(movieId, params);
+                setRating(response.rating);
+                alert("Rated movie successes.");
+            } catch (error) {}
         } else {
             alert("You need to login!!!");
         }

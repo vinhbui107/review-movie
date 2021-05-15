@@ -28,7 +28,15 @@ const movieApi = {
         return axiosClient.get(url);
     },
 
-    postRating: (movieId, value) => {},
+    getUserRatings: (username) => {
+        const url = `${BASE_URL_API}/auth/users/${username}/ratings`;
+        return axiosClient.get(url);
+    },
+
+    postRating: (movieId, params) => {
+        const url = `${BASE_URL_API}/movies/${movieId}/ratings`;
+        return axiosClient.post(url, params);
+    },
 
     // Search API
     searchMovie: (searchText) => {
