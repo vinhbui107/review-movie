@@ -7,6 +7,7 @@ const MovieDetailPage = lazy(() => import("./MovieDetail"));
 const NotFoundPage = lazy(() => import("./Notfound"));
 const ProfilePage = lazy(() => import("./Profile"));
 const SearchResultPage = lazy(() => import("./SearchResult"));
+const MoviesGenrePage = lazy(() => import("./MoviesGenre"));
 
 const routes = [
     {
@@ -37,6 +38,12 @@ const routes = [
         path: "/movies/:movieId",
         exact: true,
         component: MovieDetailPage,
+        isAppLayout: true,
+    },
+    {
+        path: "/genres/:genre",
+        exact: true,
+        component: MoviesGenrePage,
         isAppLayout: true,
     },
     {

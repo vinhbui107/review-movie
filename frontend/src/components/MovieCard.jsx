@@ -11,7 +11,7 @@ function MovieCard({ movie }) {
     const percentage = movie.imdb_rating * 10;
     return (
         <Card className="card">
-            <Link to={`movies/${movie.id}`}>
+            <Link to={`/movies/${movie.id}`}>
                 <div style={{ backgroundImage: `url(${DefaultMovie})` }}>
                     <Card.Img variant="top" src={movie.poster} />
                 </div>

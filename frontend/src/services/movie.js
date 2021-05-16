@@ -22,6 +22,11 @@ const movieApi = {
         return axiosClient.get(url);
     },
 
+    getMoviesGenre: (genre) => {
+        const url = `${BASE_URL_API}/search/movies/?genres=${genre}`;
+        return axiosClient.get(url);
+    },
+
     // Rate API
     getMovieRatings: (movieId) => {
         const url = `${BASE_URL_API}/movies/${movieId}/ratings`;

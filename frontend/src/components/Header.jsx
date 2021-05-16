@@ -59,12 +59,13 @@ function Header() {
                                 <NavDropdown title="Genres" id="basic-nav-dropdown">
                                     {GENRES.map((genre, index) => {
                                         return (
-                                            <NavDropdown.Item href="/" key={index}>
+                                            <NavDropdown.Item href={`/genres/${genre}`} key={index}>
                                                 {genre}
                                             </NavDropdown.Item>
                                         );
                                     })}
                                 </NavDropdown>
+                                <Nav.Link href="/">Recommend</Nav.Link>
                             </Nav>
                             <Form inline onSubmit={handleSubmit}>
                                 <InputGroup>
