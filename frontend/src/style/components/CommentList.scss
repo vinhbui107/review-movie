@@ -11,11 +11,9 @@
     }
 
     &__avatar {
-        border-radius: 50%;
-
-        img {
-            display: block;
-        }
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
     }
 
     &__form {

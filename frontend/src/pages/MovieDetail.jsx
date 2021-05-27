@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Rate } from "antd";
+import { Rate, notification } from "antd";
 import axios from "axios";
 import { Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
@@ -50,7 +50,9 @@ function MovieDetail() {
                     }
                 });
             } catch (error) {
-                alert(error);
+                notification["warning"]({
+                    message: "Get data failed!",
+                });
             }
         }
     };
@@ -68,10 +70,14 @@ function MovieDetail() {
                 };
                 const response = await movieApi.postRating(movieId, params);
                 setRating(response.rating);
-                alert("Rated movie successes.");
+                notification["success"]({
+                    message: "Rating successfully.",
+                });
             } catch (error) {}
         } else {
-            alert("You need to login!!!");
+            notification["warning"]({
+                message: "You need to login for rate this movie!",
+            });
         }
     };
 

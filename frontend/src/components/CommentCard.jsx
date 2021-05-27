@@ -1,5 +1,7 @@
 import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar } from "antd";
 import "../style/components/CommentCard.scss";
 import DefaultAvatar from "../assets/img/avatar.png";
 
@@ -9,15 +11,7 @@ function CommentCard({ comment }) {
             <Card.Body>
                 <Row>
                     <Col md="2" className="commentCard--left">
-                        <div
-                            style={{
-                                backgroundImage: `url("${DefaultAvatar}")`,
-                                backgroundRepeat: "no-repeat",
-                                backgroundPosition: "center,0 0",
-                                backgroundSize: "70% auto",
-                            }}
-                            className="commentCard__avatar"
-                        ></div>
+                        <Avatar icon={<UserOutlined />} src={comment.user.avatar} size={64} />
                     </Col>
                     <Col md="10" className="commentCard--right">
                         <div className="commentCard__author">

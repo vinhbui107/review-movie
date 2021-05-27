@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { Empty, notification } from "antd";
 import { useParams } from "react-router";
 import MovieCard from "../components/MovieCard";
 import movieApi from "../services/movie";
@@ -12,7 +13,9 @@ function MoviesGenre() {
             const response = await movieApi.getMoviesGenre(genre);
             setMovies(response.results);
         } catch (error) {
-            alert("Fetch Data failed.");
+            notification["warning"]({
+                message: "Get data failed!",
+            });
         }
     };
 
@@ -23,19 +26,26 @@ function MoviesGenre() {
     return (
         <Container>
             <h3 className="title">Genre: {genre}</h3>
-            <Row>
-                {movies.length > 0 ? (
-                    movies?.map((movie, index) => {
+            {movies.length > 0 ? (
+                <Row>
+                    {movies?.map((movie, index) => {
                         return (
                             <Col>
                                 <MovieCard movie={movie} index={index} />
                             </Col>
                         );
-                    })
-                ) : (
-                    <div style={{ marginBottom: "20px" }}>{"Sorry We don't have any movie for this genre :((("}</div>
-                )}
-            </Row>
+                    })}
+                </Row>
+            ) : (
+                <div style={{ marginBottom: "20px" }}>
+                    <Empty
+                        imageStyle={{
+                            height: 160,
+                        }}
+                        description={<span>We don't have any movies for this genre.</span>}
+                    />
+                </div>
+            )}
         </Container>
     );
 }

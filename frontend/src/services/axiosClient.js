@@ -1,4 +1,5 @@
 import axios from "axios";
+import { notification } from "antd";
 import queryString from "query-string";
 import { BASE_URL_API } from "../utils/env";
 import * as Helpers from "../utils/helpers";
@@ -14,9 +15,17 @@ const axiosClient = axios.create({
 });
 
 const getNewToken = async () => {
-    const response = await userApi.refresh();
-    Helpers.saveLocalStorage("access_token", response.access);
-    axios.defaults.headers.common["Authorization"] = "Bearer " + response.access;
+    try {
+        const response = await userApi.refresh();
+        Helpers.saveLocalStorage("access_token", response.access);
+        console.log("get new token");
+        axios.defaults.headers.common["Authorization"] = "Bearer " + response.access;
+    } catch {
+        notification["info"]({
+            message: "Your token is expired, reload page!!!",
+        });
+        Helpers.removeAuth();
+    }
 };
 
 axiosClient.interceptors.request.use(async (config) => {
@@ -38,20 +47,17 @@ axiosClient.interceptors.response.use(
     (error) => {
         switch (error.response.status) {
             case 401:
-                // handle expired token
                 const originalRequest = error.config;
                 const refreshToken = Helpers.getLocalStorage("refresh_token");
                 if (refreshToken && error.response.status === 401 && !originalRequest._retry) {
-                    try {
-                        getNewToken();
-                        console.log("get new token");
-                        return axios(originalRequest);
-                    } catch {
-                        alert("Refresh token expired. Login again!!!");
-                        Helpers.removeAuth();
-                    }
+                    getNewToken();
+                    return axios(originalRequest);
                 }
+            case 403:
+                break;
             case 404:
+                break;
+            case 500:
                 break;
             default:
                 throw error;

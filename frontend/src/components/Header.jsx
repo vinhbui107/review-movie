@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Form, FormControl, InputGroup, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
+import { Avatar, notification } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router";
 import logo from "../assets/img/logo.svg";
 import userApi from "../services/user.js";
@@ -8,24 +10,9 @@ import { GENRES } from "../utils/constants";
 import * as Helpers from "../utils/helpers.js";
 
 function Header() {
-    const [currentUser, setCurrentUser] = useState({
-        username: "",
-    });
+    const [currentUser, setCurrentUser] = useState(Helpers.getLocalStorage("currentUser"));
     const [inputSearch, setInputSearch] = useState("");
     const history = useHistory();
-
-    useEffect(() => {
-        if (Helpers.isLogin()) {
-            async function fetchData() {
-                const response = await userApi.getCurrentUser();
-                Helpers.saveLocalStorage("currentUser", response);
-                setCurrentUser({
-                    username: response.username,
-                });
-            }
-            fetchData();
-        }
-    }, []);
 
     const handleLogout = async () => {
         try {
@@ -33,7 +20,9 @@ function Header() {
             Helpers.removeAuth();
             setCurrentUser({});
         } catch {
-            alert("Logout Failed.");
+            notification["warning"]({
+                message: "Logout Failed!",
+            });
         }
     };
 
@@ -65,7 +54,7 @@ function Header() {
                                         );
                                     })}
                                 </NavDropdown>
-                                <Nav.Link href="/">Recommend</Nav.Link>
+                                <Nav.Link href="/recommend">Recommend</Nav.Link>
                             </Nav>
                             <Form inline onSubmit={handleSubmit}>
                                 <InputGroup>
@@ -82,11 +71,18 @@ function Header() {
                             {Helpers.isLogin() ? (
                                 <Nav>
                                     <NavDropdown
-                                        title={currentUser.username}
+                                        title={
+                                            <>
+                                                <Avatar size="small" icon={<UserOutlined />} src={currentUser.avatar} />
+                                                <span style={{ marginLeft: "5px" }}>{currentUser.username}</span>
+                                            </>
+                                        }
                                         id="basic-nav-dropdown"
                                         className="dropdown-menu-lg-right"
                                     >
-                                        <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
+                                        <NavDropdown.Item href={`/users/${currentUser.username}`}>
+                                            Profile
+                                        </NavDropdown.Item>
                                         <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                                     </NavDropdown>
                                 </Nav>
