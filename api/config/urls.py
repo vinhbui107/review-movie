@@ -1,24 +1,25 @@
-from django.contrib import admin
-from django.urls import path
 from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path
 
+from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
 from apps.accounts.views import (
+    CurrentUser,
+    Logout,
     ObtainTokenPairWithColorView,
     Register,
-    Logout,
     UserProfile,
-    CurrentUser,
     UserRatings,
 )
-from apps.movies.views import MovieItem, MovieRatings, RatingItem
 from apps.comments.views import CommentItem, MovieComments
+from apps.movies.views import MovieItem, MovieRatings, RatingItem
 from apps.search import urls as search_index_urls
 
 
@@ -75,3 +76,5 @@ urlpatterns = [
     path("api/", include(api_patterns)),
     path("admin/", admin.site.urls),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

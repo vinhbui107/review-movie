@@ -68,11 +68,10 @@ class User(AbstractUser):
         null=True,
         default=None,
     )
-    avatar = ProcessedImageField(
+    avatar = models.ImageField(
         upload_to=upload_to_user_avatar_directory,
         blank=True,
         null=True,
-        format="JPEG",
         default=None,
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -115,6 +114,7 @@ class User(AbstractUser):
         birthday,
         gender,
         occupation,
+        avatar,
     ):
         user = cls.objects.get(username=username)
 
@@ -124,6 +124,7 @@ class User(AbstractUser):
         user.birthday = birthday
         user.gender = gender
         user.occupation = occupation
+        user.avatar = avatar
 
         user.save()
         return user
