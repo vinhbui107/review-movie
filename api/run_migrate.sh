@@ -1,2 +1,2 @@
-python3 manage.py makemigrations
-python3 manage.py migratepython3
+python manage.py makemigrations
+python manage.py migrate
