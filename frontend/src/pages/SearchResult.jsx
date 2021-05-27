@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
 import { useLocation, useHistory } from "react-router-dom";
+import { Empty } from "antd";
 import movieApi from "../services/movie";
 import "../style/pages/SearchResult.scss";
 import DefaultMovie from "../assets/img/default-movie.png";
@@ -60,7 +61,14 @@ function SearchResult() {
                     return ResultItem(movie);
                 })
             ) : (
-                <p>Not found any movie</p>
+                <div style={{ marginBottom: "20px" }}>
+                    <Empty
+                        imageStyle={{
+                            height: 160,
+                        }}
+                        description={<span>We don't have any movies for this keyword.</span>}
+                    />
+                </div>
             )}
         </Container>
     );

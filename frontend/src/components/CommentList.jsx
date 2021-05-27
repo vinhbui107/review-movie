@@ -1,19 +1,24 @@
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Empty, notification } from "antd";
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import commentApi from "../services/comment";
 import "../style/components/CommentList.scss";
-import { isLogin, sortByID } from "../utils/helpers.js";
+import { getLocalStorage, isLogin, sortByID } from "../utils/helpers.js";
 import CommentCard from "./CommentCard";
 
 function CommentList({ comments, setCommentsSate, movieId }) {
     const [openForm, setOpenForm] = useState(false);
     const [inputComment, setInputComment] = useState("");
+    const currentUser = getLocalStorage("currentUser");
 
     const handleOpenForm = () => {
         if (isLogin()) {
             setOpenForm(!openForm);
         } else {
-            alert("Login to review this movie");
+            notification["warning"]({
+                message: "You need to login for review this movie!",
+            });
         }
     };
 
@@ -24,6 +29,9 @@ function CommentList({ comments, setCommentsSate, movieId }) {
             try {
                 const response = await commentApi.postComment(movieId, { content: inputComment });
                 const newComments = [...comments, response];
+                notification["success"]({
+                    message: "Review successfully.",
+                });
                 setCommentsSate(sortByID(newComments));
                 setOpenForm(!openForm);
                 setInputComment("");
@@ -50,12 +58,8 @@ function CommentList({ comments, setCommentsSate, movieId }) {
             >
                 <Form.Group controlId="Write your comment">
                     <Row>
-                        <Col md="1">
-                            <img
-                                src="https://www.themoviedb.org/t/p/w64_and_h64_face/xNLOqXXVJf9m7WngUMLIMFsjKgh.jpg"
-                                alt=""
-                                className="commentList__form__avatar"
-                            />
+                        <Col md="1" className="commentList__avatar">
+                            <Avatar icon={<UserOutlined />} src={currentUser?.avatar} size={48} />
                         </Col>
                         <Col md="11">
                             <Form.Control
@@ -80,7 +84,16 @@ function CommentList({ comments, setCommentsSate, movieId }) {
             {comments.length > 0 ? (
                 comments?.map((comment, index) => <CommentCard comment={comment} key={index} />)
             ) : (
-                <p style={{ textAlign: "center" }}>{"We don't have any reviews for this movie :)"}</p>
+                <div style={{ marginBottom: "20px" }}>
+                    <Empty
+                        imageStyle={{
+                            height: 120,
+                        }}
+                        description={
+                            <span>We don't have any reviews for this movie. Would you like to write one?</span>
+                        }
+                    />
+                </div>
             )}
         </>
     );

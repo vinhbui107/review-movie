@@ -27,6 +27,10 @@ class UpdateUserProfileRequestSerializer(serializers.Serializer):
         min_length=settings.PASSWORD_MIN_LENGTH,
         max_length=settings.PASSWORD_MAX_LENGTH,
     )
+    avatar = serializers.ImageField(
+        max_length=None,
+        use_url=True,
+    )
 
 
 class GetUserProfileSerializer(serializers.ModelSerializer):
@@ -50,6 +54,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
         token["user_id"] = user.id
+        token["username"] = user.username
         return token
 
 

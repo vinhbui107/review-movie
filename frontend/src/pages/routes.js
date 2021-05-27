@@ -1,12 +1,14 @@
 import { lazy } from "react";
 
 const LoginPage = lazy(() => import("./Login"));
-const RegiserPage = lazy(() => import("./Register"));
+const RegisterPage = lazy(() => import("./Register"));
 const HomePage = lazy(() => import("./Home"));
 const MovieDetailPage = lazy(() => import("./MovieDetail"));
 const NotFoundPage = lazy(() => import("./Notfound"));
 const ProfilePage = lazy(() => import("./Profile"));
 const SearchResultPage = lazy(() => import("./SearchResult"));
+const MoviesGenrePage = lazy(() => import("./MoviesGenre"));
+const MoviesRecommendPage = lazy(() => import("./MoviesRecommend"));
 
 const routes = [
     {
@@ -24,11 +26,11 @@ const routes = [
     {
         path: "/register",
         exact: true,
-        component: RegiserPage,
+        component: RegisterPage,
         isAppLayout: false,
     },
     {
-        path: "/profile",
+        path: "/users/:username",
         exact: true,
         component: ProfilePage,
         isAppLayout: true,
@@ -37,6 +39,18 @@ const routes = [
         path: "/movies/:movieId",
         exact: true,
         component: MovieDetailPage,
+        isAppLayout: true,
+    },
+    {
+        path: "/genres/:genre",
+        exact: true,
+        component: MoviesGenrePage,
+        isAppLayout: true,
+    },
+    {
+        path: "/recommend",
+        exact: true,
+        component: MoviesRecommendPage,
         isAppLayout: true,
     },
     {

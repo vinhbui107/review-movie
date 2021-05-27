@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
+import { message } from "antd";
 import userApi from "../services/user";
 import * as Helpers from "../utils/helpers";
 import logo from "../assets/img/logo.png";
@@ -13,7 +14,7 @@ const Login = () => {
         password: "",
     });
 
-    const [message, setMessage] = useState("");
+    const [messageError, setMessageError] = useState("");
     const { username, password } = inputs;
     const history = useHistory();
 
@@ -37,15 +38,19 @@ const Login = () => {
 
         const newError = findFormError();
         if (newError.length > 0) {
-            setMessage(newError);
+            setMessageError(newError);
         } else {
             try {
                 const response = await userApi.login(inputs);
                 Helpers.saveLocalStorage("access_token", response.access);
                 Helpers.saveLocalStorage("refresh_token", response.refresh);
-                history.goBack();
+
+                const currentUser = await userApi.getCurrentUser();
+                Helpers.saveLocalStorage("currentUser", currentUser);
+                message.success("Login Successfully.");
+                history.push("/");
             } catch (error) {
-                setMessage(Messages.loginFailed);
+                setMessageError(Messages.loginFailed);
                 setInputs({
                     username: "",
                     password: "",
@@ -88,7 +93,7 @@ const Login = () => {
                     </Form.Group>
 
                     <div className="login__msg">
-                        <h5>{message}</h5>
+                        <h5>{messageError}</h5>
                     </div>
 
                     <Button type="submit" className="login__btn">

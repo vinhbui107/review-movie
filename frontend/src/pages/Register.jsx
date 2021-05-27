@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
+import { message } from "antd";
 import logo from "../assets/img/logo.png";
 import userApi from "../services/user";
 import { GENDERS, OCCUPATIONS } from "../utils/constants";
@@ -18,7 +19,7 @@ const Register = () => {
         occupation: "",
     });
 
-    const [message, setMessage] = useState("");
+    const [messageError, setMessageError] = useState("");
     const { email, username, password, birthday, gender, occupation } = inputs;
 
     const history = useHistory();
@@ -46,17 +47,17 @@ const Register = () => {
         e.preventDefault();
         const newError = findFormError();
         if (newError.length > 0) {
-            setMessage(newError);
+            setMessageError(newError);
         } else {
             try {
                 await userApi.register(inputs);
-                alert("Create user successfully.");
+                message.success("Register Successfully.", 1);
                 history.replace("/login");
             } catch (error) {
                 // get first error message
                 const [first] = Object.keys(error.response.data);
                 const msg = error.response.data[first];
-                setMessage(msg);
+                setMessageError(msg);
 
                 // clear input error field
                 setInputs((inputs) => ({
@@ -152,7 +153,7 @@ const Register = () => {
                     </Form.Group>
 
                     <div className="register__msg">
-                        <h5>{message}</h5>
+                        <h5>{messageError}</h5>
                     </div>
 
                     <Button type="submit" className="register__btn">

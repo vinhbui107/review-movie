@@ -1,11 +1,8 @@
 import React from "react";
+import { Container, Form } from "react-bootstrap";
 
 function Profile() {
-    return (
-        <div>
-            <h2>Profile</h2>
-        </div>
-    );
+    return <Container></Container>;
 }
 
 export default Profile;
