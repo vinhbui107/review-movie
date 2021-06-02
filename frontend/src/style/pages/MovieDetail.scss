@@ -61,6 +61,10 @@
     &__title {
         padding-top: 30px;
         position: relative;
+
+        &__genre {
+            font-size: 0.7rem;
+        }
     }
 
     &__action {
@@ -87,13 +91,13 @@
 
         &--rating {
             position: relative;
-
+            width: 150px;
             &-star {
                 position: absolute;
                 display: flex !important;
                 opacity: 0;
                 visibility: hidden;
-                transition: all 0.8s ease-out;
+                transition: all 0.5s ease-out;
                 transform: translateX(-37%);
             }
 
@@ -104,10 +108,20 @@
         }
 
         &--score {
-            padding: 1rem;
+            padding: 0.2rem;
+            display: inline-block;
             border-radius: 50%;
-            background-color: #032541;
-            font-weight: 800;
+            background-color: #081c22;
+            margin-right: 20px;
+
+            &__rating {
+                width: 50px;
+                background-color: #081c22;
+                font-weight: 800;
+                color: #fff;
+                border: 1px solid #383434;
+                border-radius: 50%;
+            }
         }
     }
 
@@ -115,5 +129,31 @@
         p {
             font-size: 0.9rem;
         }
+    }
+
+    &__view {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+    font-size: 35px;
+}
+
+.total__info {
+    display: flex;
+    font-size: 18px;
+    margin-bottom: 10px;
+    &__comment {
+        display: flex;
+        align-items: center;
+    }
+
+    &__rating {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
     }
 }

@@ -1,10 +1,8 @@
-// @import "./assets/variables.scss";
-
 .title {
-    margin: 30px 0 15px;
     font-weight: 600;
     font-size: 1.4em;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .owl-nav {
@@ -46,4 +44,9 @@
 
 .owl-dots {
     display: none !important;
+}
+
+.btn-primary {
+    background-color: #01b4e4 !important;
+    border-color: #01b4e4 !important;
 }

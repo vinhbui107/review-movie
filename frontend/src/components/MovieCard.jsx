@@ -15,7 +15,7 @@ function MovieCard({ movie }) {
                 <div style={{ backgroundImage: `url(${DefaultMovie})` }}>
                     <Card.Img variant="top" src={movie.poster} />
                 </div>
-                <CircularProgressbar value={percentage} text={`${percentage}%`} className="card--rating" />
+                <CircularProgressbar value={percentage} text={`${movie.imdb_rating}`} className="card--rating" />
             </Link>
 
             <Card.Body className="card-body">

@@ -58,10 +58,10 @@ function CommentList({ comments, setCommentsSate, movieId }) {
             >
                 <Form.Group controlId="Write your comment">
                     <Row>
-                        <Col md="1" className="commentList__avatar">
-                            <Avatar icon={<UserOutlined />} src={currentUser?.avatar} size={48} />
+                        <Col md="2" className="commentList__avatar">
+                            <Avatar icon={<UserOutlined />} src={currentUser?.avatar} size={64} />
                         </Col>
-                        <Col md="11">
+                        <Col md="10">
                             <Form.Control
                                 as="textarea"
                                 rows={3}
