@@ -5,7 +5,7 @@ from apps.accounts.serializers import GetUserProfileSerializer
 from apps.comments.validators import movie_id_exists, movie_comment_id_exists
 
 
-class MovieCommentSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     user = GetUserProfileSerializer(read_only=True)
     # change format date time field
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")

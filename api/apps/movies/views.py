@@ -8,9 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from apps.movies.serializers import (
     MovieSerializer,
     RatingSerializer,
-    PostMovieRatingSerializer,
-    UpdateRatingSerializer,
-    GetMovieRatingsSerializer,
+    PostRatingSerializer,
+    GetMovieSerializer,
 )
 from apps.common.model_loaders import (
     get_movie_model,
@@ -45,7 +44,7 @@ class MovieRatings(APIView):
     def get(self, request, movie_id):
         request_data = self._get_request_data(request, movie_id)
 
-        serializer = GetMovieRatingsSerializer(data=request_data)
+        serializer = GetMovieSerializer(data=request_data)
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
@@ -63,7 +62,7 @@ class MovieRatings(APIView):
     def post(self, request, movie_id):
         request_data = self._get_request_data(request, movie_id)
 
-        serializer = PostMovieRatingSerializer(data=request_data)
+        serializer = PostRatingSerializer(data=request_data)
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
