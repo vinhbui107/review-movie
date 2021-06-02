@@ -135,17 +135,19 @@ function MovieDetail() {
                         <div className="poster__wrapper">
                             <Container>
                                 <Row className="poster__wrapper--row">
-                                    <Col md="3" xs="12" className="poster__wrapper--left">
+                                    <Col md="4" className="poster__wrapper--left">
                                         <div
                                             style={{
                                                 backgroundImage: `url(${DefaultMovie})`,
                                                 backgroundSize: "cover",
+                                                width: "300px",
+                                                height: "450px",
                                             }}
                                         >
                                             <img src={`${movieItem.poster}`} alt="" />
                                         </div>
                                     </Col>
-                                    <Col md="9" xs="12" className="poster__wrapper--right">
+                                    <Col md="8" className="poster__wrapper--right">
                                         <div className="poster__title">
                                             <h1>{`${movieItem.title} (${movieItem.year})`}</h1>
                                             <p className="poster__title__genre">{displayGenre(movieItem.genres)}</p>

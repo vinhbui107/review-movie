@@ -1,5 +1,4 @@
 .poster {
-    min-height: "450px";
     position: relative;
     color: #fff;
     margin-bottom: 50px;
@@ -52,6 +51,11 @@
 
         &--row {
             align-items: center;
+        }
+
+        &--left {
+            text-align: right;
+            padding-right: 0;
         }
     }
     &__image {
