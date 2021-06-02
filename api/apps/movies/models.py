@@ -71,6 +71,7 @@ class Movie(models.Model):
         movie = cls.objects.get(pk=movie_id)
         movie.view_count = F("view_count") + 1
         movie.save()
+        movie.refresh_from_db()
         return movie
 
     @classmethod
