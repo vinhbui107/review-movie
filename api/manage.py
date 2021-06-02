@@ -2,10 +2,18 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import ptvsd
+from django.conf import settings
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+
+    if settings.DEBUG:
+        if os.environ.get("RUN_MAIN") or os.environ.get("WERKZEUG_RUN_MAIN"):
+            ptvsd.enable_attach(address=("0.0.0.0", 8888))
+            print("Debug running with port 8888")
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -17,5 +25,5 @@ def main():
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
