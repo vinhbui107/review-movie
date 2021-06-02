@@ -5,6 +5,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
 from django.utils import timezone
+from django.db.models import F
 
 from .helpers import (
     upload_to_actor_image_directory,
@@ -46,6 +47,7 @@ class Movie(models.Model):
     imdb_rating = models.FloatField(null=True, blank=True, default=None)
     rating_average = models.FloatField(null=True, blank=True, default=None)
     rating_count = models.IntegerField(null=True, blank=True, default=None)
+    view_count = models.IntegerField(null=True, blank=True, default=0)
     slug = models.SlugField(max_length=255, default=None, unique=True)
     genres = models.ManyToManyField(Genre, related_name="movies_genres")
 
@@ -66,7 +68,10 @@ class Movie(models.Model):
 
     @classmethod
     def get_movie_with_id(cls, movie_id):
-        return cls.objects.get(pk=movie_id)
+        movie = cls.objects.get(pk=movie_id)
+        movie.view_count = F("view_count") + 1
+        movie.save()
+        return movie
 
     @classmethod
     def get_top_rating_movies(cls):
