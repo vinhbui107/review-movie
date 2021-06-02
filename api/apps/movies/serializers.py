@@ -19,6 +19,7 @@ class MovieSerializer(serializers.ModelSerializer):
             "imdb_rating",
             "rating_average",
             "rating_count",
+            "view_count",
             "slug",
         )
 
