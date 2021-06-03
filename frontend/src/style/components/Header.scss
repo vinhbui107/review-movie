@@ -8,11 +8,20 @@
 
     a.nav-link {
         color: white !important;
-        font-size: 1em;
+        font-size: 0.9em;
         font-weight: 600;
     }
 
     .basic-nav-dropdown {
         z-index: 1000;
+    }
+
+    .dropdown-toggle::after {
+        display: none;
+    }
+
+    .dropdown-item::selection {
+        background: #fff !important;
+        color: #fff !important;
     }
 }

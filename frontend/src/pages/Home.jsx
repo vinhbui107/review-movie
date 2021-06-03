@@ -52,6 +52,7 @@ function Home() {
                 <SearchForm />
                 {topRated?.length > 0 && popular?.length > 0 && recommend?.length > 0 && (
                     <>
+                        <br />
                         <MovieList movies={recommend} title="Recommend for you" />
                         <MovieList movies={popular} title="What's Popular" />
                         <MovieList movies={topRated} title="Top Rated" />
