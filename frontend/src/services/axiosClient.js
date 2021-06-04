@@ -56,6 +56,7 @@ axiosClient.interceptors.response.use(
             case 403:
                 break;
             case 404:
+                window.location.href = "/404";
                 break;
             case 500:
                 break;

@@ -6,7 +6,7 @@ const AppLayout = ({ children }) => {
     return (
         <div className="rm-app">
             <Header />
-            {children}
+            <div style={{ minHeight: "calc(100vh - 120px)" }}>{children}</div>
             <Footer />
         </div>
     );

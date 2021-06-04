@@ -65,6 +65,7 @@ export const sortByID = (arr) => {
 //     const jwt_decode = require("jwt-decode");
 // };
 
-export const displayGenre = (arr) => {
-    return arr?.join(", ");
+export const displayGenre = (genres) => {
+    const arrName = genres.map((genre) => genre.name);
+    return arrName.join(", ");
 };

@@ -37,32 +37,14 @@ function MovieDetail() {
                     moviesRecommend = response[0].movies;
                 }
                 setMoviesRecommend(moviesRecommend);
-                setMovieItem(response[1].results[0]);
+                setMovieItem(response[1][0]);
                 setComments(response[2]);
             })
         );
     }
 
-    const _fetchUserRating = async () => {
-        if (isLogin()) {
-            try {
-                const response = await movieApi.getUserRatings(currentUser.username);
-                response.find((rating) => {
-                    if (String(rating.movie_id) === movieId) {
-                        setRating(rating.rating);
-                    }
-                });
-            } catch (error) {
-                notification["warning"]({
-                    message: "Get data failed!",
-                });
-            }
-        }
-    };
-
     useEffect(() => {
         _fetchMovieData();
-        _fetchUserRating();
     }, []);
 
     const handleRating = async (value) => {
@@ -94,35 +76,23 @@ function MovieDetail() {
                 <div></div>
                 <div className="total__info">
                     <div className="total__info__rating">
+                        <span style={{ marginRight: "10px" }}>{movieItem.rating_count}</span>
                         <StarOutlined />
-                        <span style={{ marginLeft: "10px" }}>234</span>
                     </div>
                     <div className="total__info__comment">
+                        <span style={{ marginRight: "10px" }}>{movieItem.comment_count}</span>
                         <CommentOutlined />
-                        <span style={{ marginLeft: "10px" }}>234</span>
                     </div>
                 </div>
 
-                <div>
-                    <Rate value={1} disabled />
-                    <span className="ant-rate-text">{235}</span>
-                </div>
-                <div>
-                    <Rate value={2} disabled />
-                    <span className="ant-rate-text">{235}</span>
-                </div>
-                <div>
-                    <Rate value={3} disabled />
-                    <span className="ant-rate-text">{235}</span>
-                </div>
-                <div>
-                    <Rate value={4} disabled />
-                    <span className="ant-rate-text">{235}</span>
-                </div>
-                <div>
-                    <Rate value={5} disabled />
-                    <span className="ant-rate-text">{235}</span>
-                </div>
+                {movieItem.rating_info.map((item, index) => {
+                    return (
+                        <div key={index}>
+                            <Rate value={index} disabled />
+                            <span className="ant-rate-text">{item}</span>
+                        </div>
+                    );
+                })}
             </div>
         );
     };
@@ -181,7 +151,7 @@ function MovieDetail() {
                                                         style={{ display: "block" }}
                                                         className="poster__action--rating-star"
                                                         onChange={handleRating}
-                                                        value={rating}
+                                                        value={movieItem.rated}
                                                     />
                                                 ) : (
                                                     <span

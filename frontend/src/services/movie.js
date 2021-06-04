@@ -18,7 +18,8 @@ const movieApi = {
     },
 
     getMovieItem: (movieId) => {
-        const url = `${BASE_URL_API}/search/movies/?id=${movieId}`;
+        // const url = `${BASE_URL_API}/search/movies/?id=${movieId}`;
+        const url = `${BASE_URL_API}/movies/${movieId}/`;
         return axiosClient.get(url);
     },
 
