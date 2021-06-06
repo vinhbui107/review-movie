@@ -6,7 +6,7 @@ import logo from "../assets/img/logo.svg";
 function Footer() {
     return (
         <div className="footer">
-            <Container>
+            <Container style={{ padding: 0 }}>
                 <div className="row no-gutters">
                     <div className="col-md-8">
                         <img src={logo} style={{ width: "154px", height: "50px" }}></img>

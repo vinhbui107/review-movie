@@ -31,6 +31,7 @@ class MovieDocument(Document):
     imdb_rating = fields.FloatField()
     rating_average = fields.FloatField()
     rating_count = fields.IntegerField()
+    view_count = fields.IntegerField()
     slug = fields.TextField()
     genres = fields.TextField(
         attr="genres_indexing",

@@ -14,7 +14,7 @@ from apps.common.model_loaders import (
 )
 from apps.common.permissions import CustomPermission
 from apps.comments.serializers import (
-    MovieCommentSerializer,
+    CommentSerializer,
     PostMovieCommentSerializer,
     GetMovieCommentsSerializer,
 )
@@ -38,13 +38,11 @@ class MovieComments(APIView):
         movie_id = data.get("movie_id")
 
         Movie = get_movie_model()
-        movie_comments = Movie.get_comments_with_movie_id(movie_id=movie_id)
-        movie_comments_serializer = MovieCommentSerializer(
-            movie_comments, many=True, context={"request": request}
+        comments = Movie.get_comments_with_movie_id(movie_id=movie_id)
+        comments_serializer = CommentSerializer(
+            comments, many=True, context={"request": request}
         )
-        return Response(
-            movie_comments_serializer.data, status=status.HTTP_200_OK
-        )
+        return Response(comments_serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, movie_id):
         request_data = self._get_request_data(request, movie_id)
@@ -63,7 +61,7 @@ class MovieComments(APIView):
                 movie_id=movie_id, user=user, content=content
             )
 
-        movie_comment_serializer = MovieCommentSerializer(
+        movie_comment_serializer = CommentSerializer(
             movie_comment, context={"request": request}
         )
         return Response(
@@ -89,7 +87,7 @@ class CommentItem(APIView):
         Comment = get_comment_model()
         try:
             movie = Comment.get_comment_with_id(comment_id)
-            movie_serializer = MovieCommentSerializer(
+            movie_serializer = CommentSerializer(
                 movie, context={"request": request}
             )
             return Response(movie_serializer.data, status=status.HTTP_200_OK)

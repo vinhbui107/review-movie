@@ -43,7 +43,7 @@ function SearchForm() {
                         resultStringKeyName="text"
                         onSelect={handleOnSelect}
                         placeholder="Search for a movie....."
-                        maxResults={5}
+                        maxResults={10}
                         autoFocus
                     />
                 </div>

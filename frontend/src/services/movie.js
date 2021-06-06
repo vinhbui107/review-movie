@@ -3,12 +3,12 @@ import { BASE_URL_API, RS_URL_API } from "../utils/env";
 
 const movieApi = {
     getMoviesTopRated: (page) => {
-        const url = `${BASE_URL_API}/search/movies/?ordering=-imdb_rating&page=${page}`;
+        const url = `${BASE_URL_API}/search/movies/?ordering=-imdb_rating&ordering=id&page=${page}`;
         return axiosClient.get(url);
     },
 
     getMoviesPopular: (page) => {
-        const url = `${BASE_URL_API}/search/movies/?ordering=-year&page=${page}`;
+        const url = `${BASE_URL_API}/search/movies/?ordering=-year&ordering=id&page=${page}`;
         return axiosClient.get(url);
     },
 
@@ -18,12 +18,13 @@ const movieApi = {
     },
 
     getMovieItem: (movieId) => {
-        const url = `${BASE_URL_API}/search/movies/?id=${movieId}`;
+        // const url = `${BASE_URL_API}/search/movies/?id=${movieId}`;
+        const url = `${BASE_URL_API}/movies/${movieId}/`;
         return axiosClient.get(url);
     },
 
     getMoviesGenre: (genre) => {
-        const url = `${BASE_URL_API}/search/movies/?genres=${genre}`;
+        const url = `${BASE_URL_API}/search/movies/?genres=${genre}&ordering=id`;
         return axiosClient.get(url);
     },
 

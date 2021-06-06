@@ -54,4 +54,22 @@
         margin-bottom: 10px;
         min-height: 50px;
     }
+
+    span.view-count {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+    font-size: 32px;
+    fill: #fff;
+}
+
+p.card-text.card-text {
+    display: flex;
+    justify-content: space-between;
+}
+span.anticon.anticon-eye {
+    margin-right: 5px;
 }

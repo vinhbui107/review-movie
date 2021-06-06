@@ -8,9 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from apps.movies.serializers import (
     MovieSerializer,
     RatingSerializer,
-    PostMovieRatingSerializer,
-    UpdateRatingSerializer,
-    GetMovieRatingsSerializer,
+    PostRatingSerializer,
+    GetMovieSerializer,
 )
 from apps.common.model_loaders import (
     get_movie_model,
@@ -25,17 +24,19 @@ from apps.common.permissions import CustomPermission
 
 class MovieItem(APIView):
     def get(self, request, movie_id):
+        serializer = GetMovieSerializer(data={"movie_id": movie_id})
+        serializer.is_valid(raise_exception=True)
+
+        data = serializer.validated_data
+        movie_id = data.get("movie_id")
+
         Movie = get_movie_model()
-        try:
-            movie = Movie.get_movie_with_id(movie_id)
-            movie_serializer = MovieSerializer(
-                movie, context={"request": request}
-            )
-            return Response(movie_serializer.data, status=status.HTTP_200_OK)
-        except Movie.DoesNotExist:
-            return ApiMessageResponse(
-                "Movie not found", status=status.HTTP_404_NOT_FOUND
-            )
+        movie = Movie.get_movie_with_id(movie_id)
+
+        movie_serializer = MovieSerializer(
+            movie, many=True, context={"request": request}
+        )
+        return Response(movie_serializer.data, status=status.HTTP_200_OK)
 
 
 class MovieRatings(APIView):
@@ -45,7 +46,7 @@ class MovieRatings(APIView):
     def get(self, request, movie_id):
         request_data = self._get_request_data(request, movie_id)
 
-        serializer = GetMovieRatingsSerializer(data=request_data)
+        serializer = GetMovieSerializer(data=request_data)
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
@@ -63,7 +64,7 @@ class MovieRatings(APIView):
     def post(self, request, movie_id):
         request_data = self._get_request_data(request, movie_id)
 
-        serializer = PostMovieRatingSerializer(data=request_data)
+        serializer = PostRatingSerializer(data=request_data)
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data

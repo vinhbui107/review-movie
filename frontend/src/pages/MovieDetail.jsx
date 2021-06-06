@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Rate, notification } from "antd";
+import { Rate, notification, Tag } from "antd";
+import { EyeOutlined, StarOutlined, CommentOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { CircularProgressbar } from "react-circular-progressbar";
+
 import CommentList from "../components/CommentList";
 import Recommend from "../components/Recommend";
 import commentApi from "../services/comment";
 import movieApi from "../services/movie";
 import "../style/pages/MovieDetail.scss";
-import { getLocalStorage, isLogin, isUsingRS } from "../utils/helpers.js";
+import { displayGenre, getLocalStorage, isLogin, isUsingRS } from "../utils/helpers.js";
 import DefaultMovie from "../assets/img/default-movie.png";
 
 function MovieDetail() {
@@ -34,32 +37,14 @@ function MovieDetail() {
                     moviesRecommend = response[0].movies;
                 }
                 setMoviesRecommend(moviesRecommend);
-                setMovieItem(response[1].results[0]);
+                setMovieItem(response[1][0]);
                 setComments(response[2]);
             })
         );
     }
 
-    const _fetchUserRating = async () => {
-        if (isLogin()) {
-            try {
-                const response = await movieApi.getUserRatings(currentUser.username);
-                response.find((rating) => {
-                    if (String(rating.movie_id) === movieId) {
-                        setRating(rating.rating);
-                    }
-                });
-            } catch (error) {
-                notification["warning"]({
-                    message: "Get data failed!",
-                });
-            }
-        }
-    };
-
     useEffect(() => {
         _fetchMovieData();
-        _fetchUserRating();
     }, []);
 
     const handleRating = async (value) => {
@@ -71,7 +56,7 @@ function MovieDetail() {
                 const response = await movieApi.postRating(movieId, params);
                 setRating(response.rating);
                 notification["success"]({
-                    message: "Rating successfully.",
+                    message: `You rated ${value} star for this movie.`,
                 });
             } catch (error) {}
         } else {
@@ -81,43 +66,69 @@ function MovieDetail() {
         }
     };
 
+    const getPercentage = (rating) => {
+        return rating * 10;
+    };
+
+    const ratingInfo = () => {
+        return (
+            <div className="rating__info">
+                <Tag>
+                    {movieItem.rating_count} <StarOutlined />
+                </Tag>
+                <Tag>
+                    {movieItem.comment_count} <CommentOutlined />
+                </Tag>
+                {movieItem.rating_info.map((item, index) => {
+                    return (
+                        <div key={index} className="rating__info__rating">
+                            <Tag>
+                                {index} Star ({item})
+                            </Tag>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    };
+
     return (
         <>
             {movieItem && (
                 <>
                     <div className="poster">
                         <div className="poster__wrapper">
-                            <Container fluid style={{ width: "85%" }}>
+                            <Container>
                                 <Row className="poster__wrapper--row">
-                                    <Col md="3" xs="12" className="poster__wrapper--left">
+                                    <Col md="4" className="poster__wrapper--left">
                                         <div
                                             style={{
                                                 backgroundImage: `url(${DefaultMovie})`,
                                                 backgroundSize: "cover",
+                                                width: "300px",
+                                                height: "450px",
                                             }}
                                         >
                                             <img src={`${movieItem.poster}`} alt="" />
                                         </div>
                                     </Col>
-                                    <Col md="9" xs="12" className="poster__wrapper--right">
+                                    <Col md="8" className="poster__wrapper--right">
                                         <div className="poster__title">
                                             <h1>{`${movieItem.title} (${movieItem.year})`}</h1>
-                                            {/* <p>{movieItem.genres[0]}</p> */}
+                                            <p className="poster__title__genre">{displayGenre(movieItem.genres)}</p>
                                         </div>
 
                                         <ul className="poster__action">
-                                            <li className="poster__action__list poster__action--score mr-3">
-                                                <span>{movieItem.imdb_rating}</span>
+                                            <li className="poster__action--score">
+                                                <CircularProgressbar
+                                                    value={getPercentage(movieItem.imdb_rating)}
+                                                    text={`${movieItem.imdb_rating}`}
+                                                    className="poster__action--score__rating"
+                                                />
                                             </li>
-
                                             <li className="poster__action__list">
                                                 <button>
                                                     <i className="fa fa-bookmark"></i>
-                                                </button>
-                                            </li>
-                                            <li className="poster__action__list poster__action--like">
-                                                <button>
-                                                    <i className="fa fa-thumbs-up"></i>
                                                 </button>
                                             </li>
                                             <li className="poster__action__list">
@@ -129,13 +140,22 @@ function MovieDetail() {
                                                 <button>
                                                     <i className="fa fa-star" />
                                                 </button>
-                                                <Rate
-                                                    allowHalf
-                                                    style={{ display: "block" }}
-                                                    className="poster__action--rating-star"
-                                                    onChange={handleRating}
-                                                    value={rating}
-                                                />
+                                                {isLogin() ? (
+                                                    <Rate
+                                                        allowHalf
+                                                        style={{ display: "block" }}
+                                                        className="poster__action--rating-star"
+                                                        onChange={handleRating}
+                                                        value={movieItem.rated}
+                                                    />
+                                                ) : (
+                                                    <span
+                                                        style={{ marginLeft: "10px", paddingTop: "5px" }}
+                                                        className="poster__action--rating-star"
+                                                    >
+                                                        Login to rate
+                                                    </span>
+                                                )}
                                             </li>
                                         </ul>
 
@@ -148,6 +168,11 @@ function MovieDetail() {
                                             <h5>{movieItem.director}</h5>
                                             <p>Director</p>
                                         </div>
+
+                                        <div className="poster__view">
+                                            <EyeOutlined />
+                                            <span style={{ marginLeft: "10px" }}>{movieItem.view_count + 400}</span>
+                                        </div>
                                     </Col>
                                 </Row>
                             </Container>
@@ -155,7 +180,7 @@ function MovieDetail() {
                     </div>
                     <Container>
                         <Recommend movies={moviesRecommend} title={"Recommend for you"} />
-                        <hr />
+                        {ratingInfo()}
                         <CommentList comments={comments} setCommentsSate={setComments} movieId={movieId} />
                     </Container>
                 </>
