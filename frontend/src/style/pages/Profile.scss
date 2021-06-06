@@ -1,0 +1,61 @@
+.user {
+    margin-top: 50px;
+    &__about {
+        display: flex;
+        align-items: center;
+
+        &__left {
+            display: flex;
+        }
+
+        &__right {
+            margin-left: 30px;
+            display: flex;
+            align-self: center;
+            flex-flow: column;
+
+            &__username {
+                font-size: 24px;
+                margin-bottom: 20px;
+                font-weight: 600;
+
+                span {
+                    font-size: 14px;
+                    font-weight: 100;
+                }
+            }
+
+            &__rating {
+                display: flex;
+                flex-grow: column;
+
+                .total {
+                    padding-right: 30px;
+                    margin-right: 30px;
+                    border-right: 1px solid #e1e1e1;
+                }
+            }
+        }
+    }
+}
+
+span.ant-statistic-content-prefix {
+    display: flex;
+    align-items: center;
+}
+
+.ant-statistic-content {
+    display: flex;
+}
+
+.ant-statistic-title {
+    font-size: 15px;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #01b4e4;
+}
+
+.ant-tabs-ink-bar {
+    background: #01b4e4;
+}
