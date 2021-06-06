@@ -62,16 +62,10 @@ class MovieDocumentView(DocumentViewSet):
     # Define ordering fields
     ordering_fields = {
         "id": None,
-        "title": None,
-        "year": None,
         "rating_average": None,
-        "genres": None,
         "imdb_rating": None,
+        "view_count": None,
     }
 
     # Specify default ordering
-    ordering = (
-        "id",
-        "imdb_rating",
-        "rating_average",
-    )
+    ordering = ("id",)

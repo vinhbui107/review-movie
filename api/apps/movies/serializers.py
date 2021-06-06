@@ -1,17 +1,38 @@
 from rest_framework import serializers
 
 from apps.accounts.serializers import GetUserProfileSerializer
-from apps.common.model_loaders import get_movie_model, get_rating_model
+from apps.common.model_loaders import (
+    get_movie_model,
+    get_rating_model,
+    get_genre_model,
+)
 from apps.movies.validators import movie_id_exists, rating_id_exist
+from apps.common.serializers_fields.movie import (
+    CommentCountField,
+    RatingInfoField,
+    RatingValueField,
+)
+
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_genre_model()
+
+        fields = ("name",)
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    genres = GenreSerializer(read_only=True, many=True)
+    comment_count = CommentCountField()
+    rating_info = RatingInfoField()
+    rated = RatingValueField()
+
     class Meta:
         model = get_movie_model()
 
         fields = (
-            "id",
             "title",
+            "genres",
             "description",
             "year",
             "director",
@@ -20,8 +41,17 @@ class MovieSerializer(serializers.ModelSerializer):
             "rating_average",
             "rating_count",
             "view_count",
+            "comment_count",
+            "rating_info",
+            "rated",
             "slug",
         )
+
+    def get_genres(self, instance):
+        names = []
+        for i in a:
+            names.append(i.name)
+        return names
 
 
 class RatingSerializer(serializers.ModelSerializer):

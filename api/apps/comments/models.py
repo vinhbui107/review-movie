@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.db.models import Q
 
 from apps.accounts.models import User
 from apps.movies.models import Movie
@@ -43,3 +44,7 @@ class Comment(models.Model):
             return False
         except cls.DoesNotExist:
             return True
+
+    @classmethod
+    def count_comment_for_movie_with_id(cls, movie_id):
+        return cls.objects.filter(movie=movie_id).count()

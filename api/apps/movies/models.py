@@ -5,7 +5,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
 from django.utils import timezone
-from django.db.models import F
+from django.db.models import F, Count, Q
 
 from .helpers import (
     upload_to_actor_image_directory,
@@ -46,7 +46,7 @@ class Movie(models.Model):
     poster = models.TextField(blank=False, null=True)
     imdb_rating = models.FloatField(null=True, blank=True, default=None)
     rating_average = models.FloatField(null=True, blank=True, default=None)
-    rating_count = models.IntegerField(null=True, blank=True, default=None)
+    rating_count = models.IntegerField(null=True, blank=True, default=0)
     view_count = models.IntegerField(null=True, blank=True, default=0)
     slug = models.SlugField(max_length=255, default=None, unique=True)
     genres = models.ManyToManyField(Genre, related_name="movies_genres")
@@ -68,19 +68,10 @@ class Movie(models.Model):
 
     @classmethod
     def get_movie_with_id(cls, movie_id):
-        movie = cls.objects.get(pk=movie_id)
-        movie.view_count = F("view_count") + 1
-        movie.save()
-        movie.refresh_from_db()
+        movie = cls.objects.filter(pk=movie_id)
+        movie.update(view_count=F("view_count") + 1)
+        cls.objects.get(pk=movie_id).save()
         return movie
-
-    @classmethod
-    def get_top_rating_movies(cls):
-        return cls.objects.order_by("-imdb_rating")
-
-    @classmethod
-    def get_trending_movies(cls):
-        return cls.objects.order_by("-year")
 
     @classmethod
     def is_movie_not_exist(cls, movie_id):
@@ -101,6 +92,18 @@ class Movie(models.Model):
         movie = cls.objects.get(pk=movie_id)
         Rating = get_rating_model()
         return Rating.objects.filter(movie_id=movie)
+
+    def count_comments(self):
+        Comment = get_comment_model()
+        return Comment.count_comment_for_movie_with_id(self.pk)
+
+    def get_rating_info(self):
+        rating_info = Rating.get_rating_info_for_movie_with_id(self.pk)
+        return rating_info
+
+    def get_rating_with_user(self, user):
+        value = Rating.get_rating_with_user(movie=self, user=user)
+        return value
 
 
 class Rating(models.Model):
@@ -136,3 +139,26 @@ class Rating(models.Model):
     @classmethod
     def get_rating_with_id(cls, rating_id):
         return cls.objects.get(pk=rating_id)
+
+    @classmethod
+    def get_rating_info_for_movie_with_id(cls, movie_id):
+        n_1_star = cls.objects.filter(
+            Q(rating__gte=0) & Q(rating__lt=1) & Q(movie=movie_id)
+        ).count()
+        n_2_star = cls.objects.filter(
+            Q(rating__gte=1) & Q(rating__lt=2) & Q(movie=movie_id)
+        ).count()
+        n_3_star = cls.objects.filter(
+            Q(rating__gte=2) & Q(rating__lt=3) & Q(movie=movie_id)
+        ).count()
+        n_4_star = cls.objects.filter(
+            Q(rating__gte=3) & Q(rating__lt=4) & Q(movie=movie_id)
+        ).count()
+        n_5_star = cls.objects.filter(
+            Q(rating__gte=4) & Q(movie=movie_id)
+        ).count()
+        return [n_1_star, n_2_star, n_3_star, n_4_star, n_5_star]
+
+    @classmethod
+    def get_rating_with_user(cls, movie, user):
+        return cls.objects.filter(movie=movie, user=user)

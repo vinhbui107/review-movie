@@ -26,12 +26,24 @@ class MovieDocument(Document):
             "raw": fields.TextField(analyzer="keyword"),
         }
     )
-    year = fields.IntegerField()
+    year = fields.IntegerField(
+        fields={
+            "raw": fields.IntegerField(analyzer="keyword"),
+        }
+    )
     poster = fields.TextField()
     imdb_rating = fields.FloatField()
-    rating_average = fields.FloatField()
+    rating_average = fields.FloatField(
+        fields={
+            "raw": fields.IntegerField(analyzer="keyword"),
+        }
+    )
     rating_count = fields.IntegerField()
-    view_count = fields.IntegerField()
+    view_count = fields.IntegerField(
+        fields={
+            "raw": fields.IntegerField(analyzer="keyword"),
+        }
+    )
     slug = fields.TextField()
     genres = fields.TextField(
         attr="genres_indexing",

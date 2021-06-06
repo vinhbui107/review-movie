@@ -172,3 +172,6 @@ class User(AbstractUser):
     def get_ratings_of_user(cls):
         Rating = get_rating_model()
         return Rating.objects.filter(user_id=user)
+
+    def get_rating_value_for_user(self, movie):
+        return movie.get_rating_with_user(user=self)
