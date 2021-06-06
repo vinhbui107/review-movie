@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { Card, Col, Row } from "react-bootstrap";
 import { useLocation, useHistory } from "react-router-dom";
-import { Empty } from "antd";
+import { Empty, Tag } from "antd";
 import movieApi from "../services/movie";
 import "../style/pages/SearchResult.scss";
 import DefaultMovie from "../assets/img/default-movie.png";
@@ -41,6 +41,7 @@ function useQuery() {
 
 function SearchResult() {
     const [movies, setMovies] = useState([]);
+    const [movieCount, setMovieCount] = useState(0);
     const query = useQuery();
     const searchText = query.get("q");
 
@@ -48,6 +49,7 @@ function SearchResult() {
         async function fetchData() {
             const response = await movieApi.searchMovie(searchText.replaceAll(" ", "+"));
             setMovies(response.results);
+            setMovieCount(response.count);
         }
 
         fetchData();
@@ -55,7 +57,12 @@ function SearchResult() {
 
     return (
         <Container>
-            <h3 className="title">Result search: {searchText}</h3>
+            <p className="title" style={{ display: "flex" }}>
+                Search: {searchText}
+                <span style={{ marginLeft: "10px" }}>
+                    <Tag>{movieCount} movies</Tag>
+                </span>
+            </p>
             {movies.length > 0 ? (
                 movies?.map((movie, index) => {
                     return ResultItem(movie);

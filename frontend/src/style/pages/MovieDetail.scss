@@ -147,18 +147,22 @@
     fill: #fff;
 }
 
-.total__info {
+.rating__info {
+    margin-top: 50px;
+    margin-bottom: 20px;
     display: flex;
-    font-size: 18px;
-    margin-bottom: 10px;
-    &__comment {
-        display: flex;
-        align-items: center;
+    justify-content: space-between;
+    align-items: center;
+
+    span.anticon.anticon-star {
+        margin-left: 5px;
     }
 
-    &__rating {
-        display: flex;
-        align-items: center;
-        margin-right: 20px;
+    span.anticon.anticon-comment {
+        margin-left: 5px;
     }
+}
+
+form.commentList__form.commentList__form--active {
+    padding-right: 35px;
 }

@@ -50,3 +50,23 @@
     background-color: #01b4e4 !important;
     border-color: #01b4e4 !important;
 }
+
+span.ant-tag {
+    height: 30px;
+    width: 110px;
+
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: #e3e3e3;
+}
+
+span.anticon.anticon-star {
+    margin-left: 5px;
+}
+
+span.anticon.anticon-comment {
+    margin-left: 5px;
+}

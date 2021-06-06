@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Rate, notification } from "antd";
+import { Rate, notification, Tag } from "antd";
 import { EyeOutlined, StarOutlined, CommentOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Col, Container, Row } from "react-bootstrap";
@@ -72,24 +72,19 @@ function MovieDetail() {
 
     const ratingInfo = () => {
         return (
-            <div style={{ marginTop: "25px" }}>
-                <div></div>
-                <div className="total__info">
-                    <div className="total__info__rating">
-                        <span style={{ marginRight: "10px" }}>{movieItem.rating_count}</span>
-                        <StarOutlined />
-                    </div>
-                    <div className="total__info__comment">
-                        <span style={{ marginRight: "10px" }}>{movieItem.comment_count}</span>
-                        <CommentOutlined />
-                    </div>
-                </div>
-
+            <div className="rating__info">
+                <Tag>
+                    {movieItem.rating_count} <StarOutlined />
+                </Tag>
+                <Tag>
+                    {movieItem.comment_count} <CommentOutlined />
+                </Tag>
                 {movieItem.rating_info.map((item, index) => {
                     return (
-                        <div key={index}>
-                            <Rate value={index} disabled />
-                            <span className="ant-rate-text">{item}</span>
+                        <div key={index} className="rating__info__rating">
+                            <Tag>
+                                {index} Star ({item})
+                            </Tag>
                         </div>
                     );
                 })}
@@ -185,16 +180,8 @@ function MovieDetail() {
                     </div>
                     <Container>
                         <Recommend movies={moviesRecommend} title={"Recommend for you"} />
-                        <hr />
-                        <Row>
-                            <Col md={3}>
-                                {ratingInfo()}
-                                <br />
-                            </Col>
-                            <Col md={9}>
-                                <CommentList comments={comments} setCommentsSate={setComments} movieId={movieId} />
-                            </Col>
-                        </Row>
+                        {ratingInfo()}
+                        <CommentList comments={comments} setCommentsSate={setComments} movieId={movieId} />
                     </Container>
                 </>
             )}

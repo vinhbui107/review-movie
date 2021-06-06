@@ -19,10 +19,13 @@ function Header() {
             await userApi.logout().then();
             Helpers.removeAuth();
             setCurrentUser({});
+            history.push("/");
         } catch {
             notification["warning"]({
                 message: "Logout Failed!",
             });
+            Helpers.removeAuth();
+            history.push("/");
         }
     };
 

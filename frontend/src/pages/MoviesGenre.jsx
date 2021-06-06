@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { Empty, notification } from "antd";
+import { Container, Row, Col, FormGroup } from "react-bootstrap";
+import { Empty, notification, Tag } from "antd";
+import { VideoCameraOutlined } from "@ant-design/icons";
+
 import { useParams } from "react-router";
 import MovieCard from "../components/MovieCard";
 import movieApi from "../services/movie";
@@ -27,8 +29,11 @@ function MoviesGenre() {
 
     return (
         <Container>
-            <p className="title">
-                {genre} has {movieCount} movies
+            <p className="title" style={{ display: "flex" }}>
+                Genre: {genre}
+                <span style={{ marginLeft: "10px" }}>
+                    <Tag>{movieCount} movies</Tag>
+                </span>
             </p>
             {movies.length > 0 ? (
                 <Row>
