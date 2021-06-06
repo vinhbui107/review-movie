@@ -65,7 +65,11 @@ class MovieDocumentView(DocumentViewSet):
         "rating_average": None,
         "imdb_rating": None,
         "view_count": None,
+        "year": None,
     }
 
     # Specify default ordering
-    ordering = ("id",)
+    ordering = (
+        "id",
+        "view_count",
+    )
