@@ -1,48 +1,59 @@
 import { LikeOutlined, StarOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Statistic, Tabs } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
+import ChangePasswordForm from "../components/ChangePassword";
+import ProfileForm from "../components/ProfileForm";
 import "../style/pages/Profile.scss";
-import { getLocalStorage } from "../utils/helpers";
+import ProfileBackground from "../assets/img/profile-background.svg";
 
 const { TabPane } = Tabs;
 
 function Profile() {
-    const [currentUser, setCurrentUser] = useState(getLocalStorage("currentUser"));
+    const [user, setUser] = useState([]);
 
-    function callback(key) {
-        console.log(key);
-    }
+    useEffect(() => {}, []);
 
     return (
-        <Container className="user">
-            <div className="user__about">
-                <div class="user__about__left">
-                    <Avatar size={128} icon={<UserOutlined />} src={currentUser.avatar} />
-                </div>
-                <div class="user__about__right">
-                    <div class="user__about__right__username">
-                        {currentUser.username} <span>Member since March 2021</span>
+        <div className="user">
+            <div
+                className="user__about"
+                style={{
+                    backgroundImage: `url(${ProfileBackground}), radial-gradient(at 30% top, #073d3f 0%, rgba(3,37,65,1) 70%)`,
+                }}
+            >
+                <Container className="user__about--container">
+                    <div class="user__about--container__left">
+                        <Avatar size={128} icon={<UserOutlined />} src="" />
                     </div>
-                    <div class="user__about__right__rating">
-                        <div class="total">
-                            <Statistic title="Total Rating" value={23} prefix={<StarOutlined />} />
+                    <div class="user__about--container__right">
+                        <div class="user__about--container__right__username">
+                            {"vinhbui107"} <span>Member since March 2021</span>
                         </div>
-                        <div class="average">
-                            <Statistic title="Average Rating" value={"80%"} prefix={<LikeOutlined />} />
+                        <div class="user__about--container__right__rating">
+                            <div class="total">
+                                <Statistic title="Total Rating" value={23} prefix={<StarOutlined />} />
+                            </div>
+                            <div class="average">
+                                <Statistic title="Average Rating" value={"80%"} prefix={<LikeOutlined />} />
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Container>
             </div>
-            <br />
-            <div className="user__info">
+            <Container className="user__info">
                 <Tabs defaultActiveKey="1">
-                    <TabPane tab={<span>Edit Profile</span>} key="1"></TabPane>
-                    <TabPane tab={<span>Change Password</span>} key="2"></TabPane>
+                    <TabPane tab={<span>Edit Profile</span>} key="1">
+                        <ProfileForm />
+                    </TabPane>
+                    <TabPane tab={<span>Change Password</span>} key="2">
+                        <ChangePasswordForm />
+                    </TabPane>
                     <TabPane tab={<span>Ratings</span>} key="3"></TabPane>
+                    <TabPane tab={<span>Reviews</span>} key="4"></TabPane>
                 </Tabs>
-            </div>
-        </Container>
+            </Container>
+        </div>
     );
 }
 
