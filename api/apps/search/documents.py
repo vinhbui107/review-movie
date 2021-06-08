@@ -32,7 +32,11 @@ class MovieDocument(Document):
     rating_average = fields.FloatField()
     rating_count = fields.IntegerField()
     view_count = fields.IntegerField()
-    slug = fields.TextField()
+    slug = fields.TextField(
+        fields={
+            "raw": fields.TextField(analyzer="keyword"),
+        }
+    )
     genres = fields.TextField(
         attr="genres_indexing",
         fields={

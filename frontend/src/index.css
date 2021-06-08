@@ -1,27 +1,5 @@
-@font-face {
-    font-family: myFirstFont300;
-    src: url("./assets/font/source-sans-pro-v14-vietnamese-300.woff2");
-}
-@font-face {
-    font-family: myFirstFont700;
-    src: url("./assets/font/source-sans-pro-v14-vietnamese-700.woff2");
-}
 body {
     margin: 0;
-    font-family: myFirstFont300;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 1rem;
 }
-
-/* h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: #fff;
-} */
-
-/* code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-} */

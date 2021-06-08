@@ -56,7 +56,7 @@ function MovieDetail() {
                 const response = await movieApi.postRating(movieId, params);
                 setRating(response.rating);
                 notification["success"]({
-                    message: `You rated ${value} star for this movie.`,
+                    message: `Your rating have been saved.`,
                 });
             } catch (error) {}
         } else {

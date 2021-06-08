@@ -47,6 +47,17 @@
 }
 
 .btn-primary {
+    width: 140px;
+    margin: 0 auto;
+    border-radius: 20px;
+    background-color: #01b4e4 !important;
+    border-color: #01b4e4 !important;
+}
+
+.ant-btn-primary {
+    width: 140px;
+    margin: 0 auto;
+    border-radius: 20px;
     background-color: #01b4e4 !important;
     border-color: #01b4e4 !important;
 }
@@ -69,4 +80,47 @@ span.anticon.anticon-star {
 
 span.anticon.anticon-comment {
     margin-left: 5px;
+}
+
+span.ant-statistic-content-prefix {
+    display: flex;
+    align-items: center;
+}
+
+.ant-statistic-content {
+    display: flex;
+}
+
+.ant-statistic-title {
+    font-size: 15px;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #01b4e4;
+}
+
+.ant-tabs-ink-bar {
+    background: #01b4e4;
+}
+
+.ant-tabs-tab .ant-tabs-tab-btn:hover {
+    color: #01b4e4;
+}
+
+.ant-form-vertical .ant-form-item-label,
+.ant-col-24.ant-form-item-label,
+.ant-col-xl-24.ant-form-item-label {
+    padding: 0;
+}
+
+.ant-form-item {
+    margin-bottom: 15px;
+}
+
+.ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    content: none;
+}
+
+.btn-save {
+    margin-top: 30px;
 }

@@ -1,13 +1,12 @@
 .card {
     height: 390px;
     width: 180px;
-    border-radius: 10px;
-    box-shadow: -1px -1px 1px #e7e0e0;
     background-color: #fff;
     margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     p {
-        font-size: 0.8rem;
         margin-bottom: 10px;
     }
 
@@ -22,8 +21,6 @@
     img {
         height: 270px;
         object-fit: cover;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
         text-indent: -10000px;
     }
 
@@ -47,9 +44,8 @@
     }
 
     &-title {
-        font-family: myFirstFont700;
-        font-weight: 900;
-        font-size: 1.1rem;
+        font-weight: 600;
+        font-size: 1.05rem;
         display: inline-block;
         margin-bottom: 10px;
         min-height: 50px;

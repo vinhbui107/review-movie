@@ -13,19 +13,13 @@ function Recommend({ movies, title }) {
                         <div
                             style={{
                                 backgroundImage: `url(${DefaultMovie})`,
-                                backgroundRepeat: "no-repeat",
                                 backgroundPosition: "center,0 0",
-                                backgroundSize: "100% auto",
                             }}
                         >
                             <Card.Img variant="top" src={movie.poster} loading="lazy" />
                         </div>
-                        <p className="recommendCard__datetime mb-0">{movie.year}</p>
-                        <div className="recommendCard__overlay">
-                            <i className="fa fa-play"></i>
-                        </div>
+                        <p className="recommendCard__datetime mb-0">{movie.title}</p>
                     </Link>
-                    <p>{movie.title}</p>
                 </div>
             );
         });

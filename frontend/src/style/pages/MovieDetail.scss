@@ -21,10 +21,6 @@
         font-weight: 600;
     }
 
-    p {
-        font-size: 1rem;
-    }
-
     img {
         width: 100%;
         height: 100%;
@@ -65,10 +61,6 @@
     &__title {
         padding-top: 30px;
         position: relative;
-
-        &__genre {
-            font-size: 0.7rem;
-        }
     }
 
     &__action {
@@ -85,11 +77,6 @@
                 border-radius: 50%;
                 background-color: #032541;
                 border: none;
-            }
-
-            i {
-                color: #fff;
-                font-size: 0.8rem;
             }
         }
 
@@ -126,12 +113,6 @@
                 border: 1px solid #383434;
                 border-radius: 50%;
             }
-        }
-    }
-
-    &__people {
-        p {
-            font-size: 0.9rem;
         }
     }
 
