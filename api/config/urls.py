@@ -15,9 +15,11 @@ from apps.accounts.views import (
     Logout,
     ObtainTokenPairWithColorView,
     Register,
-    UserProfile,
     UserRatings,
 )
+
+from apps.accounts.views_new.user.views import UserProfile
+
 from apps.comments.views import CommentItem, MovieComments
 from apps.movies.views import MovieItem, MovieRatings, RatingItem
 from apps.search import urls as search_index_urls
@@ -37,6 +39,9 @@ auth_auth_patterns = [
 auth_users_patterns = [
     path("<str:username>", UserProfile.as_view(), name="user"),
     path("<str:username>/ratings", UserRatings.as_view(), name="user-ratings"),
+    path(
+        "<str:username>/comments", UserRatings.as_view(), name="user-comments"
+    ),
 ]
 
 auth_patterns = [
