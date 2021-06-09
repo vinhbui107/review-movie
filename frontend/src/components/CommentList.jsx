@@ -30,7 +30,7 @@ function CommentList({ comments, setCommentsSate, movieId }) {
                 const response = await commentApi.postComment(movieId, { content: inputComment });
                 const newComments = [...comments, response];
                 notification["success"]({
-                    message: "Review successfully.",
+                    message: "Your review have been saved.",
                 });
                 setCommentsSate(sortByID(newComments));
                 setOpenForm(!openForm);

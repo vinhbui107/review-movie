@@ -11,7 +11,7 @@ function ResultItem(movie) {
     const history = useHistory();
 
     const handleOnClick = () => {
-        history.push(`/movies/${movie.id}`);
+        history.push(`/movie/${movie.id}`);
     };
 
     return (

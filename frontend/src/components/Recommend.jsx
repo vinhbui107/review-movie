@@ -9,7 +9,7 @@ function Recommend({ movies, title }) {
         return movies?.map((movie, index) => {
             return (
                 <div className="recommendCard" key={index}>
-                    <Link className="recommendCard__link" to={`/movies/${movie.id}`}>
+                    <Link className="recommendCard__link" to={`/movie/${movie.id}`}>
                         <div
                             style={{
                                 backgroundImage: `url(${DefaultMovie})`,
