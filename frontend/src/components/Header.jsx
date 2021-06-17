@@ -51,7 +51,7 @@ function Header() {
                                 <NavDropdown title="Genres" id="basic-nav-dropdown">
                                     {GENRES.map((genre, index) => {
                                         return (
-                                            <NavDropdown.Item href={`/genres/${genre}`} key={index}>
+                                            <NavDropdown.Item href={`/genre/${genre}`} key={index}>
                                                 {genre}
                                             </NavDropdown.Item>
                                         );
@@ -83,9 +83,7 @@ function Header() {
                                         id="basic-nav-dropdown"
                                         className="dropdown-menu-lg-right"
                                     >
-                                        <NavDropdown.Item href={`/users/${currentUser.username}`}>
-                                            Profile
-                                        </NavDropdown.Item>
+                                        <NavDropdown.Item href={`/u/${currentUser.username}`}>Profile</NavDropdown.Item>
                                         <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                                     </NavDropdown>
                                 </Nav>

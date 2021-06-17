@@ -19,7 +19,7 @@ function SearchForm() {
 
     const handleOnSelect = (item) => {
         const movieId = item._source.id;
-        history.push(`/movies/${movieId}`);
+        history.push(`/movie/${movieId}`);
     };
 
     const handleKeyPress = (event) => {

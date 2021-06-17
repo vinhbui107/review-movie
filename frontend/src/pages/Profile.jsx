@@ -2,10 +2,11 @@ import { LikeOutlined, StarOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Statistic, Tabs } from "antd";
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import ChangePasswordForm from "../components/ChangePassword";
-import ProfileForm from "../components/ProfileForm";
+
 import "../style/pages/Profile.scss";
 import ProfileBackground from "../assets/img/profile-background.svg";
+import ProfileSetting from "../components/ProfileSetting";
+import ProfileChangePassword from "../components/ProfileChangePassword";
 
 const { TabPane } = Tabs;
 
@@ -43,14 +44,14 @@ function Profile() {
             </div>
             <Container className="user__info">
                 <Tabs defaultActiveKey="1">
-                    <TabPane tab={<span>Edit Profile</span>} key="1">
-                        <ProfileForm />
+                    <TabPane tab={<span>Ratings</span>} key="1"></TabPane>
+                    <TabPane tab={<span>Reviews</span>} key="2"></TabPane>
+                    <TabPane tab={<span>Edit Profile</span>} key="3">
+                        <ProfileSetting />
                     </TabPane>
-                    <TabPane tab={<span>Change Password</span>} key="2">
-                        <ChangePasswordForm />
+                    <TabPane tab={<span>Change Password</span>} key="4">
+                        <ProfileChangePassword />
                     </TabPane>
-                    <TabPane tab={<span>Ratings</span>} key="3"></TabPane>
-                    <TabPane tab={<span>Reviews</span>} key="4"></TabPane>
                 </Tabs>
             </Container>
         </div>

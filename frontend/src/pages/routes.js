@@ -30,19 +30,19 @@ const routes = [
         isAppLayout: false,
     },
     {
-        path: "/users/:username",
+        path: "/u/:username",
         exact: true,
         component: ProfilePage,
         isAppLayout: true,
     },
     {
-        path: "/movies/:movieId",
+        path: "/movie/:movieId",
         exact: true,
         component: MovieDetailPage,
         isAppLayout: true,
     },
     {
-        path: "/genres/:genre",
+        path: "/genre/:genre",
         exact: true,
         component: MoviesGenrePage,
         isAppLayout: true,

@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Q
 
 from imagekit.models import ProcessedImageField
 
@@ -106,6 +107,10 @@ class User(AbstractUser):
             return None
 
     @classmethod
+    def user_with_username_exists(self, username):
+        return User.objects.filter(username=username).exists()
+
+    @classmethod
     def update_user_profile_with_username(
         cls,
         username,
@@ -175,3 +180,9 @@ class User(AbstractUser):
 
     def get_rating_value_for_user(self, movie):
         return movie.get_rating_with_user(user=self)
+
+    @classmethod
+    def get_user_with_username(cls, username):
+        user_query = Q(username=username)
+        user = cls.objects.get(user_query)
+        return user
