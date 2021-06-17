@@ -10,15 +10,23 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from apps.accounts.views import (
-    CurrentUser,
+from apps.accounts.views.auth.views import (
+    Login,
     Logout,
-    ObtainTokenPairWithColorView,
     Register,
-    UserRatings,
+    VerifyRegistrationToken,
+    EmailVerify,
+    PasswordResetRequest,
+    PasswordResetVerify,
 )
 
-from apps.accounts.views_new.user.views import UserProfile
+from apps.accounts.views.user.views import (
+    UserInfo,
+    UserRatings,
+    UserComments,
+    DeleteUser,
+    CurrentUser,
+)
 
 from apps.comments.views import CommentItem, MovieComments
 from apps.movies.views import MovieItem, MovieRatings, RatingItem
@@ -28,28 +36,37 @@ from apps.search import urls as search_index_urls
 auth_auth_patterns = [
     path(
         "login",
-        ObtainTokenPairWithColorView.as_view(),
+        Login.as_view(),
         name="login-user",
     ),
     path("login/refresh", TokenRefreshView.as_view(), name="login-refresh"),
     path("logout", Logout.as_view(), name="logout-user"),
     path("register", Register.as_view(), name="register-user"),
+    path("email/verify/", EmailVerify.as_view(), name="email-verify"),
+    path(
+        "password/reset/",
+        PasswordResetRequest.as_view(),
+        name="request-password-reset",
+    ),
+    path(
+        "password/verify/",
+        PasswordResetVerify.as_view(),
+        name="verify-reset-password",
+    ),
 ]
 
-auth_users_patterns = [
-    path("<str:username>", UserProfile.as_view(), name="user"),
-    path("<str:username>/ratings", UserRatings.as_view(), name="user-ratings"),
-    path(
-        "<str:username>/comments", UserRatings.as_view(), name="user-comments"
-    ),
+auth_user_patterns = [
+    path("", UserInfo.as_view(), name="user"),
+    path("ratings", UserRatings.as_view(), name="user-ratings"),
+    path("comments", UserComments.as_view(), name="user-comments"),
+    path("delete", DeleteUser.as_view(), name="user-delete"),
 ]
 
 auth_patterns = [
     path("", include(auth_auth_patterns)),
-    path("users/", include(auth_users_patterns)),
+    path("users/<str:username>/", include(auth_user_patterns)),
     path("current-user", CurrentUser.as_view(), name="current-user"),
 ]
-
 
 movie_patterns = [
     path("", MovieItem.as_view(), name="movie"),
