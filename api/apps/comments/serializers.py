@@ -1,13 +1,12 @@
 from rest_framework import serializers
 
-from apps.common.model_loaders import get_comment_model
-from apps.accounts.serializers import GetUserProfileSerializer
+from apps.accounts.views.user.serializers import UserProfileSerializer
 from apps.comments.validators import movie_id_exists, movie_comment_id_exists
+from apps.common.model_loaders import get_comment_model
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = GetUserProfileSerializer(read_only=True)
-    # change format date time field
+    user = UserProfileSerializer(read_only=True)
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 

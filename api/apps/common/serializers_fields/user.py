@@ -1,45 +1,47 @@
 from rest_framework.fields import Field
 
 
-class CommentListField(Field):
+class CommentsCountField(Field):
     def __init__(self, *args, **kwargs):
         kwargs["source"] = "*"
         kwargs["read_only"] = True
-        super(CommentListField, self).__init__(**kwargs)
+        super(CommentsCountField, self).__init__(**kwargs)
 
     def to_representation(self, user):
-        comments = user.count_comments()
-        return comments
+        return user.count_comments()
 
 
-class RatingListField(Field):
+class RatingsCountField(Field):
     def __init__(self, *args, **kwargs):
         kwargs["source"] = "*"
         kwargs["read_only"] = True
-        super(RatingListField, self).__init__(**kwargs)
+        super(RatingsCountField, self).__init__(**kwargs)
 
     def to_representation(self, user):
-        ratings = user.count_comments()
-        return ratings
+        return user.count_ratings()
 
 
-class RatingCountField(Field):
+class RatingsAverageField(Field):
     def __init__(self, *args, **kwargs):
         kwargs["source"] = "*"
         kwargs["read_only"] = True
-        super(RatingCountField, self).__init__(**kwargs)
+        super(RatingsAverageField, self).__init__(**kwargs)
 
     def to_representation(self, user):
-        comment_count = user.count_comments()
-        return comment_count
+        return user.average_ratings()
 
 
-class RatingAverageField(Field):
+class IsSettingField(Field):
     def __init__(self, *args, **kwargs):
         kwargs["source"] = "*"
         kwargs["read_only"] = True
-        super(RatingAverageField, self).__init__(**kwargs)
+        super(IsSettingField, self).__init__(**kwargs)
 
     def to_representation(self, user):
-        comment_count = user.count_comments()
-        return comment_count
+        request = self.context.get("request")
+        request_user = request.user
+
+        if user.username is request_user.username:
+            return True
+        else:
+            return False

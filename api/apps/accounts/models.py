@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-from django.db.models import Q
+from django.db.models import Q, Avg
 
 from imagekit.models import ProcessedImageField
 
@@ -13,39 +13,39 @@ from apps.common.model_loaders import (
     get_comment_model,
 )
 
+OCCUPATIONS = (
+    (None, "Select your role"),
+    ("Administrator", "Administrator"),
+    ("Artist", "Artist"),
+    ("College", "College"),
+    ("Customer Service", "Customer Service"),
+    ("Doctor", "Doctor"),
+    ("Educator", "Educator"),
+    ("Executive", "Executive"),
+    ("Farmer", "Farmer"),
+    ("Homemaker", "Homemaker"),
+    ("Lawyer", "Lawyer"),
+    ("Other", "Other"),
+    ("Programmer", "Programmer"),
+    ("Retired", "Retired"),
+    ("Sales", "Sales"),
+    ("Scientist", "Scientist"),
+    ("Self-employed", "Self-employed"),
+    ("Student", "Student"),
+    ("Technician", "Technician"),
+    ("Tradesman", "Tradesman"),
+    ("Unemployed", "Unemployed"),
+    ("Writer", "Writer"),
+)
+
+GENDER = (
+    (None, "Select your gender"),
+    ("M", "Male"),
+    ("F", "Female"),
+)
+
 
 class User(AbstractUser):
-    OCCUPATIONS = (
-        (None, "Select your role"),
-        ("Administrator", "Administrator"),
-        ("Artist", "Artist"),
-        ("College", "College"),
-        ("Customer Service", "Customer Service"),
-        ("Doctor", "Doctor"),
-        ("Educator", "Educator"),
-        ("Executive", "Executive"),
-        ("Farmer", "Farmer"),
-        ("Homemaker", "Homemaker"),
-        ("Lawyer", "Lawyer"),
-        ("Other", "Other"),
-        ("Programmer", "Programmer"),
-        ("Retired", "Retired"),
-        ("Sales", "Sales"),
-        ("Scientist", "Scientist"),
-        ("Self-employed", "Self-employed"),
-        ("Student", "Student"),
-        ("Technician", "Technician"),
-        ("Tradesman", "Tradesman"),
-        ("Unemployed", "Unemployed"),
-        ("Writer", "Writer"),
-    )
-
-    GENDER = (
-        (None, "Select your gender"),
-        ("M", "Male"),
-        ("F", "Female"),
-    )
-
     username = models.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
         blank=False,
@@ -134,6 +134,12 @@ class User(AbstractUser):
         user.save()
         return user
 
+    @classmethod
+    def get_user_with_username(cls, username):
+        user_query = Q(username=username)
+        user = cls.objects.get(user_query)
+        return user
+
     def comment_movie_with_id(self, movie_id, user, content):
         Movie = get_movie_model()
         movie = Movie.objects.filter(pk=movie_id).get()
@@ -165,24 +171,57 @@ class User(AbstractUser):
             models.Avg("rating")
         )
         new_count_rating = Rating.objects.filter(movie_id=movie).count()
-
         # update movie
         movie.rating_average = new_average_rating["rating__avg"]
         movie.rating_count = new_count_rating
         movie.save()
-
         return rating
-
-    @classmethod
-    def get_ratings_of_user(cls):
-        Rating = get_rating_model()
-        return Rating.objects.filter(user_id=user)
 
     def get_rating_value_for_user(self, movie):
         return movie.get_rating_with_user(user=self)
 
     @classmethod
-    def get_user_with_username(cls, username):
-        user_query = Q(username=username)
-        user = cls.objects.get(user_query)
-        return user
+    def list_comment(cls, username):
+        Comment = get_comment_model()
+        user_query = cls.objects.get(username=username)
+        comments = Comment.objects.filter(user=user_query)
+        return comments
+
+    def count_comments(self):
+        Comment = get_comment_model()
+        return Comment.objects.filter(user=self).count()
+
+    def count_ratings(self):
+        Rating = get_rating_model()
+        return Rating.objects.filter(user=self).count()
+
+    @classmethod
+    def list_rating(cls, username):
+        Rating = get_rating_model()
+        user_query = cls.objects.get(username=username)
+        ratings = Rating.objects.filter(user=user_query)
+        return ratings
+
+    def average_ratings(self):
+        Rating = get_rating_model()
+        average_ratings = Rating.objects.filter(user=self).aggregate(
+            rating=Avg("rating")
+        )
+
+        if average_ratings["rating"] is not None:
+            return round(average_ratings["rating"], 1)
+        return None
+
+    def update_avatar(self, avatar, save=True):
+        if avatar is None:
+            self.delete_profile_avatar(save=False)
+        else:
+            self.profile.avatar = avatar
+
+        if save:
+            self.profile.save()
+
+    def delete_avatar(self, save=True):
+        delete_file_field(self.profile.avatar)
+        self.profile.avatar = None
+        self.profile.avatar.delete(save=save)
