@@ -1,30 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
-import { Card, Col, Row } from "react-bootstrap";
-import { useLocation, useHistory } from "react-router-dom";
 import { Empty, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Card, Col, Container, Row } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
+import DefaultMovie from "../assets/img/default-movie.png";
 import movieApi from "../services/movie";
 import "../style/pages/SearchResult.scss";
-import DefaultMovie from "../assets/img/default-movie.png";
 
 function ResultItem(movie) {
-    const history = useHistory();
-
-    const handleOnClick = () => {
-        history.push(`/movie/${movie.id}`);
-    };
-
     return (
-        <Card className="resultItem" onClick={handleOnClick} key={movie.id}>
+        <Card className="resultItem" key={movie.id}>
             <Card.Body className="resultItem__body">
                 <Row style={{ height: "100%" }}>
                     <Col md="2" className="resultItem--left">
-                        <img src={movie.poster} className="resultItem__poster" />
+                        <div
+                            style={{
+                                backgroundImage: `url(${DefaultMovie})`,
+                                backgroundPosition: "center,0 0",
+                                backgroundSize: "80%",
+                            }}
+                        >
+                            <img src={movie.poster} className="resultItem__poster" />
+                        </div>
                     </Col>
                     <Col md="10" className="resultItem--right">
                         <div className="resultItem__title">
-                            <h3>{movie.title}</h3>
-                            <small>{movie.year}</small>
+                            <h3>
+                                <Link to={`/movie/${movie.id}`}>{movie.title}</Link>
+                            </h3>
+                            <p>{movie.year}</p>
                         </div>
 
                         <Card.Text className="resultItem__description">{movie.description}</Card.Text>
@@ -45,14 +48,16 @@ function SearchResult() {
     const query = useQuery();
     const searchText = query.get("q");
 
-    useEffect(() => {
-        async function fetchData() {
+    async function _fetchData() {
+        try {
             const response = await movieApi.searchMovie(searchText.replaceAll(" ", "+"));
             setMovies(response.results);
             setMovieCount(response.count);
-        }
+        } catch (error) {}
+    }
 
-        fetchData();
+    useEffect(() => {
+        _fetchData();
     }, []);
 
     return (
@@ -68,7 +73,7 @@ function SearchResult() {
                     return ResultItem(movie);
                 })
             ) : (
-                <div style={{ marginBottom: "20px" }}>
+                <div style={{ marginTop: "20%" }}>
                     <Empty
                         imageStyle={{
                             height: 160,

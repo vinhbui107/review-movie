@@ -46,7 +46,7 @@ function CommentList({ comments, setCommentsSate, movieId }) {
     return (
         <>
             <div className="commentList__header">
-                <h1 className="title">Reviews</h1>
+                <h1 className="title">Comments</h1>
 
                 <button className="btn btn-primary" onClick={handleOpenForm}>
                     <i className={`fa fa-${openForm ? "times" : "pen"}`} />

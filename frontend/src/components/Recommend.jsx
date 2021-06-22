@@ -14,6 +14,7 @@ function Recommend({ movies, title }) {
                             style={{
                                 backgroundImage: `url(${DefaultMovie})`,
                                 backgroundPosition: "center,0 0",
+                                backgroundSize: "70%",
                             }}
                         >
                             <Card.Img variant="top" src={movie.poster} loading="lazy" />
