@@ -39,8 +39,8 @@ auth_auth_patterns = [
 
 auth_users_patterns = [
     path("", GetUserInfo.as_view(), name="user"),
-    path("ratings/", UserRatings.as_view(), name="user-ratings"),
-    path("comments/", UserComments.as_view(), name="user-comments"),
+    path("ratings", UserRatings.as_view(), name="user-ratings"),
+    path("comments", UserComments.as_view(), name="user-comments"),
 ]
 
 auth_user_patterns = [
