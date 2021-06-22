@@ -13,7 +13,7 @@ function MovieCard({ movie }) {
     return (
         <Card className="card">
             <Link to={`/movie/${movie.id}`}>
-                <div style={{ backgroundImage: `url(${DefaultMovie})` }}>
+                <div style={{ backgroundImage: `url(${DefaultMovie})`, height: "262px" }}>
                     <Card.Img variant="top" src={movie.poster} />
                 </div>
                 <CircularProgressbar value={percentage} text={`${movie.imdb_rating}`} className="card--rating" />

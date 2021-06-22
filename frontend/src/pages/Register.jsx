@@ -118,9 +118,8 @@ const Register = () => {
                         <Form.Group as={Col}>
                             <Form.Control as="select" name="gender" onChange={handleChange} required>
                                 <option value="" label="Select gender" />
-                                {GENDERS.map((item, index) => (
-                                    <option key={index} value={item} label={item} />
-                                ))}
+                                <option key="M" value="M" label="Male" />
+                                <option key="F" value="F" label="Female" />
                             </Form.Control>
                         </Form.Group>
 

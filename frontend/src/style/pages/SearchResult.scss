@@ -5,6 +5,7 @@
 
     &--left {
         text-align: center;
+        max-width: 12.666667%;
     }
 
     &--right {
@@ -14,17 +15,26 @@
 
     &__poster {
         margin-right: 10px;
-        border-radius: 10px;
+        border-radius: 5px;
         height: 170px;
-        width: 150px;
+        width: 116px;
     }
 
     &__title {
-        margin-bottom: 10px;
         h3 {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0;
+            text-decoration: none;
+
+            a {
+                color: black;
+            }
+
+            a:hover {
+                text-decoration: none;
+                color: #01b4e4;
+            }
         }
     }
 
@@ -34,9 +44,17 @@
     }
 
     &__description {
-        display: block;
+        line-height: 1.5em;
+        height: 3em;
+        width: 100%;
+        white-space: normal;
         overflow: hidden;
-        white-space: nowrap;
         text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+    }
+
+    img {
+        object-fit: cover;
+        text-indent: -10000px;
     }
 }

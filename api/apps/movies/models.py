@@ -48,7 +48,9 @@ class Movie(models.Model):
     rating_average = models.FloatField(null=True, blank=True, default=None)
     rating_count = models.IntegerField(null=True, blank=True, default=0)
     view_count = models.IntegerField(null=True, blank=True, default=0)
-    slug = models.SlugField(max_length=255, default=None, unique=True)
+    slug = models.SlugField(
+        max_length=settings.MOVIE_SLUG_MAX_LENGTH, unique=True
+    )
     genres = models.ManyToManyField(Genre, related_name="movies_genres")
 
     class Meta:

@@ -45,7 +45,7 @@ const Login = () => {
                 Helpers.saveLocalStorage("access_token", response.access);
                 Helpers.saveLocalStorage("refresh_token", response.refresh);
 
-                const currentUser = await userApi.getCurrentUser();
+                const currentUser = await userApi.getAuthenticatedUser();
                 Helpers.saveLocalStorage("currentUser", currentUser);
                 message.success("Login Successfully.");
                 history.push("/");

@@ -25,9 +25,13 @@
     &__author {
         margin-bottom: 10px;
         h3 {
-            font-size: 18px;
+            font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0;
+        }
+
+        span {
+            font-weight: 600;
         }
     }
 }

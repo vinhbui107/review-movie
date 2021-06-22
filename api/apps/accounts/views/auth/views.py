@@ -1,3 +1,6 @@
+from django.db import transaction
+from rest_framework.exceptions import status
+
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -5,19 +8,18 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from apps.accounts.serializers import (
-    GetUserProfileSerializer,
-    MyTokenObtainPairSerializer,
+from apps.accounts.views.auth.serializers import (
+    LoginSerializer,
     RegisterSerializer,
-    UpdateUserProfileRequestSerializer,
-    UserRatingsSerializer,
 )
+from apps.common.responses import ApiMessageResponse
+from apps.common.model_loaders import get_user_model
 
 
 class Login(TokenObtainPairView):
     permission_classes = (AllowAny,)
 
-    serializer_class = MyTokenObtainPairSerializer
+    serializer_class = LoginSerializer
 
 
 class Register(APIView):
@@ -58,11 +60,6 @@ class Register(APIView):
         )
 
 
-class VerifyRegistrationToken(APIView):
-    def __init__(self, *args):
-        return
-
-
 class Logout(APIView):
     """
     The API to logout for user
@@ -77,22 +74,3 @@ class Logout(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-class EmailVerify(APIView):
-    def __init__(self, *args):
-        return
-
-
-class PasswordResetRequest(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def __init__(self, *args):
-        return
-
-
-class PasswordResetVerify(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def __init__(self, *args):
-        return

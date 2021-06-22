@@ -38,6 +38,7 @@ function MovieDetail() {
                 }
                 setMoviesRecommend(moviesRecommend);
                 setMovieItem(response[1][0]);
+                setRating(response[1][0].rated);
                 setComments(response[2]);
             })
         );
@@ -109,7 +110,7 @@ function MovieDetail() {
                                                 height: "450px",
                                             }}
                                         >
-                                            <img src={`${movieItem.poster}`} alt="" />
+                                            <img src={`${movieItem.poster}`} />
                                         </div>
                                     </Col>
                                     <Col md="8" className="poster__wrapper--right">
@@ -146,7 +147,7 @@ function MovieDetail() {
                                                         style={{ display: "block" }}
                                                         className="poster__action--rating-star"
                                                         onChange={handleRating}
-                                                        value={movieItem.rated}
+                                                        value={rating}
                                                     />
                                                 ) : (
                                                     <span

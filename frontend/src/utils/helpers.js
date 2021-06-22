@@ -69,3 +69,13 @@ export const displayGenre = (genres) => {
     const arrName = genres.map((genre) => genre.name);
     return arrName.join(", ");
 };
+
+export const displayMemberSince = (date) => {
+    const moment = require("moment");
+    return `Member since ${moment(date).format("ll")}`;
+};
+
+export const displayDate = (date) => {
+    const moment = require("moment");
+    return moment(date).format("ll");
+};

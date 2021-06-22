@@ -1,0 +1,125 @@
+.ratingCard {
+    margin: 20px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    &--left {
+        text-align: center;
+        max-width: 12.666667%;
+    }
+
+    &--right {
+        padding-top: 20px;
+    }
+
+    &__poster {
+        margin-right: 10px;
+        border-radius: 5px;
+        height: 170px;
+        width: 116px;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: row;
+
+        &__movieRating {
+            .rating {
+                width: 40px;
+                background-color: #081c22;
+                font-size: 1rem;
+                color: #fff;
+                font-weight: 600;
+                border: 3px solid #383434;
+                border-radius: 50%;
+            }
+        }
+
+        &__title {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+
+            h3 {
+                font-size: 1.1rem;
+                font-weight: 600;
+                margin-bottom: 0;
+                text-decoration: none;
+
+                a {
+                    color: black;
+                }
+
+                a:hover {
+                    text-decoration: none;
+                    color: #01b4e4;
+                }
+            }
+        }
+    }
+
+    &__body {
+        padding: 0;
+        height: 170px;
+    }
+
+    &__description {
+        line-height: 1.5em;
+        height: 3em;
+        margin-bottom: 10px;
+        width: 100%;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+    }
+
+    &__action {
+        .wrapper {
+            border-color: #01b4e4;
+            background-color: #01b4e4;
+            color: #fff;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 0.7em;
+            box-sizing: border-box;
+            overflow: hidden;
+
+            span {
+                font-size: 1.5em;
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+
+            a {
+                margin-left: 20px;
+                display: flex;
+                align-items: center;
+
+                span {
+                    color: #959595;
+                }
+            }
+        }
+    }
+    img {
+        object-fit: cover;
+        text-indent: -10000px;
+    }
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+    font-size: 32px;
+    fill: #fff;
+}

@@ -46,7 +46,7 @@ function MoviesGenre() {
                     })}
                 </Row>
             ) : (
-                <div style={{ marginBottom: "20px" }}>
+                <div style={{ marginTop: "20%" }}>
                     <Empty
                         imageStyle={{
                             height: 160,

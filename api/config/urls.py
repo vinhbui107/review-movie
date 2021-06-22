@@ -14,18 +14,15 @@ from apps.accounts.views.auth.views import (
     Login,
     Logout,
     Register,
-    VerifyRegistrationToken,
-    EmailVerify,
-    PasswordResetRequest,
-    PasswordResetVerify,
 )
 
 from apps.accounts.views.user.views import (
-    UserInfo,
+    GetUserInfo,
     UserRatings,
     UserComments,
-    DeleteUser,
-    CurrentUser,
+    AuthenticatedUser,
+    DeleteAuthenticatedUser,
+    AuthenticatedUserSetting,
 )
 
 from apps.comments.views import CommentItem, MovieComments
@@ -34,38 +31,34 @@ from apps.search import urls as search_index_urls
 
 
 auth_auth_patterns = [
-    path(
-        "login",
-        Login.as_view(),
-        name="login-user",
-    ),
-    path("login/refresh", TokenRefreshView.as_view(), name="login-refresh"),
-    path("logout", Logout.as_view(), name="logout-user"),
-    path("register", Register.as_view(), name="register-user"),
-    path("email/verify/", EmailVerify.as_view(), name="email-verify"),
-    path(
-        "password/reset/",
-        PasswordResetRequest.as_view(),
-        name="request-password-reset",
-    ),
-    path(
-        "password/verify/",
-        PasswordResetVerify.as_view(),
-        name="verify-reset-password",
-    ),
+    path("login/", Login.as_view(), name="login-user"),
+    path("login/refresh/", TokenRefreshView.as_view(), name="login-refresh"),
+    path("logout/", Logout.as_view(), name="logout-user"),
+    path("register/", Register.as_view(), name="register-user"),
+]
+
+auth_users_patterns = [
+    path("", GetUserInfo.as_view(), name="user"),
+    path("ratings", UserRatings.as_view(), name="user-ratings"),
+    path("comments", UserComments.as_view(), name="user-comments"),
 ]
 
 auth_user_patterns = [
-    path("", UserInfo.as_view(), name="user"),
-    path("ratings", UserRatings.as_view(), name="user-ratings"),
-    path("comments", UserComments.as_view(), name="user-comments"),
-    path("delete", DeleteUser.as_view(), name="user-delete"),
+    path("", AuthenticatedUser.as_view(), name="authenticated-user"),
+    path(
+        "setting/",
+        AuthenticatedUserSetting.as_view(),
+        name="authenticated-user-setting",
+    ),
+    path(
+        "delete/", DeleteAuthenticatedUser.as_view(), name="authenticated-user"
+    ),
 ]
 
 auth_patterns = [
     path("", include(auth_auth_patterns)),
-    path("users/<str:username>/", include(auth_user_patterns)),
-    path("current-user", CurrentUser.as_view(), name="current-user"),
+    path("users/<str:username>/", include(auth_users_patterns)),
+    path("user/", include(auth_user_patterns)),
 ]
 
 movie_patterns = [
