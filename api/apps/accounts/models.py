@@ -172,7 +172,7 @@ class User(AbstractUser):
         )
         new_count_rating = Rating.objects.filter(movie_id=movie).count()
         # update movie
-        movie.rating_average = new_average_rating["rating__avg"]
+        movie.rating_average = round(new_average_rating["rating__avg"], 1)
         movie.rating_count = new_count_rating
         movie.save()
         return rating
