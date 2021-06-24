@@ -107,8 +107,8 @@ class User(AbstractUser):
             return None
 
     @classmethod
-    def user_with_username_exists(self, username):
-        return User.objects.filter(username=username).exists()
+    def user_with_username_exists(cls, username):
+        return cls.objects.filter(username=username).exists()
 
     @classmethod
     def update_user_profile_with_username(
