@@ -24,6 +24,7 @@ from apps.common.model_loaders import (
 )
 from apps.common.permissions import CustomPermission
 from apps.accounts.models import User
+from apps.common.helpers import validate_data
 
 
 class GetUserInfo(APIView):
@@ -31,9 +32,7 @@ class GetUserInfo(APIView):
         request_data = request.data.copy()
         request_data["username"] = username
 
-        serializer = GetUserDataSerializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-        data = serializer.validated_data
+        data = validate_data(GetUserDataSerializer, request_data)
         username = data.get("username")
 
         user = request.user
@@ -54,53 +53,34 @@ class UserRatings(APIView):
     def get(self, request, username):
         request_data = request.data.copy()
         request_data["username"] = username
-        page_number = self.request.query_params.get("page", 1)
 
-        serializer = GetUserDataSerializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-        data = serializer.validated_data
-
+        data = validate_data(GetUserDataSerializer, request_data)
         username = data.get("username")
 
         ratings = User.list_rating(username=username)
 
-        paginator = Paginator(ratings, 10)
         ratings_serializer = UserRatingsSerializer(
-            paginator.page(page_number),
-            many=True,
-            context={"request": request},
+            ratings, many=True, context={"request": request}
         )
 
-        return Response(
-            {"data": ratings_serializer.data, "page": page_number},
-            status=status.HTTP_200_OK,
-        )
+        return Response(ratings_serializer.data, status=status.HTTP_200_OK)
 
 
 class UserComments(APIView):
     def get(self, request, username):
         request_data = request.data.copy()
         request_data["username"] = username
-        page_number = self.request.query_params.get("page", 1)
 
-        serializer = GetUserDataSerializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-        data = serializer.validated_data
+        data = validate_data(GetUserDataSerializer, request_data)
         username = data.get("username")
 
         comments = User.list_comment(username=username)
 
-        paginator = Paginator(ratings, 10)
         comments_serializer = UserCommentsSerializer(
-            paginator.page(page_number),
-            many=True,
-            context={"request": request},
+            comments, many=True, context={"request": request}
         )
 
-        return Response(
-            {"data": comments_serializer.data, "page": page_number},
-            status=status.HTTP_200_OK,
-        )
+        return Response(comments_serializer.data, status=status.HTTP_200_OK)
 
 
 class AuthenticatedUser(APIView):
@@ -112,36 +92,36 @@ class AuthenticatedUser(APIView):
         )
         return Response(user_serializer.data, status=status.HTTP_200_OK)
 
-    def patch(self, request):
-        serializer = UpdateAuthenticatedUserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        data = serializer.validated_data
+    # def patch(self, request):
+    # serializer = UpdateAuthenticatedUserSerializer(data=request.data)
+    # serializer.is_valid(raise_exception=True)
+    # data = serializer.validated_data
 
-        user = request.user
+    # user = request.user
 
-        with transaction.atomic():
-            user.update(
-                username=data.get("username"),
-                email=data.get("email"),
-                birthday=data.get("birthday"),
-                gender=data.get("gender"),
-                save=False,
-            )
+    # with transaction.atomic():
+    #     user.update(
+    #         username=data.get("username"),
+    #         email=data.get("email"),
+    #         birthday=data.get("birthday"),
+    #         gender=data.get("gender"),
+    #         save=False,
+    #     )
 
-            has_avatar = "avatar" in data
-            if has_avatar:
-                avatar = data.get("avatar")
-                if avatar is None:
-                    user.delete_avatar(save=False)
-                else:
-                    user.update_avatar(avatar, save=False)
+    #     has_avatar = "avatar" in data
+    #     if has_avatar:
+    #         avatar = data.get("avatar")
+    #         if avatar is None:
+    #             user.delete_avatar(save=False)
+    #         else:
+    #             user.update_avatar(avatar, save=False)
 
-            user.save()
+    #     user.save()
 
-        user_serializer = UserInfoSerializer(
-            user, context={"request": request}
-        )
-        return Response(user_serializer.data, status=status.HTTP_200_OK)
+    # user_serializer = UserInfoSerializer(
+    #     user, context={"request": request}
+    # )
+    # return Response(user_serializer.data, status=status.HTTP_200_OK)
 
 
 class DeleteAuthenticatedUser(APIView):

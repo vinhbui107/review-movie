@@ -19,6 +19,7 @@ from apps.comments.serializers import (
     GetMovieCommentsSerializer,
 )
 from apps.common.responses import ApiMessageResponse
+from apps.common.helpers import validate_data
 
 
 class MovieComments(APIView):
@@ -31,10 +32,7 @@ class MovieComments(APIView):
     def get(self, request, movie_id):
         request_data = self._get_request_data(request, movie_id)
 
-        serializer = GetMovieCommentsSerializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-
-        data = serializer.validated_data
+        data = validate_data(GetMovieCommentsSerializer, request_data)
         movie_id = data.get("movie_id")
 
         Movie = get_movie_model()
@@ -47,10 +45,7 @@ class MovieComments(APIView):
     def post(self, request, movie_id):
         request_data = self._get_request_data(request, movie_id)
 
-        serializer = PostMovieCommentSerializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-
-        data = serializer.validated_data
+        data = validate_data(PostMovieCommentSerializer, request_data)
         content = data.get("content")
         movie_id = data.get("movie_id")
 

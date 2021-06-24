@@ -17,6 +17,7 @@ DEBUG = config("DEBUG", cast=bool)
 # ALLOWED_HOSTS = config("ALLOWED_HOSTS", "*")
 ALLOWED_HOSTS = ["*"]
 
+
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
