@@ -3,7 +3,10 @@ from rest_framework import serializers
 
 from apps.accounts.validators import (
     username_characters_validator,
-    username_exists,
+    username_not_taken_validator,
+    email_not_taken_validator,
+    user_username_exists,
+    user_email_exists,
 )
 from apps.accounts.models import User
 from apps.common.model_loaders import (
@@ -22,8 +25,7 @@ from apps.common.serializers_fields.user import (
 class GetUserDataSerializer(serializers.Serializer):
     username = serializers.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
-        allow_blank=False,
-        validators=[username_characters_validator, username_exists],
+        validators=[username_characters_validator, user_username_exists],
         required=True,
     )
 
@@ -108,20 +110,20 @@ class AuthenticatedUserInfoSerializer(serializers.ModelSerializer):
         )
 
 
-class UpdateUserInfoSerializer(serializers.Serializer):
-    username = serializers.CharField(required=True)
-    email = serializers.EmailField(required=True)
-    birthday = serializers.DateField(required=True)
-    occupation = serializers.CharField(
-        max_length=settings.OCCUPATION_MAX_LENGTH, required=True
-    )
-    gender = serializers.CharField(
-        max_length=settings.GENDER_MAX_LENGTH, required=True
-    )
-    avatar = serializers.ImageField(
-        max_length=None,
-        use_url=True,
-    )
+# class UpdateUserInfoSerializer(serializers.Serializer):
+# username = serializers.CharField(required=True)
+# email = serializers.EmailField(required=True)
+# birthday = serializers.DateField(required=True)
+# occupation = serializers.CharField(
+#     max_length=settings.OCCUPATION_MAX_LENGTH, required=True
+# )
+# gender = serializers.CharField(
+#     max_length=settings.GENDER_MAX_LENGTH, required=True
+# )
+# avatar = serializers.ImageField(
+#     max_length=None,
+#     use_url=True,
+# )
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
