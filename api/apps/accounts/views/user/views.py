@@ -19,6 +19,7 @@ from apps.accounts.views.user.serializers import (
     UserRatingsSerializer,
     UserCommentsSerializer,
     AuthenticatedUserInfoSerializer,
+    DeleteAuthenticatedUserSerializer,
 )
 from apps.common.model_loaders import (
     get_movie_model,
@@ -30,6 +31,7 @@ from apps.common.permissions import CustomPermission
 from apps.accounts.models import User
 from apps.common.helpers import validate_data
 from apps.common.pagination import SmallResultsSetPagination
+from apps.common.responses import ApiMessageResponse
 
 
 class GetUserInfo(APIView):
@@ -167,8 +169,16 @@ class DeleteAuthenticatedUser(APIView):
 
     permission_classes = (IsAuthenticated,)
 
-    def __init__(self, *args):
-        return
+    def post(self, request):
+        data = validate_data(DeleteAuthenticatedUserSerializer, request.data)
+
+        user = request.user
+        password = data.get("password")
+
+        with transaction.atomic():
+            user.delete_with_password(password=password)
+
+        return ApiMessageResponse("Goodbye 😔", status=status.HTTP_200_OK)
 
 
 class AuthenticatedUserSetting(APIView):

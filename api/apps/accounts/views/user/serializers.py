@@ -1,4 +1,6 @@
 from django.conf import settings
+from django.contrib.auth.password_validation import validate_password
+
 from rest_framework import serializers
 
 from apps.accounts.validators import (
@@ -124,6 +126,10 @@ class AuthenticatedUserInfoSerializer(serializers.ModelSerializer):
 #     max_length=None,
 #     use_url=True,
 # )
+
+
+class DeleteAuthenticatedUserSerializer(serializers.Serializer):
+    password = serializers.CharField(required=True, allow_blank=False)
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
