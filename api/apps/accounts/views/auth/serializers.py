@@ -17,11 +17,14 @@ class LoginSerializer(TokenObtainPairSerializer):
         min_length=settings.PASSWORD_MIN_LENGTH,
         max_length=settings.PASSWORD_MAX_LENGTH,
         validators=[validate_password],
+        required=False,
+        allow_blank=False,
     )
     username = serializers.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
-        required=True,
         validators=[username_characters_validator, user_username_exists],
+        required=False,
+        allow_blank=False,
     )
 
     @classmethod

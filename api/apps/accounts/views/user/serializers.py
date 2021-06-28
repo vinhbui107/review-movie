@@ -132,6 +132,30 @@ class DeleteAuthenticatedUserSerializer(serializers.Serializer):
     password = serializers.CharField(required=True, allow_blank=False)
 
 
+class UpdateAuthenticatedUserSettingsSerializer(serializers.Serializer):
+    current_password = serializers.CharField(required=True, allow_blank=False)
+    new_password = serializers.CharField(
+        min_length=settings.PASSWORD_MIN_LENGTH,
+        max_length=settings.PASSWORD_MAX_LENGTH,
+        validators=[validate_password],
+        required=True,
+        allow_blank=False,
+    )
+
+    def validate(self, data):
+        if "new_password" not in data and "current_password" in data:
+            raise serializers.ValidationError(
+                "New password must be supplied together with the current password"
+            )
+
+        if "new_password" in data and "current_password" not in data:
+            raise serializers.ValidationError(
+                "Current password must be supplied together with the new password"
+            )
+
+        return data
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format="%Y-%m-%d")
 

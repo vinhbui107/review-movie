@@ -4,9 +4,9 @@ from django.core.paginator import Paginator
 
 from rest_framework import status
 from rest_framework import generics
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.authtoken.models import Token
-from rest_framework.exceptions import status
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -20,6 +20,7 @@ from apps.accounts.views.user.serializers import (
     UserCommentsSerializer,
     AuthenticatedUserInfoSerializer,
     DeleteAuthenticatedUserSerializer,
+    UpdateAuthenticatedUserSettingsSerializer,
 )
 from apps.common.model_loaders import (
     get_movie_model,
@@ -186,9 +187,40 @@ class AuthenticatedUserSetting(APIView):
 
     Args:
         APIView ([type]): [description]
+
+    Raises:
+        AuthenticationFailed: [description]
+
+    Returns:
+        [type]: [description]
     """
 
     permission_classes = (IsAuthenticated,)
 
-    def __init__(self, *args):
-        return
+    def patch(self, request):
+        data = validate_data(
+            UpdateAuthenticatedUserSettingsSerializer, request.data
+        )
+
+        user = request.user
+
+        with transaction.atomic():
+            has_password = "new_password" in data
+            if has_password:
+                current_password = data.get("current_password")
+                new_password = data.get("new_password")
+                if user.check_password(current_password):
+                    user.update_password(password=new_password)
+                else:
+                    raise AuthenticationFailed(detail="Password is not valid")
+
+            if not has_password:
+                return Response(
+                    "Please specify password to update",
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        user_serializer = UserInfoSerializer(
+            user, context={"request": request}
+        )
+        return Response(user_serializer.data, status=status.HTTP_200_OK)

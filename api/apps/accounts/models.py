@@ -231,3 +231,7 @@ class User(AbstractUser):
     def delete_with_password(self, password):
         check_password_matches(user=self, password=password)
         self.delete()
+
+    def update_password(self, password):
+        self.set_password(password)
+        self.save()
