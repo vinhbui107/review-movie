@@ -1,6 +1,7 @@
 from django.db import DatabaseError, transaction
 from django.shortcuts import render
 from django.core.paginator import Paginator
+
 from rest_framework import status
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
@@ -9,6 +10,8 @@ from rest_framework.exceptions import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
+
 
 from apps.accounts.views.user.serializers import (
     GetUserDataSerializer,
@@ -21,13 +24,21 @@ from apps.common.model_loaders import (
     get_movie_model,
     get_rating_model,
     get_user_model,
+    get_comment_model,
 )
 from apps.common.permissions import CustomPermission
 from apps.accounts.models import User
 from apps.common.helpers import validate_data
+from apps.common.pagination import SmallResultsSetPagination
 
 
 class GetUserInfo(APIView):
+    """[summary]
+
+    Args:
+        APIView ([type]): [description]
+    """
+
     def get(self, request, username):
         request_data = request.data.copy()
         request_data["username"] = username
@@ -49,41 +60,64 @@ class GetUserInfo(APIView):
         return Response(user_serializer.data, status=status.HTTP_200_OK)
 
 
-class UserRatings(APIView):
-    def get(self, request, username):
-        request_data = request.data.copy()
-        request_data["username"] = username
+class UserRatings(ListAPIView):
+    """[summary]
 
-        data = validate_data(GetUserDataSerializer, request_data)
-        username = data.get("username")
+    Args:
+        ListAPIView ([type]): [description]
 
-        ratings = User.list_rating(username=username)
+    Returns:
+        [type]: [description]
+    """
 
-        ratings_serializer = UserRatingsSerializer(
-            ratings, many=True, context={"request": request}
-        )
+    serializer_class = UserRatingsSerializer
+    pagination_class = SmallResultsSetPagination
+    queryset = get_rating_model().objects.all()
 
-        return Response(ratings_serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        qs = super(UserRatings, self).get_queryset()
+
+        username = self.kwargs.get("username")
+        if username is not None:
+            return qs.filter(user__username=username)
+
+        return qs
 
 
-class UserComments(APIView):
-    def get(self, request, username):
-        request_data = request.data.copy()
-        request_data["username"] = username
+class UserComments(ListAPIView):
+    """[summary]
 
-        data = validate_data(GetUserDataSerializer, request_data)
-        username = data.get("username")
+    Args:
+        APIView ([type]): [description]
 
-        comments = User.list_comment(username=username)
+    Returns:
+        [type]: [description]
+    """
 
-        comments_serializer = UserCommentsSerializer(
-            comments, many=True, context={"request": request}
-        )
+    serializer_class = UserCommentsSerializer
+    pagination_class = SmallResultsSetPagination
+    queryset = get_comment_model().objects.all()
 
-        return Response(comments_serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        qs = super(UserComments, self).get_queryset()
+
+        username = self.kwargs.get("username")
+        if username is not None:
+            return qs.filter(user__username=username)
+
+        return qs
 
 
 class AuthenticatedUser(APIView):
+    """[summary]
+
+    Args:
+        APIView ([type]): [description]
+
+    Returns:
+        [type]: [description]
+    """
+
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
@@ -125,6 +159,12 @@ class AuthenticatedUser(APIView):
 
 
 class DeleteAuthenticatedUser(APIView):
+    """[summary]
+
+    Args:
+        APIView ([type]): [description]
+    """
+
     permission_classes = (IsAuthenticated,)
 
     def __init__(self, *args):
@@ -132,6 +172,12 @@ class DeleteAuthenticatedUser(APIView):
 
 
 class AuthenticatedUserSetting(APIView):
+    """[summary]
+
+    Args:
+        APIView ([type]): [description]
+    """
+
     permission_classes = (IsAuthenticated,)
 
     def __init__(self, *args):
