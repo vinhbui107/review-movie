@@ -12,6 +12,8 @@ from apps.common.model_loaders import (
     get_rating_model,
     get_comment_model,
 )
+from apps.accounts.checkers import *
+
 
 OCCUPATIONS = (
     (None, "Select your role"),
@@ -221,7 +223,11 @@ class User(AbstractUser):
         if save:
             self.profile.save()
 
-    def delete_avatar(self, save=True):
-        delete_file_field(self.profile.avatar)
-        self.profile.avatar = None
-        self.profile.avatar.delete(save=save)
+        # def delete_avatar(self, save=True):
+        #     delete_file_field(self.profile.avatar)
+        #     self.profile.avatar = None
+        #     self.profile.avatar.delete(save=save)
+
+    def delete_with_password(self, password):
+        check_password_matches(user=self, password=password)
+        self.delete()
