@@ -13,7 +13,6 @@ from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 
 from apps.search.documents import MovieDocument
 from apps.search.serializers.movie import MovieDocumentSerializer
-from apps.common.permissions import SearchPermission
 
 
 class MovieDocumentView(DocumentViewSet):
