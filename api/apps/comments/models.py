@@ -22,7 +22,7 @@ class Comment(models.Model):
         null=False,
         blank=False,
     )
-    content = models.TextField()
+    content = models.TextField(blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
