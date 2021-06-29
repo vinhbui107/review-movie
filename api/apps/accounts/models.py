@@ -12,6 +12,8 @@ from apps.common.model_loaders import (
     get_rating_model,
     get_comment_model,
 )
+from apps.accounts.checkers import *
+
 
 OCCUPATIONS = (
     (None, "Select your role"),
@@ -107,8 +109,8 @@ class User(AbstractUser):
             return None
 
     @classmethod
-    def user_with_username_exists(self, username):
-        return User.objects.filter(username=username).exists()
+    def user_with_username_exists(cls, username):
+        return cls.objects.filter(username=username).exists()
 
     @classmethod
     def update_user_profile_with_username(
@@ -221,7 +223,15 @@ class User(AbstractUser):
         if save:
             self.profile.save()
 
-    def delete_avatar(self, save=True):
-        delete_file_field(self.profile.avatar)
-        self.profile.avatar = None
-        self.profile.avatar.delete(save=save)
+        # def delete_avatar(self, save=True):
+        #     delete_file_field(self.profile.avatar)
+        #     self.profile.avatar = None
+        #     self.profile.avatar.delete(save=save)
+
+    def delete_with_password(self, password):
+        check_password_matches(user=self, password=password)
+        self.delete()
+
+    def update_password(self, password):
+        self.set_password(password)
+        self.save()

@@ -17,7 +17,6 @@ from apps.common.serializers_fields.movie import (
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_genre_model()
-
         fields = ("name",)
 
 
@@ -47,16 +46,9 @@ class MovieSerializer(serializers.ModelSerializer):
             "slug",
         )
 
-    def get_genres(self, instance):
-        names = []
-        for i in a:
-            names.append(i.name)
-        return names
-
 
 class RatingSerializer(serializers.ModelSerializer):
     user = UserInfoSerializer(read_only=True)
-    # change format datetime field
     created_at = serializers.DateTimeField(format="%Y-%m-%d")
     updated_at = serializers.DateTimeField(format="%Y-%m-%d")
     rating = serializers.FloatField()

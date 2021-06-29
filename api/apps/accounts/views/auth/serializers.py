@@ -4,20 +4,33 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from apps.accounts.validators import (
-    email_not_taken_validator,
-    user_id_exist,
     username_characters_validator,
-    username_not_exists,
     username_not_taken_validator,
+    email_not_taken_validator,
+    user_username_exists,
+    user_email_exists,
 )
 
 
 class LoginSerializer(TokenObtainPairSerializer):
+    password = serializers.CharField(
+        min_length=settings.PASSWORD_MIN_LENGTH,
+        max_length=settings.PASSWORD_MAX_LENGTH,
+        validators=[validate_password],
+        required=False,
+        allow_blank=False,
+    )
+    username = serializers.CharField(
+        max_length=settings.USERNAME_MAX_LENGTH,
+        validators=[username_characters_validator, user_username_exists],
+        required=False,
+        allow_blank=False,
+    )
+
     @classmethod
     def get_token(cls, user):
         token = super(LoginSerializer, cls).get_token(user)
         token["user_id"] = user.id
-        token["username"] = user.username
         return token
 
 
@@ -35,9 +48,14 @@ class RegisterSerializer(serializers.Serializer):
             username_not_taken_validator,
         ],
     )
-    email = serializers.EmailField(validators=[email_not_taken_validator])
-    birthday = serializers.DateField()
-    occupation = serializers.CharField(
-        max_length=settings.OCCUPATION_MAX_LENGTH
+    email = serializers.EmailField(
+        required=True,
+        validators=[email_not_taken_validator],
     )
-    gender = serializers.CharField(max_length=settings.GENDER_MAX_LENGTH)
+    birthday = serializers.DateField(required=True)
+    occupation = serializers.CharField(
+        required=True, max_length=settings.OCCUPATION_MAX_LENGTH
+    )
+    gender = serializers.CharField(
+        required=True, max_length=settings.GENDER_MAX_LENGTH
+    )

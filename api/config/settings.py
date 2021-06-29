@@ -17,6 +17,7 @@ DEBUG = config("DEBUG", cast=bool)
 # ALLOWED_HOSTS = config("ALLOWED_HOSTS", "*")
 ALLOWED_HOSTS = ["*"]
 
+
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -178,7 +179,7 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.JSONParser",
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 30,
+    "PAGE_SIZE": 20,
     "ORDERING_PARAM": "ordering",
 }
 

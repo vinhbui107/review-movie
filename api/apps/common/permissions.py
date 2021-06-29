@@ -1,7 +1,7 @@
-from rest_framework import permissions
+from rest_framework.permissions import BasePermission, IsAuthenticated
 
 
-class CustomPermission(permissions.BasePermission):
+class CustomPermission(BasePermission):
     """
     Custom permission for request from user
 
@@ -16,13 +16,11 @@ class CustomPermission(permissions.BasePermission):
         return request.user and request.user.is_authenticated
 
 
-class SearchPermission(permissions.BasePermission):
+class IsOwner(IsAuthenticated):
     """
-    Custom permission for search request from user
-
-    return Allowany
+    Permission that checks if this object has a foreign key pointing to the
+    authenticated user of this request
     """
 
-    def has_permission(self, request, view):
-        if request.method:
-            return True
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user

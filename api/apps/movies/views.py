@@ -20,14 +20,12 @@ from apps.common.model_loaders import (
 )
 from apps.common.responses import ApiMessageResponse
 from apps.common.permissions import CustomPermission
+from apps.common.helpers import validate_data
 
 
 class MovieItem(APIView):
     def get(self, request, movie_id):
-        serializer = GetMovieSerializer(data={"movie_id": movie_id})
-        serializer.is_valid(raise_exception=True)
-
-        data = serializer.validated_data
+        data = validate_data(GetMovieSerializer, data={"movie_id": movie_id})
         movie_id = data.get("movie_id")
 
         Movie = get_movie_model()
@@ -46,10 +44,7 @@ class MovieRatings(APIView):
     def get(self, request, movie_id):
         request_data = self._get_request_data(request, movie_id)
 
-        serializer = GetMovieSerializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-
-        data = serializer.validated_data
+        data = validate_data(GetMovieSerializer, request_data)
         movie_id = data.get("movie_id")
 
         Movie = get_movie_model()
@@ -64,10 +59,7 @@ class MovieRatings(APIView):
     def post(self, request, movie_id):
         request_data = self._get_request_data(request, movie_id)
 
-        serializer = PostRatingSerializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-
-        data = serializer.validated_data
+        data = validate_data(PostRatingSerializer, request_data)
         movie_id = data.get("movie_id")
         rating = data.get("rating")
 
