@@ -13,13 +13,7 @@ from apps.accounts.validators import (
 
 
 class LoginSerializer(TokenObtainPairSerializer):
-    password = serializers.CharField(
-        min_length=settings.PASSWORD_MIN_LENGTH,
-        max_length=settings.PASSWORD_MAX_LENGTH,
-        validators=[validate_password],
-        required=False,
-        allow_blank=False,
-    )
+    password = serializers.CharField(required=False, allow_blank=False)
     username = serializers.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
         validators=[username_characters_validator, user_username_exists],
@@ -42,20 +36,26 @@ class RegisterSerializer(serializers.Serializer):
     )
     username = serializers.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
-        required=True,
         validators=[
             username_characters_validator,
             username_not_taken_validator,
         ],
+        allow_blank=False,
+        required=True,
     )
     email = serializers.EmailField(
-        required=True,
+        allow_blank=False,
         validators=[email_not_taken_validator],
+        required=True,
     )
     birthday = serializers.DateField(required=True)
     occupation = serializers.CharField(
-        required=True, max_length=settings.OCCUPATION_MAX_LENGTH
+        max_length=settings.OCCUPATION_MAX_LENGTH,
+        allow_blank=False,
+        required=True,
     )
     gender = serializers.CharField(
-        required=True, max_length=settings.GENDER_MAX_LENGTH
+        max_length=settings.GENDER_MAX_LENGTH,
+        allow_blank=False,
+        required=True,
     )
