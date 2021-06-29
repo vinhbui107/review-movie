@@ -50,32 +50,28 @@ GENDER = (
 class User(AbstractUser):
     username = models.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
-        blank=False,
-        null=False,
+        db_index=True,
         unique=True,
     )
     first_name = None
     last_name = None
-    birthday = models.DateField(blank=False, null=True, default=None)
+    birthday = models.DateField(blank=True, null=True)
     gender = models.CharField(
         choices=GENDER,
         max_length=settings.GENDER_MAX_LENGTH,
         null=True,
         blank=True,
-        default=None,
     )
     occupation = models.CharField(
         choices=OCCUPATIONS,
         max_length=settings.OCCUPATION_MAX_LENGTH,
         blank=True,
         null=True,
-        default=None,
     )
     avatar = models.ImageField(
         upload_to=upload_to_user_avatar_directory,
         blank=True,
         null=True,
-        default=None,
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
