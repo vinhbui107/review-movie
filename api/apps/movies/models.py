@@ -35,21 +35,22 @@ class Genre(models.Model):
 
 
 class Movie(models.Model):
-    title = models.CharField(
-        max_length=settings.MOVIE_TITLE_MAX_LENGTH, blank=False, null=False
-    )
+    title = models.CharField(max_length=settings.MOVIE_TITLE_MAX_LENGTH)
     description = models.TextField(blank=True, null=True)
     year = models.IntegerField(blank=True, null=True)
     director = models.CharField(
         max_length=settings.MOVIE_DIRECTOR_MAX_LENGTH, blank=True, null=True
     )
-    poster = models.TextField(blank=False, null=True)
-    imdb_rating = models.FloatField(null=True, blank=True, default=None)
-    rating_average = models.FloatField(null=True, blank=True, default=None)
-    rating_count = models.IntegerField(null=True, blank=True, default=0)
-    view_count = models.IntegerField(null=True, blank=True, default=0)
+    poster = models.TextField(blank=True, null=True)
+    imdb_rating = models.FloatField(blank=True, null=True)
+    rating_average = models.FloatField(blank=True, default=0)
+    rating_count = models.IntegerField(blank=True, default=0)
+    view_count = models.IntegerField(blank=True, default=0)
     slug = models.SlugField(
-        max_length=settings.MOVIE_SLUG_MAX_LENGTH, unique=True
+        max_length=settings.MOVIE_SLUG_MAX_LENGTH,
+        db_index=True,
+        unique=True,
+        blank=False,
     )
     genres = models.ManyToManyField(Genre, related_name="movies_genres")
 
