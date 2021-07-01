@@ -61,21 +61,21 @@ services:
             - "9200:9200"
             - "9300:9300"
 
-    rs:
-        restart: always
-        container_name: recommendation_system_api
-        build: ./recommendation-system
-        volumes:
-            - ./recommendation-system:/app
-        ports:
-            - "5000:5000"
-        environment:
-            - DB_HOST=db
-            - DB_NAME=review_movie
-            - DB_USER=postgres
-            - DB_PASSWORD=postgres
-        depends_on:
-            - db
+    # rs:
+    #     restart: always
+    #     container_name: recommendation_system_api
+    #     build: ./recommendation-system
+    #     volumes:
+    #         - ./recommendation-system:/app
+    #     ports:
+    #         - "5000:5000"
+    #     environment:
+    #         - DB_HOST=db
+    #         - DB_NAME=review_movie
+    #         - DB_USER=postgres
+    #         - DB_PASSWORD=postgres
+    #     depends_on:
+    #         - db
 
 volumes:
     postgres_data:
