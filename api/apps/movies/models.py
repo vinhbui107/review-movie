@@ -1,7 +1,7 @@
 import uuid
 from imagekit.models import ProcessedImageField
 
-from django.db import models
+from django.db import models, transaction
 from django.conf import settings
 from django.utils.text import slugify
 from django.utils import timezone
@@ -70,29 +70,22 @@ class Movie(models.Model):
         return [genre.name for genre in self.genres.all()]
 
     @classmethod
-    def get_movie_with_id(cls, movie_id):
-        movie = cls.objects.filter(pk=movie_id)
-        movie.update(view_count=F("view_count") + 1)
-        cls.objects.get(pk=movie_id).save()
+    def get_movie_with_slug(cls, movie_slug):
+        with transaction.atomic():
+            movie = cls.objects.select_for_update().get(slug=movie_slug)
+            movie.view_count += 1
+            movie.save()
         return movie
 
     @classmethod
-    def is_movie_not_exist(cls, movie_id):
-        try:
-            cls.objects.get(pk=movie_id)
-            return False
-        except cls.DoesNotExist:
-            return True
-
-    @classmethod
-    def get_comments_with_movie_id(cls, movie_id):
-        movie = cls.objects.get(pk=movie_id)
+    def get_comments_with_movie_slug(cls, movie_slug):
+        movie = cls.objects.get(slug=movie_slug)
         Comment = get_comment_model()
         return Comment.objects.filter(movie_id=movie)
 
     @classmethod
-    def get_ratings_with_movie_id(cls, movie_id):
-        movie = cls.objects.get(pk=movie_id)
+    def get_ratings_with_movie_slug(cls, movie_slug):
+        movie = cls.objects.get(slug=movie_slug)
         Rating = get_rating_model()
         return Rating.objects.filter(movie_id=movie)
 
@@ -130,18 +123,6 @@ class Rating(models.Model):
 
     class Meta:
         db_table = "rating"
-
-    @classmethod
-    def is_rating_not_exist(cls, rating_id):
-        try:
-            cls.objects.get(pk=rating_id)
-            return False
-        except cls.DoesNotExist:
-            return True
-
-    @classmethod
-    def get_rating_with_id(cls, rating_id):
-        return cls.objects.get(pk=rating_id)
 
     @classmethod
     def get_rating_info_for_movie_with_id(cls, movie_id):
