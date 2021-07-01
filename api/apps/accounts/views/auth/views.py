@@ -19,7 +19,6 @@ from apps.common.model_loaders import get_user_model
 
 class Login(TokenObtainPairView):
     permission_classes = (AllowAny,)
-
     serializer_class = LoginSerializer
 
 

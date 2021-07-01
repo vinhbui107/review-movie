@@ -164,9 +164,6 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 # =============================================================================
 
 REST_FRAMEWORK = {
-    # "DEFAULT_PERMISSION_CLASSES": (
-    #     "rest_framework.permissions.IsAuthenticated",
-    # ),
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
@@ -185,7 +182,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": True,

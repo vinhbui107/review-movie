@@ -50,32 +50,28 @@ GENDER = (
 class User(AbstractUser):
     username = models.CharField(
         max_length=settings.USERNAME_MAX_LENGTH,
-        blank=False,
-        null=False,
+        db_index=True,
         unique=True,
     )
     first_name = None
     last_name = None
-    birthday = models.DateField(blank=False, null=True, default=None)
+    birthday = models.DateField(blank=True, null=True)
     gender = models.CharField(
         choices=GENDER,
         max_length=settings.GENDER_MAX_LENGTH,
         null=True,
         blank=True,
-        default=None,
     )
     occupation = models.CharField(
         choices=OCCUPATIONS,
         max_length=settings.OCCUPATION_MAX_LENGTH,
         blank=True,
         null=True,
-        default=None,
     )
     avatar = models.ImageField(
         upload_to=upload_to_user_avatar_directory,
         blank=True,
         null=True,
-        default=None,
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -142,9 +138,9 @@ class User(AbstractUser):
         user = cls.objects.get(user_query)
         return user
 
-    def comment_movie_with_id(self, movie_id, user, content):
+    def comment_movie_with_slug(self, movie_slug, user, content):
         Movie = get_movie_model()
-        movie = Movie.objects.filter(pk=movie_id).get()
+        movie = Movie.objects.filter(slug=movie_slug).get()
         return self.comment_movie(movie=movie, user=user, content=content)
 
     def comment_movie(self, movie, user, content):
@@ -155,9 +151,9 @@ class User(AbstractUser):
         comment.save()
         return comment
 
-    def rating_movie_with_id(self, movie_id, user, rating):
+    def rating_movie_with_slug(self, movie_slug, user, rating):
         Movie = get_movie_model()
-        movie = Movie.objects.filter(pk=movie_id).get()
+        movie = Movie.objects.filter(slug=movie_slug).get()
         return self.rating_movie(movie=movie, user=user, rating=rating)
 
     def rating_movie(self, movie, user, rating):

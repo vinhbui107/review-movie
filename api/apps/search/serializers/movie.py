@@ -17,7 +17,6 @@ class MovieDocumentSerializer(DocumentSerializer):
 
         document = MovieDocument
         fields = (
-            "id",
             "title",
             "description",
             "year",

@@ -24,11 +24,11 @@ from apps.accounts.views.user.views import (
     DeleteAuthenticatedUser,
     AuthenticatedUserSetting,
 )
+from apps.movies.views.movie.views import MovieItem
+from apps.movies.views.movie_ratings.views import MovieRatings, RatingItem
+from apps.movies.views.movie_comments.views import MovieComments, CommentItem
 
-from apps.comments.views import CommentItem, MovieComments
-from apps.movies.views import MovieItem, MovieRatings, RatingItem
 from apps.search import urls as search_index_urls
-
 
 auth_auth_patterns = [
     path("login/", Login.as_view(), name="login-user"),
@@ -63,27 +63,27 @@ auth_patterns = [
 
 movie_patterns = [
     path("", MovieItem.as_view(), name="movie"),
-    path("comments", MovieComments.as_view(), name="movie-comments"),
-    path("ratings", MovieRatings.as_view(), name="movie-ratings"),
+    path("comments/", MovieComments.as_view(), name="movie-comments"),
+    path(
+        "comments/<int:comment_id>/",
+        MovieComments.as_view(),
+        name="movie-comment",
+    ),
+    path("ratings/", MovieRatings.as_view(), name="movie-ratings"),
+    path(
+        "ratings/<int:rating_id>/",
+        MovieRatings.as_view(),
+        name="movie-rating",
+    ),
 ]
 
 movies_patterns = [
-    path("<int:movie_id>/", include(movie_patterns)),
-]
-
-ratings_patterns = [
-    path("<int:rating_id>", RatingItem.as_view(), name="rating-item"),
-]
-
-comments_patterns = [
-    path("<int:comment_id>", CommentItem.as_view(), name="comment-item"),
+    path("<slug:movie_slug>/", include(movie_patterns)),
 ]
 
 api_patterns = [
     path("auth/", include(auth_patterns)),
     path("movies/", include(movies_patterns)),
-    path("ratings/", include(ratings_patterns)),
-    path("comments/", include(comments_patterns)),
     path("search/", include(search_index_urls)),
 ]
 

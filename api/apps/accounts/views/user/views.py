@@ -19,6 +19,7 @@ from apps.accounts.views.user.serializers import (
     UserRatingsSerializer,
     UserCommentsSerializer,
     AuthenticatedUserInfoSerializer,
+    UpdateAuthenticatedUserSerializer,
     DeleteAuthenticatedUserSerializer,
     UpdateAuthenticatedUserSettingsSerializer,
 )
@@ -129,36 +130,34 @@ class AuthenticatedUser(APIView):
         )
         return Response(user_serializer.data, status=status.HTTP_200_OK)
 
-    # def patch(self, request):
-    # serializer = UpdateAuthenticatedUserSerializer(data=request.data)
-    # serializer.is_valid(raise_exception=True)
-    # data = serializer.validated_data
+    def patch(self, request):
+        data = validate_data(UpdateAuthenticatedUserSerializer, request.data)
 
-    # user = request.user
+        user = request.user
 
-    # with transaction.atomic():
-    #     user.update(
-    #         username=data.get("username"),
-    #         email=data.get("email"),
-    #         birthday=data.get("birthday"),
-    #         gender=data.get("gender"),
-    #         save=False,
-    #     )
+        with transaction.atomic():
+            user.update(
+                username=data.get("username"),
+                email=data.get("email"),
+                birthday=data.get("birthday"),
+                gender=data.get("gender"),
+                save=False,
+            )
 
-    #     has_avatar = "avatar" in data
-    #     if has_avatar:
-    #         avatar = data.get("avatar")
-    #         if avatar is None:
-    #             user.delete_avatar(save=False)
-    #         else:
-    #             user.update_avatar(avatar, save=False)
+            has_avatar = "avatar" in data
+            if has_avatar:
+                avatar = data.get("avatar")
+                if avatar is None:
+                    user.delete_avatar(save=False)
+                else:
+                    user.update_avatar(avatar, save=False)
 
-    #     user.save()
+            user.save()
 
-    # user_serializer = UserInfoSerializer(
-    #     user, context={"request": request}
-    # )
-    # return Response(user_serializer.data, status=status.HTTP_200_OK)
+        user_serializer = UserInfoSerializer(
+            user, context={"request": request}
+        )
+        return Response(user_serializer.data, status=status.HTTP_200_OK)
 
 
 class DeleteAuthenticatedUser(APIView):

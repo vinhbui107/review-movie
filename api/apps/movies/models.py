@@ -1,7 +1,7 @@
 import uuid
 from imagekit.models import ProcessedImageField
 
-from django.db import models
+from django.db import models, transaction
 from django.conf import settings
 from django.utils.text import slugify
 from django.utils import timezone
@@ -35,21 +35,22 @@ class Genre(models.Model):
 
 
 class Movie(models.Model):
-    title = models.CharField(
-        max_length=settings.MOVIE_TITLE_MAX_LENGTH, blank=False, null=False
-    )
+    title = models.CharField(max_length=settings.MOVIE_TITLE_MAX_LENGTH)
     description = models.TextField(blank=True, null=True)
     year = models.IntegerField(blank=True, null=True)
     director = models.CharField(
         max_length=settings.MOVIE_DIRECTOR_MAX_LENGTH, blank=True, null=True
     )
-    poster = models.TextField(blank=False, null=True)
-    imdb_rating = models.FloatField(null=True, blank=True, default=None)
-    rating_average = models.FloatField(null=True, blank=True, default=None)
-    rating_count = models.IntegerField(null=True, blank=True, default=0)
-    view_count = models.IntegerField(null=True, blank=True, default=0)
+    poster = models.TextField(blank=True, null=True)
+    imdb_rating = models.FloatField(blank=True, null=True)
+    rating_average = models.FloatField(blank=True, default=0)
+    rating_count = models.IntegerField(blank=True, default=0)
+    view_count = models.IntegerField(blank=True, default=0)
     slug = models.SlugField(
-        max_length=settings.MOVIE_SLUG_MAX_LENGTH, unique=True
+        max_length=settings.MOVIE_SLUG_MAX_LENGTH,
+        db_index=True,
+        unique=True,
+        blank=False,
     )
     genres = models.ManyToManyField(Genre, related_name="movies_genres")
 
@@ -69,29 +70,22 @@ class Movie(models.Model):
         return [genre.name for genre in self.genres.all()]
 
     @classmethod
-    def get_movie_with_id(cls, movie_id):
-        movie = cls.objects.filter(pk=movie_id)
-        movie.update(view_count=F("view_count") + 1)
-        cls.objects.get(pk=movie_id).save()
+    def get_movie_with_slug(cls, movie_slug):
+        with transaction.atomic():
+            movie = cls.objects.select_for_update().get(slug=movie_slug)
+            movie.view_count += 1
+            movie.save()
         return movie
 
     @classmethod
-    def is_movie_not_exist(cls, movie_id):
-        try:
-            cls.objects.get(pk=movie_id)
-            return False
-        except cls.DoesNotExist:
-            return True
-
-    @classmethod
-    def get_comments_with_movie_id(cls, movie_id):
-        movie = cls.objects.get(pk=movie_id)
+    def get_comments_with_movie_slug(cls, movie_slug):
+        movie = cls.objects.get(slug=movie_slug)
         Comment = get_comment_model()
         return Comment.objects.filter(movie_id=movie)
 
     @classmethod
-    def get_ratings_with_movie_id(cls, movie_id):
-        movie = cls.objects.get(pk=movie_id)
+    def get_ratings_with_movie_slug(cls, movie_slug):
+        movie = cls.objects.get(slug=movie_slug)
         Rating = get_rating_model()
         return Rating.objects.filter(movie_id=movie)
 
@@ -129,18 +123,6 @@ class Rating(models.Model):
 
     class Meta:
         db_table = "rating"
-
-    @classmethod
-    def is_rating_not_exist(cls, rating_id):
-        try:
-            cls.objects.get(pk=rating_id)
-            return False
-        except cls.DoesNotExist:
-            return True
-
-    @classmethod
-    def get_rating_with_id(cls, rating_id):
-        return cls.objects.get(pk=rating_id)
 
     @classmethod
     def get_rating_info_for_movie_with_id(cls, movie_id):
