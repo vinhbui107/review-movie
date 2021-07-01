@@ -138,9 +138,9 @@ class User(AbstractUser):
         user = cls.objects.get(user_query)
         return user
 
-    def comment_movie_with_id(self, movie_id, user, content):
+    def comment_movie_with_slug(self, movie_slug, user, content):
         Movie = get_movie_model()
-        movie = Movie.objects.filter(pk=movie_id).get()
+        movie = Movie.objects.filter(slug=movie_slug).get()
         return self.comment_movie(movie=movie, user=user, content=content)
 
     def comment_movie(self, movie, user, content):
@@ -151,9 +151,9 @@ class User(AbstractUser):
         comment.save()
         return comment
 
-    def rating_movie_with_id(self, movie_id, user, rating):
+    def rating_movie_with_slug(self, movie_slug, user, rating):
         Movie = get_movie_model()
-        movie = Movie.objects.filter(pk=movie_id).get()
+        movie = Movie.objects.filter(slug=movie_slug).get()
         return self.rating_movie(movie=movie, user=user, rating=rating)
 
     def rating_movie(self, movie, user, rating):
