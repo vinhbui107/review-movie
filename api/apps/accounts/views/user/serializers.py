@@ -112,20 +112,34 @@ class AuthenticatedUserInfoSerializer(serializers.ModelSerializer):
         )
 
 
-# class UpdateUserInfoSerializer(serializers.Serializer):
-# username = serializers.CharField(required=True)
-# email = serializers.EmailField(required=True)
-# birthday = serializers.DateField(required=True)
-# occupation = serializers.CharField(
-#     max_length=settings.OCCUPATION_MAX_LENGTH, required=True
-# )
-# gender = serializers.CharField(
-#     max_length=settings.GENDER_MAX_LENGTH, required=True
-# )
-# avatar = serializers.ImageField(
-#     max_length=None,
-#     use_url=True,
-# )
+class UpdateAuthenticatedUserSerializer(serializers.Serializer):
+    username = serializers.CharField(
+        max_length=settings.USERNAME_MAX_LENGTH,
+        validators=[username_characters_validator],
+        required=False,
+        allow_blank=False,
+    )
+    email = serializers.EmailField(
+        required=False,
+        allow_blank=False,
+    )
+    birthday = serializers.DateField(
+        required=False,
+    )
+    occupation = serializers.CharField(
+        max_length=settings.OCCUPATION_MAX_LENGTH,
+        required=False,
+        allow_blank=False,
+    )
+    gender = serializers.CharField(
+        max_length=settings.GENDER_MAX_LENGTH,
+        required=False,
+        allow_blank=False,
+    )
+    avatar = serializers.ImageField(
+        use_url=True,
+        required=False,
+    )
 
 
 class DeleteAuthenticatedUserSerializer(serializers.Serializer):
@@ -133,12 +147,12 @@ class DeleteAuthenticatedUserSerializer(serializers.Serializer):
 
 
 class UpdateAuthenticatedUserSettingsSerializer(serializers.Serializer):
-    current_password = serializers.CharField(required=True, allow_blank=False)
+    current_password = serializers.CharField(required=False, allow_blank=False)
     new_password = serializers.CharField(
         min_length=settings.PASSWORD_MIN_LENGTH,
         max_length=settings.PASSWORD_MAX_LENGTH,
         validators=[validate_password],
-        required=True,
+        required=False,
         allow_blank=False,
     )
 
