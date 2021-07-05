@@ -24,7 +24,7 @@ function CommentCard({ comment }) {
                                 <span>
                                     <Link to={`/u/${comment.user.username}`}> {comment.user.username} </Link>
                                 </span>
-                                on {displayDate(comment.created_at)}
+                                on {displayDate(comment.updated_at)}
                             </p>
                         </div>
 

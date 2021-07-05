@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import AppLayout from "./layouts/AppLayout";
@@ -13,7 +13,7 @@ const AppRoute = ({ component: Component, isAppLayout, ...rest }) => (
         render={(props) =>
             isAppLayout ? (
                 <AppLayout {...rest}>
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<div></div>}>
                         <Component {...props} />
                     </Suspense>
                 </AppLayout>
@@ -21,7 +21,7 @@ const AppRoute = ({ component: Component, isAppLayout, ...rest }) => (
                 <Redirect to="/" />
             ) : (
                 <PublicLayout {...rest}>
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<div></div>}>
                         <Component {...props} />
                     </Suspense>
                 </PublicLayout>
@@ -31,7 +31,7 @@ const AppRoute = ({ component: Component, isAppLayout, ...rest }) => (
 );
 
 function App() {
-    const showItem = (routes) => {
+    const showRoute = (routes) => {
         if (routes && routes.length > 0) {
             return routes.map((item, index) => {
                 return (
@@ -45,11 +45,10 @@ function App() {
                 );
             });
         }
-        // </Suspense>
     };
     return (
         <Switch>
-            {showItem(routes)}
+            {showRoute(routes)}
             <Redirect from="*" to="/404" />
         </Switch>
     );

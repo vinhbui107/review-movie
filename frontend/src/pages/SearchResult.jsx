@@ -8,7 +8,7 @@ import "../style/pages/SearchResult.scss";
 
 function ResultItem(movie) {
     return (
-        <Card className="resultItem" key={movie.id}>
+        <Card className="resultItem" key={movie.slug}>
             <Card.Body className="resultItem__body">
                 <Row style={{ height: "100%" }}>
                     <Col md="2" className="resultItem--left">
@@ -25,7 +25,7 @@ function ResultItem(movie) {
                     <Col md="10" className="resultItem--right">
                         <div className="resultItem__title">
                             <h3>
-                                <Link to={`/movie/${movie.id}`}>{movie.title}</Link>
+                                <Link to={`/movie/${movie.slug}`}>{movie.title}</Link>
                             </h3>
                             <p>{movie.year}</p>
                         </div>

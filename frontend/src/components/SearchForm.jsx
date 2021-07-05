@@ -18,8 +18,8 @@ function SearchForm() {
     };
 
     const handleOnSelect = (item) => {
-        const movieId = item._source.id;
-        history.push(`/movie/${movieId}`);
+        const movieSlug = item._source.slug;
+        history.push(`/movie/${movieSlug}`);
     };
 
     const handleKeyPress = (event) => {

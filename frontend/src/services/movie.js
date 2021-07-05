@@ -17,31 +17,14 @@ const movieApi = {
         return axiosClient.get(url);
     },
 
-    getMovieItem: (movieId) => {
-        // const url = `${BASE_URL_API}/search/movies/?id=${movieId}`;
-        const url = `${BASE_URL_API}/movies/${movieId}/`;
+    getMovieItem: (movieSlug) => {
+        const url = `${BASE_URL_API}/movies/${movieSlug}/`;
         return axiosClient.get(url);
     },
 
     getMoviesGenre: (genre) => {
         const url = `${BASE_URL_API}/search/movies/?genres=${genre}&ordering=-year&ordering=-view_count`;
         return axiosClient.get(url);
-    },
-
-    // Rate API
-    getMovieRatings: (movieId) => {
-        const url = `${BASE_URL_API}/movies/${movieId}/ratings`;
-        return axiosClient.get(url);
-    },
-
-    getUserRatings: (username) => {
-        const url = `${BASE_URL_API}/auth/users/${username}/ratings`;
-        return axiosClient.get(url);
-    },
-
-    postRating: (movieId, params) => {
-        const url = `${BASE_URL_API}/movies/${movieId}/ratings`;
-        return axiosClient.post(url, params);
     },
 
     // Search API

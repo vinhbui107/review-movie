@@ -6,19 +6,21 @@ import { VideoCameraOutlined } from "@ant-design/icons";
 import { useParams } from "react-router";
 import MovieCard from "../components/MovieCard";
 import movieApi from "../services/movie";
+import { Messages } from "../utils/messages";
 
 function MoviesGenre() {
     const [movies, setMovies] = useState([]);
-    const [movieCount, setmovieCount] = useState(0);
+    const [movieCount, setMovieCount] = useState(0);
     const { genre } = useParams();
     const _fetchData = async () => {
         try {
             const response = await movieApi.getMoviesGenre(genre);
             setMovies(response.results);
-            setmovieCount(response.count);
+            setMovieCount(response.count);
         } catch (error) {
-            notification["warning"]({
-                message: "Get data failed!",
+            notification["error"]({
+                message: Messages.apiErrorMes,
+                description: Messages.apiErrorDes,
             });
         }
     };

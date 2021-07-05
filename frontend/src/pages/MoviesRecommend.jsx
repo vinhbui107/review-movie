@@ -4,6 +4,7 @@ import MovieCard from "../components/MovieCard";
 import movieApi from "../services/movie";
 import { getLocalStorage, isUsingRS } from "../utils/helpers";
 import { notification } from "antd";
+import { Messages } from "../utils/messages";
 
 function MoviesRecommend() {
     const [movies, setMovies] = useState([]);
@@ -11,19 +12,20 @@ function MoviesRecommend() {
 
     const _fetchData = async () => {
         let reqRecommend = await movieApi.getMoviesPopular(2);
-        if (isUsingRS()) {
-            reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
-        }
+        // if (isUsingRS()) {
+        //     reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
+        // }
         try {
             const response = reqRecommend;
             let moviesRecommend = response.results;
-            if (isUsingRS()) {
-                moviesRecommend = response.movies;
-            }
+            // if (isUsingRS()) {
+            //     moviesRecommend = response.movies;
+            // }
             setMovies(moviesRecommend);
         } catch (error) {
-            notification["warning"]({
-                message: "Get data failed!",
+            notification["error"]({
+                message: Messages.apiErrorMes,
+                description: Messages.apiErrorDes,
             });
         }
     };

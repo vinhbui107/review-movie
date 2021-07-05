@@ -51,8 +51,22 @@ const Register = () => {
         } else {
             try {
                 await userApi.register(inputs);
-                message.success("Register Successfully.", 1);
-                history.replace("/login");
+
+                const loginParams = {
+                    username: inputs.username,
+                    password: inputs.password,
+                };
+                const { access, refresh } = await userApi.login(loginParams);
+                Helpers.saveLocalStorage("access_token", access);
+                Helpers.saveLocalStorage("refresh_token", refresh);
+
+                const authenticatedUser = await userApi.getAuthenticatedUser();
+                Helpers.saveLocalStorage("auth", authenticatedUser);
+
+                message.success(Messages.registerSuccess);
+                setTimeout(() => {
+                    history.push("/");
+                }, 500);
             } catch (error) {
                 // get first error message
                 const [first] = Object.keys(error.response.data);

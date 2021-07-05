@@ -1,9 +1,10 @@
 import axios from "axios";
-import { notification } from "antd";
+import { message } from "antd";
 import queryString from "query-string";
 import { BASE_URL_API } from "../utils/env";
 import * as Helpers from "../utils/helpers";
 import userApi from "./user";
+import { Messages } from "../utils/messages";
 
 const axiosClient = axios.create({
     baseURL: BASE_URL_API,
@@ -16,15 +17,16 @@ const axiosClient = axios.create({
 
 const getNewToken = async () => {
     try {
-        const response = await userApi.refresh();
-        Helpers.saveLocalStorage("access_token", response.access);
-        console.log("get new token");
-        axios.defaults.headers.common["Authorization"] = "Bearer " + response.access;
+        const { access } = await userApi.refresh();
+        Helpers.saveLocalStorage("access_token", access);
+        axios.defaults.headers.common["Authorization"] = "Bearer " + access;
     } catch {
-        notification["info"]({
-            message: "Your token is expired, reload page!!!",
-        });
         Helpers.removeAuth();
+
+        message.error(Messages.getTokenFailed);
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
     }
 };
 
@@ -56,7 +58,6 @@ axiosClient.interceptors.response.use(
             case 403:
                 break;
             case 404:
-                window.location.href = "/404";
                 break;
             case 500:
                 break;
