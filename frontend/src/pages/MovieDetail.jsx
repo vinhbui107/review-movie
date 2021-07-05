@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Rate, notification, Tag } from "antd";
 import { EyeOutlined, StarOutlined, CommentOutlined } from "@ant-design/icons";
-import axios from "axios";
 import { Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
 
-import CommentList from "../components/CommentList";
-import Recommend from "../components/Recommend";
-import commentApi from "../services/comment";
-import movieApi from "../services/movie";
-import "../style/pages/MovieDetail.scss";
-import { displayGenre, getLocalStorage, isLogin, isUsingRS } from "../utils/helpers.js";
-import DefaultMovie from "../assets/img/default-movie.png";
-import ratingApi from "../services/rating";
+import { CommentList, Recommend } from "../components";
+import { CommentService, MovieService, RatingService } from "../services";
 import { Messages } from "../utils/messages";
+import { displayGenre, getLocalStorage, isLogin } from "../utils/helpers.js";
+
+import "../style/pages/MovieDetail.scss";
+import DefaultMovie from "../assets/img/default-movie.png";
 
 function MovieDetail() {
     const [movieItem, setMovieItem] = useState(null);
     const [comments, setComments] = useState([]);
     const [moviesRecommend, setMoviesRecommend] = useState([]);
-    const { slug } = useParams();
-    const currentUser = getLocalStorage("currentUser");
     const [rating, setRating] = useState(null);
+    const { slug } = useParams();
+    // const auth = getLocalStorage("auth");
 
     useEffect(() => {
         async function _fetchData() {
             try {
-                const response = await movieApi.getMovieItem(slug);
+                const response = await MovieService.getMovieItem(slug);
                 setMovieItem(response);
                 setRating(response.rated);
             } catch (error) {}
@@ -37,11 +35,11 @@ function MovieDetail() {
 
     useEffect(() => {
         async function _fetchData() {
-            let reqRecommend = await movieApi.getMoviesPopular(2);
+            let reqRecommend = await MovieService.getMoviesPopular(2);
             // if (isUsingRS()) {
-            //     reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
+            //     reqRecommend = await MovieService.getMoviesRecommend(currentUser.username);
             // }
-            const reqComments = await commentApi.getMovieComments(slug);
+            const reqComments = await CommentService.getMovieComments(slug);
 
             axios.all([reqRecommend, reqComments]).then(
                 axios.spread((...response) => {
@@ -64,7 +62,7 @@ function MovieDetail() {
                     movie_slug: slug,
                     rating: value,
                 };
-                const response = await ratingApi.postRating(params);
+                const response = await RatingService.postRating(params);
                 setRating(response.rating);
                 notification["success"]({
                     message: Messages.ratingSuccess,

@@ -2,11 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 
-import MovieList from "../components/MovieList";
-import SearchForm from "../components/SearchForm";
+import { MovieList, SearchForm } from "../components";
 import movieApi from "../services/movie";
-import "../style/pages/Home.scss";
 import { isUsingRS, getLocalStorage } from "../utils/helpers.js";
+
+import "../style/pages/Home.scss";
 
 function Home() {
     const [movieList, setMovieList] = useState({

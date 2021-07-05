@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 import { BASE_URL_API } from "../utils/env";
 import * as Helpers from "../utils/helpers";
 
-const userApi = {
+const UserService = {
     login: (params) => {
         const url = `${BASE_URL_API}/auth/login/`;
         return axiosClient.post(url, params);
@@ -64,4 +64,4 @@ const userApi = {
     },
 };
 
-export default userApi;
+export default UserService;

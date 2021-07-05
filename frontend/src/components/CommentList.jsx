@@ -2,10 +2,11 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Empty, notification } from "antd";
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import commentApi from "../services/comment";
 import "../style/components/CommentList.scss";
+
+import { CommentService } from "../services";
+import { CommentCard } from "./index";
 import { getLocalStorage, isLogin, sortByID } from "../utils/helpers.js";
-import CommentCard from "./CommentCard";
 import { Messages } from "../utils/messages";
 
 function CommentList({ comments, setCommentsSate, movieSlug }) {
@@ -32,7 +33,7 @@ function CommentList({ comments, setCommentsSate, movieSlug }) {
                     movie_slug: movieSlug,
                     content: inputComment,
                 };
-                const response = await commentApi.postComment(params);
+                const response = await CommentService.postComment(params);
 
                 const newComments = [...comments, response];
                 setCommentsSate(sortByID(newComments));

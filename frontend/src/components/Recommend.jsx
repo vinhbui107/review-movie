@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import "../style/components/Recommend.scss";
 import DefaultMovie from "../assets/img/default-movie.png";
 

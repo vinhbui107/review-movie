@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { Button, Col, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { message } from "antd";
-import logo from "../assets/img/logo.png";
-import userApi from "../services/user";
-import { GENDERS, OCCUPATIONS } from "../utils/constants";
-import * as Helpers from "../utils/helpers";
+
+import { UserService } from "../services";
+import { saveLocalStorage, isEmail, isValidBirthday } from "../utils/helpers";
 import { Messages } from "../utils/messages";
+import { OCCUPATIONS } from "../utils/constants";
+
 import "../style/pages/Register.scss";
+import logo from "../assets/img/logo.png";
 
 const Register = () => {
     const [inputs, setInputs] = useState({
@@ -35,10 +37,10 @@ const Register = () => {
     const findFormError = () => {
         let newError = "";
 
-        if (!Helpers.isEmail(email)) newError = Messages.emailInvalid;
+        if (!isEmail(email)) newError = Messages.emailInvalid;
         if (gender.length === "") newError = Messages.genderInvalid;
         if (occupation.length === "") newError = Messages.occupationInvalid;
-        if (!Helpers.isValidBirthday(birthday)) newError = Messages.birthdayInvalid;
+        if (!isValidBirthday(birthday)) newError = Messages.birthdayInvalid;
 
         return newError;
     };
@@ -50,18 +52,18 @@ const Register = () => {
             setMessageError(newError);
         } else {
             try {
-                await userApi.register(inputs);
+                await UserService.register(inputs);
 
                 const loginParams = {
                     username: inputs.username,
                     password: inputs.password,
                 };
-                const { access, refresh } = await userApi.login(loginParams);
-                Helpers.saveLocalStorage("access_token", access);
-                Helpers.saveLocalStorage("refresh_token", refresh);
+                const { access, refresh } = await UserService.login(loginParams);
+                saveLocalStorage("access_token", access);
+                saveLocalStorage("refresh_token", refresh);
 
-                const authenticatedUser = await userApi.getAuthenticatedUser();
-                Helpers.saveLocalStorage("auth", authenticatedUser);
+                const authenticatedUser = await UserService.getAuthenticatedUser();
+                saveLocalStorage("auth", authenticatedUser);
 
                 message.success(Messages.registerSuccess);
                 setTimeout(() => {

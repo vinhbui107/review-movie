@@ -3,8 +3,9 @@ import { Avatar } from "antd";
 import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
+import { displayDate } from "../utils/helpers";
 import "../style/components/CommentCard.scss";
-import { displayDate, displayMemberSince } from "../utils/helpers";
 
 function CommentCard({ comment }) {
     return (

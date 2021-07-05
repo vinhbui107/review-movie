@@ -1,34 +1,8 @@
-import React, { Suspense, useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-
-import AppLayout from "./layouts/AppLayout";
-import PublicLayout from "./layouts/PublicLayout";
+import React from "react";
+import { Redirect, Switch } from "react-router-dom";
 
 import { routes } from "./pages/routes";
-import { isLogin } from "./utils/helpers";
-
-const AppRoute = ({ component: Component, isAppLayout, ...rest }) => (
-    <Route
-        {...rest}
-        render={(props) =>
-            isAppLayout ? (
-                <AppLayout {...rest}>
-                    <Suspense fallback={<div></div>}>
-                        <Component {...props} />
-                    </Suspense>
-                </AppLayout>
-            ) : isLogin() ? (
-                <Redirect to="/" />
-            ) : (
-                <PublicLayout {...rest}>
-                    <Suspense fallback={<div></div>}>
-                        <Component {...props} />
-                    </Suspense>
-                </PublicLayout>
-            )
-        }
-    />
-);
+import AppRoute from "./utils/AppRoute";
 
 function App() {
     const showRoute = (routes) => {
@@ -46,6 +20,7 @@ function App() {
             });
         }
     };
+
     return (
         <Switch>
             {showRoute(routes)}

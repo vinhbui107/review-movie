@@ -2,9 +2,11 @@ import { Empty } from "antd";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import userApi from "../services/user";
+
+import { UserService } from "../services";
+import { ProfileRatingCard } from "../components";
+
 import "../style/components/ProfileRatingList.scss";
-import ProfileRatingCard from "./ProfileRatingCard";
 
 function ProfileRatingList({ ratingsCount, is_setting }) {
     const [ratings, setRatings] = useState(null);
@@ -12,7 +14,7 @@ function ProfileRatingList({ ratingsCount, is_setting }) {
 
     async function _fetchData() {
         try {
-            const response = await userApi.getUserRatings(username);
+            const response = await UserService.getUserRatings(username);
             setRatings(response.data);
         } catch (error) {}
     }

@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 import { BASE_URL_API, RS_URL_API } from "../utils/env";
 
-const movieApi = {
+const MovieService = {
     getMoviesTopRated: (page) => {
         const url = `${BASE_URL_API}/search/movies/?ordering=-imdb_rating&ordering=-view_count&page=${page}`;
         return axiosClient.get(url);
@@ -27,7 +27,6 @@ const movieApi = {
         return axiosClient.get(url);
     },
 
-    // Search API
     searchMovie: (searchText) => {
         const url = `${BASE_URL_API}/search/movies/?search=${searchText}`;
         return axiosClient.get(url);
@@ -39,4 +38,4 @@ const movieApi = {
     },
 };
 
-export default movieApi;
+export default MovieService;

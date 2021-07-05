@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 import { BASE_URL_API } from "../utils/env";
 
-const ratingApi = {
+const RatingService = {
     getMovieRatings: (movieSlug) => {
         const url = `${BASE_URL_API}/ratings/?movie_slug=${movieSlug}`;
         return axiosClient.get(url);
@@ -15,4 +15,4 @@ const ratingApi = {
     deleteComment: (movieSlug, ratingId) => {},
 };
 
-export default ratingApi;
+export default RatingService;

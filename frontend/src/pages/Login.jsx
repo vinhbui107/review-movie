@@ -1,12 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { message } from "antd";
+
 import userApi from "../services/user";
 import * as Helpers from "../utils/helpers";
-import logo from "../assets/img/logo.png";
-import "../style/pages/Login.scss";
 import { Messages } from "../utils/messages";
+
+import "../style/pages/Login.scss";
+import logo from "../assets/img/logo.png";
 
 const Login = () => {
     const [inputs, setInputs] = useState({

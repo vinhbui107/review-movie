@@ -3,6 +3,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { UnorderedListOutlined, HeartOutlined, CloseOutlined } from "@ant-design/icons";
+
 import DefaultMovie from "../assets/img/default-movie.png";
 
 function ProfileRatingCard({ rating, is_setting }) {

@@ -1,29 +1,30 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState } from "react";
 import { Container, Form, FormControl, InputGroup, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
 import { Avatar, notification, message } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router";
 
-import logo from "../assets/img/logo.svg";
-import userApi from "../services/user.js";
-import "../style/components/Header.scss";
-import { GENRES } from "../utils/constants";
-import * as Helpers from "../utils/helpers.js";
+import { UserService } from "../services";
+import { getLocalStorage, removeAuth, isLogin } from "../utils/helpers.js";
 import { Messages } from "../utils/messages";
+import { GENRES } from "../utils/constants";
+
+import "../style/components/Header.scss";
+import logo from "../assets/img/logo.svg";
 
 function Header() {
     const [inputSearch, setInputSearch] = useState("");
-    const auth = Helpers.getLocalStorage("auth");
+    const auth = getLocalStorage("auth");
 
     const history = useHistory();
 
     const handleLogout = async () => {
         try {
-            await userApi.logout().then();
+            await UserService.logout().then();
 
             message.success(Messages.logoutSuccess);
             setTimeout(() => {
-                Helpers.removeAuth();
+                removeAuth();
                 history.push("/");
             }, 200);
         } catch {
@@ -32,7 +33,7 @@ function Header() {
                 description: Messages.loginFailed,
             });
 
-            Helpers.removeAuth();
+            removeAuth();
             history.push("/");
         }
     };
@@ -79,7 +80,7 @@ function Header() {
                                     />
                                 </InputGroup>
                             </Form>
-                            {Helpers.isLogin() ? (
+                            {isLogin() ? (
                                 <Nav>
                                     <NavDropdown
                                         title={

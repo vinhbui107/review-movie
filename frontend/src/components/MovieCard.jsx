@@ -1,10 +1,11 @@
-import { EyeOutlined } from "@ant-design/icons";
 import React from "react";
+import { EyeOutlined } from "@ant-design/icons";
 import { Card } from "react-bootstrap";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { Link } from "react-router-dom";
-import DefaultMovie from "../assets/img/default-movie.png";
+
 import "../style/components/MovieCard.scss";
+import DefaultMovie from "../assets/img/default-movie.png";
 
 MovieCard.propTypes = {};
 
