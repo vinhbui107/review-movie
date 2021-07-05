@@ -77,18 +77,6 @@ class Movie(models.Model):
             movie.save()
         return movie
 
-    @classmethod
-    def get_comments_with_movie_slug(cls, movie_slug):
-        movie = cls.objects.get(slug=movie_slug)
-        Comment = get_comment_model()
-        return Comment.objects.filter(movie_id=movie)
-
-    @classmethod
-    def get_ratings_with_movie_slug(cls, movie_slug):
-        movie = cls.objects.get(slug=movie_slug)
-        Rating = get_rating_model()
-        return Rating.objects.filter(movie_id=movie)
-
     def count_comments(self):
         Comment = get_comment_model()
         return Comment.count_comment_for_movie_with_id(self.pk)
@@ -97,9 +85,11 @@ class Movie(models.Model):
         rating_info = Rating.get_rating_info_for_movie_with_id(self.pk)
         return rating_info
 
-    def get_rating_with_user(self, user):
-        value = Rating.get_rating_with_user(movie=self, user=user)
-        return value
+    def get_movies_recommend_with_user(self, user):
+        return
+
+    def get_movies_recommend(self):
+        return
 
 
 class Rating(models.Model):
@@ -144,5 +134,9 @@ class Rating(models.Model):
         return [n_1_star, n_2_star, n_3_star, n_4_star, n_5_star]
 
     @classmethod
-    def get_rating_with_user(cls, movie, user):
-        return cls.objects.filter(movie=movie, user=user)
+    def get_with_id(cls, rating_id):
+        return cls.objects.get(pk=rating_id)
+
+    @classmethod
+    def delete_with_id(cls, rating_id):
+        return
