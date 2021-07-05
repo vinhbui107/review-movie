@@ -13,56 +13,71 @@ import movieApi from "../services/movie";
 import "../style/pages/MovieDetail.scss";
 import { displayGenre, getLocalStorage, isLogin, isUsingRS } from "../utils/helpers.js";
 import DefaultMovie from "../assets/img/default-movie.png";
+import ratingApi from "../services/rating";
+import { Messages } from "../utils/messages";
 
 function MovieDetail() {
     const [movieItem, setMovieItem] = useState(null);
     const [comments, setComments] = useState([]);
     const [moviesRecommend, setMoviesRecommend] = useState([]);
-    const { movieId } = useParams();
+    const { slug } = useParams();
     const currentUser = getLocalStorage("currentUser");
     const [rating, setRating] = useState(null);
 
-    async function _fetchMovieData() {
-        let reqRecommend = await movieApi.getMoviesPopular(2);
-        if (isUsingRS()) {
-            reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
+    useEffect(() => {
+        async function _fetchData() {
+            try {
+                const response = await movieApi.getMovieItem(slug);
+                setMovieItem(response);
+                setRating(response.rated);
+            } catch (error) {}
         }
-        const reqComments = await commentApi.getMovieComments(movieId);
-        const reqMovieItem = await movieApi.getMovieItem(movieId);
-
-        axios.all([reqRecommend, reqMovieItem, reqComments]).then(
-            axios.spread((...response) => {
-                let moviesRecommend = response[0].results;
-                if (isUsingRS()) {
-                    moviesRecommend = response[0].movies;
-                }
-                setMoviesRecommend(moviesRecommend);
-                setMovieItem(response[1][0]);
-                setRating(response[1][0].rated);
-                setComments(response[2]);
-            })
-        );
-    }
+        _fetchData();
+    }, []);
 
     useEffect(() => {
-        _fetchMovieData();
+        async function _fetchData() {
+            let reqRecommend = await movieApi.getMoviesPopular(2);
+            // if (isUsingRS()) {
+            //     reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
+            // }
+            const reqComments = await commentApi.getMovieComments(slug);
+
+            axios.all([reqRecommend, reqComments]).then(
+                axios.spread((...response) => {
+                    let moviesRecommend = response[0].results;
+                    // if (isUsingRS()) {
+                    //     moviesRecommend = response[0].movies;
+                    // }
+                    setMoviesRecommend(moviesRecommend);
+                    setComments(response[1].results);
+                })
+            );
+        }
+        _fetchData();
     }, []);
 
     const handleRating = async (value) => {
         if (isLogin()) {
             try {
                 const params = {
+                    movie_slug: slug,
                     rating: value,
                 };
-                const response = await movieApi.postRating(movieId, params);
+                const response = await ratingApi.postRating(params);
                 setRating(response.rating);
                 notification["success"]({
-                    message: `Your rating have been saved.`,
+                    message: Messages.ratingSuccess,
                 });
-            } catch (error) {}
+            } catch (error) {
+                notification["error"]({
+                    message: Messages.apiErrorMes,
+                    description: Messages.apiErrorDes,
+                });
+            }
         } else {
             notification["warning"]({
-                message: "You need to login for rate this movie!",
+                message: Messages.loginWarning,
             });
         }
     };
@@ -182,7 +197,7 @@ function MovieDetail() {
                     <Container>
                         <Recommend movies={moviesRecommend} title={"Recommend for you"} />
                         {ratingInfo()}
-                        <CommentList comments={comments} setCommentsSate={setComments} movieId={movieId} />
+                        <CommentList comments={comments} setCommentsSate={setComments} movieSlug={slug} />
                     </Container>
                 </>
             )}

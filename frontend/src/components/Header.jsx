@@ -1,29 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Container, Form, FormControl, InputGroup, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
-import { Avatar, notification } from "antd";
+import { Avatar, notification, message } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router";
+
 import logo from "../assets/img/logo.svg";
 import userApi from "../services/user.js";
 import "../style/components/Header.scss";
 import { GENRES } from "../utils/constants";
 import * as Helpers from "../utils/helpers.js";
+import { Messages } from "../utils/messages";
 
 function Header() {
-    const [currentUser, setCurrentUser] = useState(Helpers.getLocalStorage("currentUser"));
     const [inputSearch, setInputSearch] = useState("");
+    const auth = Helpers.getLocalStorage("auth");
+
     const history = useHistory();
 
     const handleLogout = async () => {
         try {
             await userApi.logout().then();
-            Helpers.removeAuth();
-            setCurrentUser({});
-            history.push("/");
+
+            message.success(Messages.logoutSuccess);
+            setTimeout(() => {
+                Helpers.removeAuth();
+                history.push("/");
+            }, 200);
         } catch {
-            notification["warning"]({
-                message: "Logout Failed!",
+            notification["error"]({
+                message: Messages.apiErrorMes,
+                description: Messages.loginFailed,
             });
+
             Helpers.removeAuth();
             history.push("/");
         }
@@ -76,14 +84,14 @@ function Header() {
                                     <NavDropdown
                                         title={
                                             <>
-                                                <Avatar size="small" icon={<UserOutlined />} src={currentUser.avatar} />
-                                                <span style={{ marginLeft: "5px" }}>{currentUser.username}</span>
+                                                <Avatar size="small" icon={<UserOutlined />} src={auth?.avatar} />
+                                                <span style={{ marginLeft: "5px" }}>{auth.username}</span>
                                             </>
                                         }
                                         id="basic-nav-dropdown"
                                         className="dropdown-menu-lg-right"
                                     >
-                                        <NavDropdown.Item href={`/u/${currentUser.username}`}>Profile</NavDropdown.Item>
+                                        <NavDropdown.Item href={`/u/${auth.username}`}>Profile</NavDropdown.Item>
                                         <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                                     </NavDropdown>
                                 </Nav>

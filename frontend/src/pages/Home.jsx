@@ -16,23 +16,23 @@ function Home() {
     });
 
     const { topRated, popular, recommend } = movieList;
-    const currentUser = getLocalStorage("currentUser");
+    const auth = getLocalStorage("auth");
 
     useEffect(() => {
         async function fetchData() {
             let reqRecommend = await movieApi.getMoviesPopular(2);
-            if (isUsingRS()) {
-                reqRecommend = await movieApi.getMoviesRecommend(currentUser.username);
-            }
+            // if (isUsingRS()) {
+            //     reqRecommend = await movieApi.getMoviesRecommend(auth.username);
+            // }
             const reqPopular = await movieApi.getMoviesPopular(1);
             const reqTopRated = await movieApi.getMoviesTopRated(1);
 
             axios.all([reqRecommend, reqPopular, reqTopRated]).then(
                 axios.spread((...response) => {
                     let moviesRecommend = response[0].results;
-                    if (isUsingRS()) {
-                        moviesRecommend = response[0].movies;
-                    }
+                    // if (isUsingRS()) {
+                    //     moviesRecommend = response[0].movies;
+                    // }
                     setMovieList((movieList) => ({
                         ...movieList,
                         recommend: moviesRecommend,
