@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import "../style/components/Recommend.scss";
 import DefaultMovie from "../assets/img/default-movie.png";
 
@@ -9,7 +10,7 @@ function Recommend({ movies, title }) {
         return movies?.map((movie, index) => {
             return (
                 <div className="recommendCard" key={index}>
-                    <Link className="recommendCard__link" to={`/movie/${movie.id}`}>
+                    <Link className="recommendCard__link" to={`/movie/${movie.slug}`}>
                         <div
                             style={{
                                 backgroundImage: `url(${DefaultMovie})`,

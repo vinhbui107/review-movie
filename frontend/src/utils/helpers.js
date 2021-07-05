@@ -11,13 +11,13 @@ export const removeLocalStorage = (key) => {
 };
 
 export const removeAuth = () => {
+    removeLocalStorage("auth");
     removeLocalStorage("access_token");
     removeLocalStorage("refresh_token");
-    removeLocalStorage("currentUser");
 };
 
 export const isLogin = () => {
-    if (getLocalStorage("access_token") && getLocalStorage("refresh_token")) {
+    if (getLocalStorage("access_token") && getLocalStorage("refresh_token") && getLocalStorage("auth")) {
         return true;
     }
     removeAuth();
@@ -27,8 +27,8 @@ export const isLogin = () => {
 export const isUsingRS = () => {
     if (isLogin()) {
         const moment = require("moment");
-        const currentUser = getLocalStorage("currentUser");
-        const createdDate = currentUser.created_at;
+        const auth = getLocalStorage("auth");
+        const createdDate = auth.created_at;
         var today = moment().format("YYYY-MM-DD");
         const isAfterCreatedDate = moment(today).isAfter(createdDate);
         if (isAfterCreatedDate) return true;

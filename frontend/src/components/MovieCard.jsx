@@ -1,10 +1,11 @@
-import { EyeOutlined } from "@ant-design/icons";
 import React from "react";
+import { EyeOutlined } from "@ant-design/icons";
 import { Card } from "react-bootstrap";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { Link } from "react-router-dom";
-import DefaultMovie from "../assets/img/default-movie.png";
+
 import "../style/components/MovieCard.scss";
+import DefaultMovie from "../assets/img/default-movie.png";
 
 MovieCard.propTypes = {};
 
@@ -12,7 +13,7 @@ function MovieCard({ movie }) {
     const percentage = movie.imdb_rating * 10;
     return (
         <Card className="card">
-            <Link to={`/movie/${movie.id}`}>
+            <Link to={`/movie/${movie.slug}`}>
                 <div style={{ backgroundImage: `url(${DefaultMovie})`, height: "262px" }}>
                     <Card.Img variant="top" src={movie.poster} />
                 </div>
@@ -20,7 +21,7 @@ function MovieCard({ movie }) {
             </Link>
 
             <Card.Body className="card-body">
-                <Link to={`/movie/${movie.id}`}>
+                <Link to={`/movie/${movie.slug}`}>
                     <Card.Title className="card-title">{movie.title}</Card.Title>
                 </Link>
 

@@ -4,13 +4,12 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
-import "../style/pages/Profile.scss";
-import ProfileBackground from "../assets/img/profile-background.svg";
-import ProfileSetting from "../components/ProfileSetting";
-import ProfileChangePassword from "../components/ProfileChangePassword";
-import userApi from "../services/user";
+import { ProfileSetting, ProfileRatingList, ProfileChangePassword } from "../components";
+import { UserService } from "../services";
 import { displayMemberSince } from "../utils/helpers";
-import ProfileRatingList from "../components/ProfileRatingList";
+
+import ProfileBackground from "../assets/img/profile-background.svg";
+import "../style/pages/Profile.scss";
 
 const { TabPane } = Tabs;
 
@@ -20,19 +19,12 @@ function Profile() {
 
     async function _fetchData() {
         try {
-            const response = await userApi.getUserData(username);
+            const response = await UserService.getUserData(username);
             setUserData(response);
         } catch (error) {}
     }
 
     useEffect(() => {
-        async function _fetchData() {
-            try {
-                const response = await userApi.getUserData(username);
-                setUserData(response);
-            } catch (error) {}
-        }
-
         _fetchData();
     }, []);
 

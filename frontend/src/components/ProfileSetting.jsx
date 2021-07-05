@@ -1,5 +1,6 @@
 import { Button, DatePicker, Form, Input, Select, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+
 import "../style/components/ProfileForm.scss";
 
 const { Option } = Select;

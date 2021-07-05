@@ -1,18 +1,18 @@
 import axiosClient from "./axiosClient";
 import { BASE_URL_API } from "../utils/env";
 
-const commentApi = {
-    getMovieComments: (movieId) => {
-        const url = `${BASE_URL_API}/movies/${movieId}/comments`;
+const CommentService = {
+    getMovieComments: (movieSlug) => {
+        const url = `${BASE_URL_API}/comments/?movie_slug=${movieSlug}`;
         return axiosClient.get(url);
     },
 
-    postComment: (movieId, params) => {
-        const url = `${BASE_URL_API}/movies/${movieId}/comments`;
+    postComment: (params) => {
+        const url = `${BASE_URL_API}/comments/`;
         return axiosClient.post(url, params);
     },
 
     deleteComment: (commentId) => {},
 };
 
-export default commentApi;
+export default CommentService;

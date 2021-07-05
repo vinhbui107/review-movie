@@ -2,20 +2,22 @@ import React, { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { message } from "antd";
+
 import userApi from "../services/user";
 import * as Helpers from "../utils/helpers";
-import logo from "../assets/img/logo.png";
-import "../style/pages/Login.scss";
 import { Messages } from "../utils/messages";
+
+import "../style/pages/Login.scss";
+import logo from "../assets/img/logo.png";
 
 const Login = () => {
     const [inputs, setInputs] = useState({
         username: "",
         password: "",
     });
-
     const [messageError, setMessageError] = useState("");
     const { username, password } = inputs;
+
     const history = useHistory();
 
     const handleChange = (e) => {
@@ -41,14 +43,17 @@ const Login = () => {
             setMessageError(newError);
         } else {
             try {
-                const response = await userApi.login(inputs);
-                Helpers.saveLocalStorage("access_token", response.access);
-                Helpers.saveLocalStorage("refresh_token", response.refresh);
+                const { access, refresh } = await userApi.login(inputs);
+                Helpers.saveLocalStorage("access_token", access);
+                Helpers.saveLocalStorage("refresh_token", refresh);
 
-                const currentUser = await userApi.getAuthenticatedUser();
-                Helpers.saveLocalStorage("currentUser", currentUser);
-                message.success("Login Successfully.");
-                history.push("/");
+                const authenticatedUser = await userApi.getAuthenticatedUser();
+                Helpers.saveLocalStorage("auth", authenticatedUser);
+
+                message.success(Messages.loginSuccess);
+                setTimeout(() => {
+                    history.push("/");
+                }, 500);
             } catch (error) {
                 setMessageError(Messages.loginFailed);
                 setInputs({

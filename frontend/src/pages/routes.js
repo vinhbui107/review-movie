@@ -36,7 +36,7 @@ const routes = [
         isAppLayout: true,
     },
     {
-        path: "/movie/:movieId",
+        path: "/movie/:slug",
         exact: true,
         component: MovieDetailPage,
         isAppLayout: true,

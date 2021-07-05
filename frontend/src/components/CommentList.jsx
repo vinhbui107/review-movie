@@ -2,22 +2,24 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Empty, notification } from "antd";
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import commentApi from "../services/comment";
 import "../style/components/CommentList.scss";
-import { getLocalStorage, isLogin, sortByID } from "../utils/helpers.js";
-import CommentCard from "./CommentCard";
 
-function CommentList({ comments, setCommentsSate, movieId }) {
+import { CommentService } from "../services";
+import { CommentCard } from "./index";
+import { getLocalStorage, isLogin, sortByID } from "../utils/helpers.js";
+import { Messages } from "../utils/messages";
+
+function CommentList({ comments, setCommentsSate, movieSlug }) {
     const [openForm, setOpenForm] = useState(false);
     const [inputComment, setInputComment] = useState("");
-    const currentUser = getLocalStorage("currentUser");
+    const auth = getLocalStorage("auth");
 
     const handleOpenForm = () => {
         if (isLogin()) {
             setOpenForm(!openForm);
         } else {
             notification["warning"]({
-                message: "You need to login for review this movie!",
+                message: Messages.loginWarning,
             });
         }
     };
@@ -27,15 +29,25 @@ function CommentList({ comments, setCommentsSate, movieId }) {
 
         if (inputComment.length > 0) {
             try {
-                const response = await commentApi.postComment(movieId, { content: inputComment });
+                const params = {
+                    movie_slug: movieSlug,
+                    content: inputComment,
+                };
+                const response = await CommentService.postComment(params);
+
                 const newComments = [...comments, response];
-                notification["success"]({
-                    message: "Your review have been saved.",
-                });
                 setCommentsSate(sortByID(newComments));
                 setOpenForm(!openForm);
                 setInputComment("");
-            } catch (error) {}
+                notification["success"]({
+                    message: Messages.commentSuccess,
+                });
+            } catch (error) {
+                notification["error"]({
+                    message: Messages.apiErrorMes,
+                    description: Messages.apiErrorDes,
+                });
+            }
         }
     };
 
@@ -59,7 +71,7 @@ function CommentList({ comments, setCommentsSate, movieId }) {
                 <Form.Group controlId="Write your comment">
                     <Row>
                         <Col md="2" className="commentList__avatar">
-                            <Avatar icon={<UserOutlined />} src={currentUser?.avatar} size={64} />
+                            <Avatar icon={<UserOutlined />} src={auth?.avatar} size={64} />
                         </Col>
                         <Col md="10">
                             <Form.Control

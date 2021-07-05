@@ -23,12 +23,3 @@ def rating_id_exist(rating_id):
         raise NotFound(
             "The Rating does not exist.",
         )
-
-
-def movie_comment_id_exists(comment_id):
-    Comment = get_comment_model()
-
-    if not Comment.objects.filter(pk=comment_id).exists():
-        raise NotFound(
-            "The Comment does not exist.",
-        )

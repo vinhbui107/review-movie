@@ -1,6 +1,7 @@
 import React from "react";
-import "../style/components/Footer.scss";
 import { Container } from "react-bootstrap";
+
+import "../style/components/Footer.scss";
 import logo from "../assets/img/logo.svg";
 
 function Footer() {

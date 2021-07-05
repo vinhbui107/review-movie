@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Row } from "react-bootstrap";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { useHistory } from "react-router-dom";
-import movieApi from "../services/movie";
+
+import { MovieService } from "../services";
 import "../style/components/Search.scss";
 
 function SearchForm() {
@@ -12,14 +13,14 @@ function SearchForm() {
 
     const handleOnSearch = async (key) => {
         setSearchText(key.trim().replaceAll(" ", "+"));
-        const response = await movieApi.suggestMovie(searchText);
+        const response = await MovieService.suggestMovie(searchText);
         const respItems = response.title_suggest__completion[0].options;
         setItems(respItems);
     };
 
     const handleOnSelect = (item) => {
-        const movieId = item._source.id;
-        history.push(`/movie/${movieId}`);
+        const movieSlug = item._source.slug;
+        history.push(`/movie/${movieSlug}`);
     };
 
     const handleKeyPress = (event) => {

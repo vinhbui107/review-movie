@@ -2,13 +2,14 @@ import { Empty, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import DefaultMovie from "../assets/img/default-movie.png";
-import movieApi from "../services/movie";
+
+import { MovieService } from "../services";
 import "../style/pages/SearchResult.scss";
+import DefaultMovie from "../assets/img/default-movie.png";
 
 function ResultItem(movie) {
     return (
-        <Card className="resultItem" key={movie.id}>
+        <Card className="resultItem" key={movie.slug}>
             <Card.Body className="resultItem__body">
                 <Row style={{ height: "100%" }}>
                     <Col md="2" className="resultItem--left">
@@ -25,7 +26,7 @@ function ResultItem(movie) {
                     <Col md="10" className="resultItem--right">
                         <div className="resultItem__title">
                             <h3>
-                                <Link to={`/movie/${movie.id}`}>{movie.title}</Link>
+                                <Link to={`/movie/${movie.slug}`}>{movie.title}</Link>
                             </h3>
                             <p>{movie.year}</p>
                         </div>
@@ -50,7 +51,7 @@ function SearchResult() {
 
     async function _fetchData() {
         try {
-            const response = await movieApi.searchMovie(searchText.replaceAll(" ", "+"));
+            const response = await MovieService.searchMovie(searchText.replaceAll(" ", "+"));
             setMovies(response.results);
             setMovieCount(response.count);
         } catch (error) {}

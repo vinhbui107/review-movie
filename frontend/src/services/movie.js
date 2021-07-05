@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 import { BASE_URL_API, RS_URL_API } from "../utils/env";
 
-const movieApi = {
+const MovieService = {
     getMoviesTopRated: (page) => {
         const url = `${BASE_URL_API}/search/movies/?ordering=-imdb_rating&ordering=-view_count&page=${page}`;
         return axiosClient.get(url);
@@ -17,9 +17,8 @@ const movieApi = {
         return axiosClient.get(url);
     },
 
-    getMovieItem: (movieId) => {
-        // const url = `${BASE_URL_API}/search/movies/?id=${movieId}`;
-        const url = `${BASE_URL_API}/movies/${movieId}/`;
+    getMovieItem: (movieSlug) => {
+        const url = `${BASE_URL_API}/movies/${movieSlug}/`;
         return axiosClient.get(url);
     },
 
@@ -28,23 +27,6 @@ const movieApi = {
         return axiosClient.get(url);
     },
 
-    // Rate API
-    getMovieRatings: (movieId) => {
-        const url = `${BASE_URL_API}/movies/${movieId}/ratings`;
-        return axiosClient.get(url);
-    },
-
-    getUserRatings: (username) => {
-        const url = `${BASE_URL_API}/auth/users/${username}/ratings`;
-        return axiosClient.get(url);
-    },
-
-    postRating: (movieId, params) => {
-        const url = `${BASE_URL_API}/movies/${movieId}/ratings`;
-        return axiosClient.post(url, params);
-    },
-
-    // Search API
     searchMovie: (searchText) => {
         const url = `${BASE_URL_API}/search/movies/?search=${searchText}`;
         return axiosClient.get(url);
@@ -56,4 +38,4 @@ const movieApi = {
     },
 };
 
-export default movieApi;
+export default MovieService;

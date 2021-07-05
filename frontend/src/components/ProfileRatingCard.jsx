@@ -3,6 +3,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { UnorderedListOutlined, HeartOutlined, CloseOutlined } from "@ant-design/icons";
+
 import DefaultMovie from "../assets/img/default-movie.png";
 
 function ProfileRatingCard({ rating, is_setting }) {
@@ -32,7 +33,7 @@ function ProfileRatingCard({ rating, is_setting }) {
                             </div>
                             <div className="ratingCard__info__title">
                                 <h3>
-                                    <Link to={`/movie/${rating.movie.id}`}>{rating.movie.title}</Link>
+                                    <Link to={`/movie/${rating.movie.slug}`}>{rating.movie.title}</Link>
                                 </h3>
                                 <p>{rating.movie.year}</p>
                             </div>

@@ -1,0 +1,10 @@
+export { default as Home } from "./Home";
+export { default as Login } from "./Login";
+export { default as MovieDetail } from "./MovieDetail";
+export { default as MoviesGenre } from "./MoviesGenre";
+export { default as MoviesRecommend } from "./MoviesRecommend";
+export { default as Notfound } from "./Notfound";
+export { default as Profile } from "./Profile";
+export { default as Register } from "./Register";
+export { default as SearchResult } from "./SearchResult";
+export { default as routes } from "./routes";

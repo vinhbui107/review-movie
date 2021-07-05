@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, FormGroup } from "react-bootstrap";
-import { Empty, notification, Tag } from "antd";
-import { VideoCameraOutlined } from "@ant-design/icons";
-
 import { useParams } from "react-router";
-import MovieCard from "../components/MovieCard";
-import movieApi from "../services/movie";
+import { Container, Row, Col } from "react-bootstrap";
+import { Empty, notification, Tag } from "antd";
+
+import { MovieService } from "../services";
+import { MovieCard } from "../components";
+import { Messages } from "../utils/messages";
 
 function MoviesGenre() {
     const [movies, setMovies] = useState([]);
-    const [movieCount, setmovieCount] = useState(0);
+    const [movieCount, setMovieCount] = useState(0);
     const { genre } = useParams();
+
     const _fetchData = async () => {
         try {
-            const response = await movieApi.getMoviesGenre(genre);
+            const response = await MovieService.getMoviesGenre(genre);
             setMovies(response.results);
-            setmovieCount(response.count);
+            setMovieCount(response.count);
         } catch (error) {
-            notification["warning"]({
-                message: "Get data failed!",
+            notification["error"]({
+                message: Messages.apiErrorMes,
+                description: Messages.apiErrorDes,
             });
         }
     };

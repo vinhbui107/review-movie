@@ -1,0 +1,12 @@
+export { default as Footer } from "./Footer";
+export { default as Header } from "./Header";
+export { default as CommentCard } from "./CommentCard";
+export { default as CommentList } from "./CommentList";
+export { default as MovieList } from "./MovieList";
+export { default as MovieCard } from "./MovieCard";
+export { default as ProfileChangePassword } from "./ProfileChangePassword";
+export { default as ProfileRatingCard } from "./ProfileRatingCard";
+export { default as ProfileRatingList } from "./ProfileRatingList";
+export { default as ProfileSetting } from "./ProfileSetting";
+export { default as Recommend } from "./Recommend";
+export { default as SearchForm } from "./SearchForm";

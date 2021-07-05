@@ -133,14 +133,12 @@ class User(AbstractUser):
         return user
 
     @classmethod
-    def get_user_with_username(cls, username):
-        user_query = Q(username=username)
-        user = cls.objects.get(user_query)
-        return user
+    def get_with_username(cls, username):
+        return cls.objects.get(username=username)
 
-    def comment_movie_with_slug(self, movie_slug, user, content):
+    def comment_with_movie_slug(self, movie_slug, user, content):
         Movie = get_movie_model()
-        movie = Movie.objects.filter(slug=movie_slug).get()
+        movie = Movie.objects.get(slug=movie_slug)
         return self.comment_movie(movie=movie, user=user, content=content)
 
     def comment_movie(self, movie, user, content):
@@ -151,7 +149,7 @@ class User(AbstractUser):
         comment.save()
         return comment
 
-    def rating_movie_with_slug(self, movie_slug, user, rating):
+    def rating_with_movie_slug(self, movie_slug, user, rating):
         Movie = get_movie_model()
         movie = Movie.objects.filter(slug=movie_slug).get()
         return self.rating_movie(movie=movie, user=user, rating=rating)
@@ -176,14 +174,23 @@ class User(AbstractUser):
         return rating
 
     def get_rating_value_for_user(self, movie):
-        return movie.get_rating_with_user(user=self)
+        Rating = get_rating_model()
+
+        value = Rating.objects.values("rating").filter(user=self, movie=movie)
+        if value:
+            return value[0]["rating"]
+        else:
+            return None
 
     @classmethod
     def list_comment(cls, username):
         Comment = get_comment_model()
-        user_query = cls.objects.get(username=username)
-        comments = Comment.objects.filter(user=user_query)
-        return comments
+        return Comment.objects.filter(user__username=username)
+
+    @classmethod
+    def list_rating(cls, username):
+        Rating = get_rating_model()
+        return Rating.objects.filter(user__username=username)
 
     def count_comments(self):
         Comment = get_comment_model()
@@ -192,13 +199,6 @@ class User(AbstractUser):
     def count_ratings(self):
         Rating = get_rating_model()
         return Rating.objects.filter(user=self).count()
-
-    @classmethod
-    def list_rating(cls, username):
-        Rating = get_rating_model()
-        user_query = cls.objects.get(username=username)
-        ratings = Rating.objects.filter(user=user_query)
-        return ratings
 
     def average_ratings(self):
         Rating = get_rating_model()

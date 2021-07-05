@@ -1,7 +1,7 @@
 import React from "react";
 import { Row } from "react-bootstrap";
 import OwlCarousel from "react-owl-carousel";
-import MovieCard from "./MovieCard";
+import { MovieCard } from "./index";
 
 const options = {
     0: {

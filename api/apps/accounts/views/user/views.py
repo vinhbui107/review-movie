@@ -6,7 +6,6 @@ from rest_framework import status
 from rest_framework import generics
 from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import AuthenticationFailed
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -32,8 +31,23 @@ from apps.common.model_loaders import (
 from apps.common.permissions import CustomPermission
 from apps.accounts.models import User
 from apps.common.helpers import validate_data
-from apps.common.pagination import SmallResultsSetPagination
+from apps.common.pagination import (
+    SmallResultsSetPagination,
+    DefaultResultsSetPagination,
+)
 from apps.common.responses import ApiMessageResponse
+
+
+class Users(ListAPIView):
+    """[summary]
+
+    Args:
+        ListAPIView ([type]): [description]
+    """
+
+    serializer_class = UserInfoSerializer
+    pagination_class = DefaultResultsSetPagination
+    queryset = get_user_model().objects.all()
 
 
 class GetUserInfo(APIView):
@@ -44,10 +58,9 @@ class GetUserInfo(APIView):
     """
 
     def get(self, request, username):
-        request_data = request.data.copy()
-        request_data["username"] = username
-
-        data = validate_data(GetUserDataSerializer, request_data)
+        data = validate_data(
+            GetUserDataSerializer, data={"username": username}
+        )
         username = data.get("username")
 
         user = request.user
@@ -55,7 +68,7 @@ class GetUserInfo(APIView):
         if user.username == username:
             target_user = user
         else:
-            target_user = User.get_user_with_username(username=username)
+            target_user = User.get_with_username(username=username)
 
         user_serializer = UserInfoSerializer(
             target_user, context={"request": request}

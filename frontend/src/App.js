@@ -1,37 +1,11 @@
-import React, { Suspense } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-
-import AppLayout from "./layouts/AppLayout";
-import PublicLayout from "./layouts/PublicLayout";
+import React from "react";
+import { Redirect, Switch } from "react-router-dom";
 
 import { routes } from "./pages/routes";
-import { isLogin } from "./utils/helpers";
-
-const AppRoute = ({ component: Component, isAppLayout, ...rest }) => (
-    <Route
-        {...rest}
-        render={(props) =>
-            isAppLayout ? (
-                <AppLayout {...rest}>
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <Component {...props} />
-                    </Suspense>
-                </AppLayout>
-            ) : isLogin() ? (
-                <Redirect to="/" />
-            ) : (
-                <PublicLayout {...rest}>
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <Component {...props} />
-                    </Suspense>
-                </PublicLayout>
-            )
-        }
-    />
-);
+import AppRoute from "./utils/AppRoute";
 
 function App() {
-    const showItem = (routes) => {
+    const showRoute = (routes) => {
         if (routes && routes.length > 0) {
             return routes.map((item, index) => {
                 return (
@@ -45,11 +19,11 @@ function App() {
                 );
             });
         }
-        // </Suspense>
     };
+
     return (
         <Switch>
-            {showItem(routes)}
+            {showRoute(routes)}
             <Redirect from="*" to="/404" />
         </Switch>
     );
