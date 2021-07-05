@@ -36,7 +36,4 @@ class RatingValueField(Field):
         if request_user.is_anonymous:
             return None
         else:
-            data = request_user.get_rating_value_for_user(movie=movie)
-            if data:
-                return data[0].rating
-            return None
+            return request_user.get_rating_value_for_user(movie=movie)
