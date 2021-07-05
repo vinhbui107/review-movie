@@ -3,8 +3,8 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { message } from "antd";
 
-import userApi from "../services/user";
-import * as Helpers from "../utils/helpers";
+import { UserService } from "../services";
+import { saveLocalStorage } from "../utils/helpers";
 import { Messages } from "../utils/messages";
 
 import "../style/pages/Login.scss";
@@ -43,12 +43,12 @@ const Login = () => {
             setMessageError(newError);
         } else {
             try {
-                const { access, refresh } = await userApi.login(inputs);
-                Helpers.saveLocalStorage("access_token", access);
-                Helpers.saveLocalStorage("refresh_token", refresh);
+                const { access, refresh } = await UserService.login(inputs);
+                saveLocalStorage("access_token", access);
+                saveLocalStorage("refresh_token", refresh);
 
-                const authenticatedUser = await userApi.getAuthenticatedUser();
-                Helpers.saveLocalStorage("auth", authenticatedUser);
+                const authenticatedUser = await UserService.getAuthenticatedUser();
+                saveLocalStorage("auth", authenticatedUser);
 
                 message.success(Messages.loginSuccess);
                 setTimeout(() => {

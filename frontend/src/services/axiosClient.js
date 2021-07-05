@@ -1,10 +1,12 @@
 import axios from "axios";
 import { message } from "antd";
 import queryString from "query-string";
-import { BASE_URL_API } from "../utils/env";
-import * as Helpers from "../utils/helpers";
-import userApi from "./user";
+
+import { UserService } from "./index";
 import { Messages } from "../utils/messages";
+import { getLocalStorage, saveLocalStorage, removeAuth } from "../utils/helpers";
+
+import { BASE_URL_API } from "../utils/env";
 
 const axiosClient = axios.create({
     baseURL: BASE_URL_API,
@@ -17,11 +19,12 @@ const axiosClient = axios.create({
 
 const getNewToken = async () => {
     try {
-        const { access } = await userApi.refresh();
-        Helpers.saveLocalStorage("access_token", access);
+        const { access } = await UserService.refresh();
+        saveLocalStorage("access_token", access);
+
         axios.defaults.headers.common["Authorization"] = "Bearer " + access;
     } catch {
-        Helpers.removeAuth();
+        removeAuth();
 
         message.error(Messages.getTokenFailed);
         setTimeout(() => {
@@ -31,7 +34,8 @@ const getNewToken = async () => {
 };
 
 axiosClient.interceptors.request.use(async (config) => {
-    const access_token = Helpers.getLocalStorage("access_token");
+    const access_token = getLocalStorage("access_token");
+
     if (access_token) {
         config.headers.Authorization = `Bearer ${access_token}`;
     }
@@ -50,7 +54,7 @@ axiosClient.interceptors.response.use(
         switch (error.response.status) {
             case 401:
                 const originalRequest = error.config;
-                const refreshToken = Helpers.getLocalStorage("refresh_token");
+                const refreshToken = getLocalStorage("refresh_token");
                 if (refreshToken && error.response.status === 401 && !originalRequest._retry) {
                     getNewToken();
                     return axios(originalRequest);

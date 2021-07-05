@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 
+import { MovieService } from "../services";
 import { MovieList, SearchForm } from "../components";
-import movieApi from "../services/movie";
-import { isUsingRS, getLocalStorage } from "../utils/helpers.js";
+// import { isUsingRS, getLocalStorage } from "../utils/helpers.js";
 
 import "../style/pages/Home.scss";
 
@@ -16,16 +16,16 @@ function Home() {
     });
 
     const { topRated, popular, recommend } = movieList;
-    const auth = getLocalStorage("auth");
+    // const auth = getLocalStorage("auth");
 
     useEffect(() => {
         async function fetchData() {
-            let reqRecommend = await movieApi.getMoviesPopular(2);
+            let reqRecommend = await MovieService.getMoviesPopular(2);
             // if (isUsingRS()) {
-            //     reqRecommend = await movieApi.getMoviesRecommend(auth.username);
+            //     reqRecommend = await MovieService.getMoviesRecommend(auth.username);
             // }
-            const reqPopular = await movieApi.getMoviesPopular(1);
-            const reqTopRated = await movieApi.getMoviesTopRated(1);
+            const reqPopular = await MovieService.getMoviesPopular(1);
+            const reqTopRated = await MovieService.getMoviesTopRated(1);
 
             axios.all([reqRecommend, reqPopular, reqTopRated]).then(
                 axios.spread((...response) => {
