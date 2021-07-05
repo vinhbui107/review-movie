@@ -70,7 +70,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
 class UserRatingsSerializer(serializers.ModelSerializer):
     movie = MovieSerializer(read_only=True)
-    updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    updated_at = serializers.DateTimeField(format="%Y-%m-%d")
 
     class Meta:
         model = get_rating_model()
@@ -83,7 +83,7 @@ class UserRatingsSerializer(serializers.ModelSerializer):
 
 class UserCommentsSerializer(serializers.ModelSerializer):
     movie = MovieSerializer(read_only=True)
-    updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    updated_at = serializers.DateTimeField(format="%Y-%m-%d")
 
     class Meta:
         model = get_comment_model()
@@ -96,7 +96,7 @@ class UserCommentsSerializer(serializers.ModelSerializer):
 
 class AuthenticatedUserInfoSerializer(serializers.ModelSerializer):
     date_joined = serializers.DateTimeField(format="%Y-%m-%d")
-    updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    updated_at = serializers.DateTimeField(format="%Y-%m-%d")
     last_login = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
@@ -171,12 +171,9 @@ class UpdateAuthenticatedUserSettingsSerializer(serializers.Serializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(format="%Y-%m-%d")
-
     class Meta:
         model = User
         fields = (
             "username",
             "avatar",
-            "created_at",
         )
