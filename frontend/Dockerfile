@@ -9,7 +9,7 @@ COPY ./package*.json ./
 
 RUN npm install --legacy-peer-deps
 
-RUN npm install -g npm@5.4.0
+# RUN npm install -g npm@5.4.0
 
 RUN chown -R node.node /app
 
