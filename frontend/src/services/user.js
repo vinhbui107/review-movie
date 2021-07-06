@@ -54,7 +54,7 @@ const UserService = {
     },
 
     getUserRatings: (username, page = 1) => {
-        const url = `${BASE_URL_API}/auth/users/${username}/ratings?page=${page}`;
+        const url = `${BASE_URL_API}/auth/users/${username}/ratings/?page=${page}`;
         return axiosClient.get(url);
     },
 

@@ -15,7 +15,7 @@ function ProfileRatingList({ ratingsCount, is_setting }) {
     async function _fetchData() {
         try {
             const response = await UserService.getUserRatings(username);
-            setRatings(response.data);
+            setRatings(response.results);
         } catch (error) {}
     }
 
