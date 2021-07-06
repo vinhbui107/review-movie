@@ -50,7 +50,7 @@ function Home() {
         <div>
             <Container>
                 <SearchForm />
-                {topRated?.length > 0 && popular?.length > 0 && recommend?.length > 0 && (
+                {topRated.length > 0 && (
                     <>
                         <br />
                         <MovieList movies={recommend} title="Recommend for you" />
