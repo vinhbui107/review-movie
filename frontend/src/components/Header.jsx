@@ -25,7 +25,7 @@ function Header() {
             message.success(Messages.logoutSuccess);
             setTimeout(() => {
                 removeAuth();
-                history.push("/");
+                history.go(0);
             }, 200);
         } catch {
             notification["error"]({
@@ -34,7 +34,7 @@ function Header() {
             });
 
             removeAuth();
-            history.push("/");
+            history.go(0);
         }
     };
 
