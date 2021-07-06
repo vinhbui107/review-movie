@@ -167,7 +167,7 @@ class AuthenticatedUser(APIView):
 
             user.save()
 
-        user_serializer = UserInfoSerializer(
+        user_serializer = AuthenticatedUserInfoSerializer(
             user, context={"request": request}
         )
         return Response(user_serializer.data, status=status.HTTP_200_OK)
