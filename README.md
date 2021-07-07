@@ -7,6 +7,8 @@ Review Movie inspired by TMDb with a movie dataset of over 27,000 movies, more t
 
 ## ![Screenshoot for Kamu's multiple libraries](https://github.com/vinhbui107/review-movie/blob/develop/screen_shots/home_page.png?raw=true)
 
+## Features 
+
 ## Requirements
 
 -   Python 3.8+ for API
@@ -131,12 +133,6 @@ Stop your environment:
 ```
 
 ## Third-Party Packages for API
-
--   [x] [django-allauth](https://github.com/pennersr/django-allauth) for social authentication
--   [x] [django-debug-toolbar](https://github.com/jazzband/django-debug-toolbar) for debugging
-
--   [x] [python-decouple](https://github.com/henriquebastos/python-decouple/) Storing application settings
--   [x] [dj-database-url](https://github.com/jacobian/dj-database-url) Storing application settings
 
 ### Have fun :)
 
