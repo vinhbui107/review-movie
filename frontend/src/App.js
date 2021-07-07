@@ -12,9 +12,9 @@ function App() {
                     <AppRoute
                         key={index}
                         exact={item.exact}
+                        restricted={item.restricted}
                         path={item.path}
                         component={item.component}
-                        isAppLayout={item.isAppLayout}
                     />
                 );
             });

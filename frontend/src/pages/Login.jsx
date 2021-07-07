@@ -52,7 +52,7 @@ const Login = () => {
 
                 message.success(Messages.loginSuccess);
                 setTimeout(() => {
-                    history.push("/");
+                    history.goBack();
                 }, 500);
             } catch (error) {
                 setMessageError(Messages.loginFailed);

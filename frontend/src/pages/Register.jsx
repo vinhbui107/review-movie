@@ -67,7 +67,7 @@ const Register = () => {
 
                 message.success(Messages.registerSuccess);
                 setTimeout(() => {
-                    history.push("/");
+                    history.goBack();
                 }, 500);
             } catch (error) {
                 // get first error message

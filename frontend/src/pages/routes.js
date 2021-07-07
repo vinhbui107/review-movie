@@ -12,58 +12,58 @@ const MoviesRecommendPage = lazy(() => import("./MoviesRecommend"));
 
 const routes = [
     {
-        path: "/",
-        exact: true,
-        component: HomePage,
-        isAppLayout: true,
-    },
-    {
         path: "/login",
         exact: true,
         component: LoginPage,
-        isAppLayout: false,
+        restricted: true,
     },
     {
         path: "/register",
         exact: true,
         component: RegisterPage,
-        isAppLayout: false,
+        restricted: true,
+    },
+    {
+        path: "/",
+        exact: true,
+        component: HomePage,
+        restricted: false,
     },
     {
         path: "/u/:username",
         exact: true,
         component: ProfilePage,
-        isAppLayout: true,
+        restricted: false,
     },
     {
         path: "/movie/:slug",
         exact: true,
         component: MovieDetailPage,
-        isAppLayout: true,
+        restricted: false,
     },
     {
         path: "/genre/:genre",
         exact: true,
         component: MoviesGenrePage,
-        isAppLayout: true,
+        restricted: false,
     },
     {
         path: "/recommend",
         exact: true,
         component: MoviesRecommendPage,
-        isAppLayout: true,
+        restricted: false,
     },
     {
         path: "/search",
         exact: true,
         component: SearchResultPage,
-        isAppLayout: true,
+        restricted: false,
     },
     {
         path: "/404",
         exact: true,
         component: NotFoundPage,
-        isAppLayout: true,
+        restricted: false,
     },
 ];
 export { routes };

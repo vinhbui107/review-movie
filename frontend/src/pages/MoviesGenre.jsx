@@ -41,8 +41,8 @@ function MoviesGenre() {
                 <Row>
                     {movies?.map((movie, index) => {
                         return (
-                            <Col>
-                                <MovieCard movie={movie} index={index} />
+                            <Col key={index}>
+                                <MovieCard movie={movie} />
                             </Col>
                         );
                     })}

@@ -96,19 +96,18 @@ class UserCommentsSerializer(serializers.ModelSerializer):
 
 class AuthenticatedUserInfoSerializer(serializers.ModelSerializer):
     date_joined = serializers.DateTimeField(format="%Y-%m-%d")
-    updated_at = serializers.DateTimeField(format="%Y-%m-%d")
     last_login = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = User
         fields = (
             "username",
+            "email",
             "birthday",
             "gender",
-            "last_login",
             "avatar",
+            "last_login",
             "date_joined",
-            "updated_at",
         )
 
 

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Rate, notification, Tag } from "antd";
 import { EyeOutlined, StarOutlined, CommentOutlined } from "@ant-design/icons";
 import { Col, Container, Row } from "react-bootstrap";
+import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
 
@@ -19,7 +20,11 @@ function MovieDetail() {
     const [comments, setComments] = useState([]);
     const [moviesRecommend, setMoviesRecommend] = useState([]);
     const [rating, setRating] = useState(null);
+
+    const history = useHistory();
+
     const { slug } = useParams();
+    const [currentSlug, setCurrentSlug] = useState(slug);
     // const auth = getLocalStorage("auth");
 
     useEffect(() => {
@@ -27,6 +32,7 @@ function MovieDetail() {
             try {
                 const response = await MovieService.getMovieItem(slug);
                 setMovieItem(response);
+                setCurrentSlug(response.slug);
                 setRating(response.rated);
             } catch (error) {}
         }
@@ -54,6 +60,13 @@ function MovieDetail() {
         }
         _fetchData();
     }, []);
+
+    // handle back button
+    useEffect(() => {
+        if (currentSlug !== slug) {
+            history.go(0);
+        }
+    }, [slug]);
 
     const handleRating = async (value) => {
         if (isLogin()) {

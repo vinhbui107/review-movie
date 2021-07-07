@@ -13,7 +13,7 @@ from apps.common.model_loaders import (
     get_comment_model,
 )
 from apps.accounts.checkers import *
-
+from apps.accounts.helpers import *
 
 OCCUPATIONS = (
     (None, "Select your role"),
@@ -182,16 +182,6 @@ class User(AbstractUser):
         else:
             return None
 
-    @classmethod
-    def list_comment(cls, username):
-        Comment = get_comment_model()
-        return Comment.objects.filter(user__username=username)
-
-    @classmethod
-    def list_rating(cls, username):
-        Rating = get_rating_model()
-        return Rating.objects.filter(user__username=username)
-
     def count_comments(self):
         Comment = get_comment_model()
         return Comment.objects.filter(user=self).count()
@@ -210,19 +200,47 @@ class User(AbstractUser):
             return round(average_ratings["rating"], 1)
         return None
 
+    def update_username(self, username):
+        check_username_not_taken(user=self, username=username)
+        self.username = username
+        self.save()
+
+    def update_email(self, email):
+        check_email_not_taken(user=self, email=email)
+        self.email = email
+        self.save()
+
+    def update(
+        self, username=None, email=None, birthday=None, gender=None, save=True
+    ):
+
+        if username:
+            self.update_username(username=username)
+
+        if email:
+            self.update_email(email=email)
+
+        if birthday:
+            self.birthday = birthday
+
+        if gender:
+            self.gender = gender
+
+        if save:
+            self.save()
+
     def update_avatar(self, avatar, save=True):
         if avatar is None:
-            self.delete_profile_avatar(save=False)
+            self.delete_avatar(save=False)
         else:
-            self.profile.avatar = avatar
+            self.avatar = avatar
 
         if save:
             self.profile.save()
 
-        # def delete_avatar(self, save=True):
-        #     delete_file_field(self.profile.avatar)
-        #     self.profile.avatar = None
-        #     self.profile.avatar.delete(save=save)
+    def delete_avatar(self, save=True):
+        self.avatar = None
+        self.avatar.delete(save=save)
 
     def delete_with_password(self, password):
         check_password_matches(user=self, password=password)
