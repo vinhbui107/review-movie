@@ -7,6 +7,8 @@ Review Movie inspired by TMDb with a movie dataset of over 27,000 movies, more t
 
 ## ![Screenshoot for Kamu's multiple libraries](https://github.com/vinhbui107/review-movie/blob/develop/screen_shots/home_page.png?raw=true)
 
+## Features 
+
 ## Requirements
 
 -   Python 3.8+ for API
@@ -60,7 +62,7 @@ Seed the database with initial dump data:
 python3 manage.py runscript load_data
 ```
 
-Index data for elasticsearch (Make sure you installed Elasticsearch in you machine)
+Index data for elasticsearch (Make sure you installed Elasticsearch in your machine)
 
 ```shell
 python3 manage.py search_index --rebuild
@@ -122,7 +124,7 @@ Index the data for Elasticsearch:
   make docker-indexdata
 ```
 
-Now just go to [http://localhost:8000](http://localhost:8000) in your browser :)
+Now just go to [http://localhost:3000](http://localhost:3000) in your browser :)
 
 Stop your environment:
 
