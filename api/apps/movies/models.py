@@ -85,6 +85,19 @@ class Movie(models.Model):
         rating_info = Rating.get_rating_info_for_movie_with_id(self.pk)
         return rating_info
 
+    @classmethod
+    def update_movie_rating_info(cls, movie):
+        movie = cls.objects.get(pk=movie)
+
+        new_rating_count = Rating.objects.filter(movie=movie).count()
+        new_rating_average = Rating.object.filter(movie=movie).aggregate(
+            models.Avg("rating")
+        )
+
+        movie.rating_count = new_rating_count
+        movie.rating_average = new_rating_average
+        movie.save()
+
     def get_movies_recommend_with_user(self, user):
         return
 
