@@ -26,4 +26,4 @@ def check_email_not_taken(user, email):
     User = get_user_model()
 
     if User.is_email_taken(email=email):
-        raise ValidationError("The username is already taken.")
+        raise ValidationError("The email is already taken.")
