@@ -28,7 +28,7 @@ export const isUsingRS = () => {
     if (isLogin()) {
         const moment = require("moment");
         const auth = getLocalStorage("auth");
-        const createdDate = auth.created_at;
+        const createdDate = auth.date_joined;
         var today = moment().format("YYYY-MM-DD");
         const isAfterCreatedDate = moment(today).isAfter(createdDate);
         if (isAfterCreatedDate) return true;

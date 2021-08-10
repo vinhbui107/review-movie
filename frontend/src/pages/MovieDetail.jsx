@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Rate, notification, Tag } from "antd";
 import { EyeOutlined, StarOutlined, CommentOutlined } from "@ant-design/icons";
@@ -10,7 +10,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import { CommentList, Recommend } from "../components";
 import { CommentService, MovieService, RatingService } from "../services";
 import { Messages } from "../utils/messages";
-import { displayGenre, getLocalStorage, isLogin } from "../utils/helpers.js";
+import { displayGenre, getLocalStorage, isLogin, isUsingRS } from "../utils/helpers.js";
 
 import "../style/pages/MovieDetail.scss";
 import DefaultMovie from "../assets/img/default-movie.png";
@@ -25,7 +25,7 @@ function MovieDetail() {
 
     const { slug } = useParams();
     const [currentSlug, setCurrentSlug] = useState(slug);
-    // const auth = getLocalStorage("auth");
+    const auth = getLocalStorage("auth");
 
     useEffect(() => {
         async function _fetchData() {
@@ -42,17 +42,17 @@ function MovieDetail() {
     useEffect(() => {
         async function _fetchData() {
             let reqRecommend = await MovieService.getMoviesPopular(2);
-            // if (isUsingRS()) {
-            //     reqRecommend = await MovieService.getMoviesRecommend(currentUser.username);
-            // }
+            if (isUsingRS()) {
+                reqRecommend = await MovieService.getMoviesRecommend(auth.username);
+            }
             const reqComments = await CommentService.getMovieComments(slug);
 
             axios.all([reqRecommend, reqComments]).then(
                 axios.spread((...response) => {
                     let moviesRecommend = response[0].results;
-                    // if (isUsingRS()) {
-                    //     moviesRecommend = response[0].movies;
-                    // }
+                    if (isUsingRS()) {
+                        moviesRecommend = response[0].movies;
+                    }
                     setMoviesRecommend(moviesRecommend);
                     setComments(response[1].results);
                 })
@@ -76,6 +76,7 @@ function MovieDetail() {
                     rating: value,
                 };
                 const response = await RatingService.postRating(params);
+
                 setRating(response.rating);
                 notification["success"]({
                     message: Messages.ratingSuccess,
@@ -94,7 +95,7 @@ function MovieDetail() {
     };
 
     const getPercentage = (rating) => {
-        return rating * 10;
+        return rating * 20;
     };
 
     const ratingInfo = () => {
@@ -110,7 +111,7 @@ function MovieDetail() {
                     return (
                         <div key={index} className="rating__info__rating">
                             <Tag>
-                                {index} Star ({item})
+                                {index + 1} Star ({item})
                             </Tag>
                         </div>
                     );
@@ -148,8 +149,8 @@ function MovieDetail() {
                                         <ul className="poster__action">
                                             <li className="poster__action--score">
                                                 <CircularProgressbar
-                                                    value={getPercentage(movieItem.imdb_rating)}
-                                                    text={`${movieItem.imdb_rating}`}
+                                                    value={getPercentage(movieItem.rating_average)}
+                                                    text={`${movieItem.rating_average}`}
                                                     className="poster__action--score__rating"
                                                 />
                                             </li>

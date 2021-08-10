@@ -5,23 +5,23 @@ import { notification } from "antd";
 import { MovieService } from "../services";
 import { MovieCard } from "../components";
 import { Messages } from "../utils/messages";
-// import { getLocalStorage, isUsingRS } from "../utils/helpers";
+import { getLocalStorage, isUsingRS } from "../utils/helpers";
 
 function MoviesRecommend() {
     const [movies, setMovies] = useState([]);
-    // const currentUser = getLocalStorage("currentUser");
+    const auth = getLocalStorage("auth");
 
     const _fetchData = async () => {
         let reqRecommend = await MovieService.getMoviesPopular(2);
-        // if (isUsingRS()) {
-        //     reqRecommend = await MovieService.getMoviesRecommend(currentUser.username);
-        // }
+        if (isUsingRS()) {
+            reqRecommend = await MovieService.getMoviesRecommend(auth.username);
+        }
         try {
             const response = reqRecommend;
             let moviesRecommend = response.results;
-            // if (isUsingRS()) {
-            //     moviesRecommend = response.movies;
-            // }
+            if (isUsingRS()) {
+                moviesRecommend = response.movies;
+            }
             setMovies(moviesRecommend);
         } catch (error) {
             notification["error"]({

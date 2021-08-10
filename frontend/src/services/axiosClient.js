@@ -1,6 +1,6 @@
 import axios from "axios";
-import { message } from "antd";
 import queryString from "query-string";
+import { message, notification } from "antd";
 
 import { UserService } from "./index";
 import { Messages } from "../utils/messages";
@@ -59,11 +59,11 @@ axiosClient.interceptors.response.use(
                     getNewToken();
                     return axios(originalRequest);
                 }
-            case 403:
-                break;
-            case 404:
-                break;
             case 500:
+                notification["error"]({
+                    message: Messages.apiErrorMes,
+                    description: Messages.apiErrorDes,
+                });
                 break;
             default:
                 throw error;

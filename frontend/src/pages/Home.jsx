@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 
 import { MovieService } from "../services";
 import { MovieList, SearchForm } from "../components";
-// import { isUsingRS, getLocalStorage } from "../utils/helpers.js";
+import { isUsingRS, getLocalStorage } from "../utils/helpers.js";
 
 import "../style/pages/Home.scss";
 
@@ -16,23 +16,23 @@ function Home() {
     });
 
     const { topRated, popular, recommend } = movieList;
-    // const auth = getLocalStorage("auth");
+    const auth = getLocalStorage("auth");
 
     useEffect(() => {
         async function fetchData() {
             let reqRecommend = await MovieService.getMoviesPopular(2);
-            // if (isUsingRS()) {
-            //     reqRecommend = await MovieService.getMoviesRecommend(auth.username);
-            // }
+            if (isUsingRS()) {
+                reqRecommend = await MovieService.getMoviesRecommend(auth.username);
+            }
             const reqPopular = await MovieService.getMoviesPopular(1);
             const reqTopRated = await MovieService.getMoviesTopRated(1);
 
             axios.all([reqRecommend, reqPopular, reqTopRated]).then(
                 axios.spread((...response) => {
                     let moviesRecommend = response[0].results;
-                    // if (isUsingRS()) {
-                    //     moviesRecommend = response[0].movies;
-                    // }
+                    if (isUsingRS()) {
+                        moviesRecommend = response[0].movies;
+                    }
                     setMovieList((movieList) => ({
                         ...movieList,
                         recommend: moviesRecommend,

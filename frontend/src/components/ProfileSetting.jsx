@@ -1,42 +1,84 @@
-import { Button, DatePicker, Form, Input, Select, Upload } from "antd";
+import React, { useState } from "react";
+import { Button, DatePicker, Form, Input, Select, Upload, notification, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
+import { formItemLayout, OCCUPATIONS } from "../utils/constants";
 import "../style/components/ProfileForm.scss";
+import { UserService } from "../services";
+import { Messages } from "../utils/messages";
 
 const { Option } = Select;
+const moment = require("moment");
 
-const formItemLayout = {
-    labelCol: {
-        span: 24,
-    },
-    wrapperCol: {
-        span: 24,
-    },
-};
-
-function onChange(date, dateString) {
-    console.log(date, dateString);
-}
-
-function ProfileSetting() {
+function ProfileSetting({ user }) {
     const [form] = Form.useForm();
 
-    const onFinish = () => {};
+    const onFinish = async (inputs) => {
+        try {
+            const params = {
+                email: inputs.email,
+                birthday: moment(inputs.birthday).format("YYYY-MM-DD"),
+                gender: inputs.gender,
+                occupation: inputs.occupation,
+                username: user.username,
+            };
+            await UserService.updateUserProfile(params);
+
+            notification["success"]({
+                message: Messages.updateProfileSuccess,
+            });
+        } catch (error) {
+            // get first error message
+            const [first] = Object.keys(error.response.data);
+            const msg = error.response.data[first];
+
+            form.resetFields();
+
+            notification["error"]({
+                message: msg,
+            });
+        }
+    };
+
+    function onChangeOccupation(value) {
+        form.setFieldsValue({ occupation: value });
+    }
+
+    const props = {
+        name: "avatar",
+        listType: "picture",
+        className: "upload-list-inline",
+        maxCount: 1,
+        beforeUpload(file) {
+            const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+            if (!isJPG) {
+                message.error("You can only upload JPG or PNG file!");
+                return false;
+            }
+            return true;
+        },
+        customRequest(options) {
+            const { onSuccess, file } = options;
+            onSuccess(file);
+        },
+    };
 
     return (
         <div className="profile">
             <Form
                 {...formItemLayout}
                 form={form}
+                initialValues={{
+                    email: user.email,
+                    birthday: moment(user.birthday),
+                    gender: user.gender,
+                    occupation: user.occupation,
+                }}
                 name="profileForm"
                 onFinish={onFinish}
                 size="large"
                 scrollToFirstError
             >
-                <Form.Item label="Username" placeholder="Your username">
-                    <Input disabled />
-                </Form.Item>
-
                 <Form.Item
                     name="email"
                     label="Email"
@@ -55,17 +97,15 @@ function ProfileSetting() {
                 </Form.Item>
 
                 <Form.Item
-                    name="date-picker"
+                    name="birthday"
                     label="Birthday"
                     rules={[{ required: true, message: "Please select your birthday!" }]}
                     required
                 >
                     <DatePicker
-                        onChange={onChange}
                         style={{
                             width: "100%",
                         }}
-                        placeholder=""
                     />
                 </Form.Item>
 
@@ -75,9 +115,8 @@ function ProfileSetting() {
                     rules={[{ required: true, message: "Please select your gender!" }]}
                 >
                     <Select>
-                        <Option value="male">Male</Option>
-                        <Option value="female">Female</Option>
-                        <Option value="other">Other</Option>
+                        <Option value="M">Male</Option>
+                        <Option value="F">Female</Option>
                     </Select>
                 </Form.Item>
 
@@ -86,15 +125,17 @@ function ProfileSetting() {
                     label="Occupation"
                     rules={[{ required: true, message: "Please select your occupation!" }]}
                 >
-                    <Select>
-                        <Option value="male">Male</Option>
-                        <Option value="female">Female</Option>
-                        <Option value="other">Other</Option>
+                    <Select onChange={onChangeOccupation}>
+                        {OCCUPATIONS.map((item, index) => (
+                            <Option key={index} value={item}>
+                                {item}
+                            </Option>
+                        ))}
                     </Select>
                 </Form.Item>
 
-                <Form.Item name="avatar" label="Avatar" valuePropName="fileList">
-                    <Upload name="logo" action="/upload.do" listType="picture">
+                <Form.Item name="avatar" label="Avatar">
+                    <Upload {...props}>
                         <Button icon={<UploadOutlined />}>Click to upload</Button>
                     </Upload>
                 </Form.Item>

@@ -6,7 +6,7 @@ import { UnorderedListOutlined, HeartOutlined, CloseOutlined } from "@ant-design
 
 import DefaultMovie from "../assets/img/default-movie.png";
 
-function ProfileRatingCard({ rating, is_setting }) {
+function ProfileRatingCard({ rating, is_setting, deleteRating }) {
     return (
         <Card className="ratingCard">
             <Card.Body className="ratingCard__body">
@@ -27,7 +27,7 @@ function ProfileRatingCard({ rating, is_setting }) {
                             <div className="ratingCard__info__movieRating">
                                 <CircularProgressbar
                                     value={rating.movie.rating_average * 20}
-                                    text={`${rating.movie.rating_average ? rating.movie.rating_average * 2 : 0}`}
+                                    text={`${rating.movie.rating_average ? rating.movie.rating_average : 0}`}
                                     className="rating"
                                 />
                             </div>
@@ -64,7 +64,11 @@ function ProfileRatingCard({ rating, is_setting }) {
                                             </a>
                                         </li>
                                         <li>
-                                            <a>
+                                            <a
+                                                onClick={() => {
+                                                    deleteRating(rating.id);
+                                                }}
+                                            >
                                                 <CloseOutlined style={{ fontSize: "1.3rem" }} />
                                                 <span style={{ marginLeft: "5px" }}>Remove</span>
                                             </a>

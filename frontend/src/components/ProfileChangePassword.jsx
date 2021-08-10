@@ -1,27 +1,38 @@
 import React from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, notification } from "antd";
 
 import "../style/components/ChangePasswordForm.scss";
-
-const formItemLayout = {
-    labelCol: {
-        span: 24,
-    },
-    wrapperCol: {
-        span: 24,
-    },
-};
+import { UserService } from "../services";
+import { Messages } from "../utils/messages";
+import { formItemLayout } from "../utils/constants";
 
 function ProfileChangePassword() {
     const [form] = Form.useForm();
 
-    const onFinish = () => {};
+    const onFinish = async (inputs) => {
+        try {
+            const params = {
+                new_password: inputs.newPassword,
+                current_password: inputs.currentPassword,
+            };
+            await UserService.changePassword(params);
+            form.resetFields();
+
+            notification["success"]({
+                message: Messages.updatePasswordSuccess,
+            });
+        } catch (error) {
+            notification["error"]({
+                message: Messages.passwordInvalid,
+            });
+        }
+    };
 
     return (
         <div className="changePassword">
             <Form {...formItemLayout} form={form} name="register" onFinish={onFinish} size="large" scrollToFirstError>
                 <Form.Item
-                    name="oldPassword"
+                    name="currentPassword"
                     label="Old Password"
                     rules={[
                         {
@@ -35,13 +46,26 @@ function ProfileChangePassword() {
                 </Form.Item>
 
                 <Form.Item
-                    name="password"
+                    name="newPassword"
                     label="New Password"
                     rules={[
                         {
                             required: true,
                             message: "Please input your password!",
                         },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                const password = getFieldValue("newPassword");
+
+                                if (!value || password.length >= 10) {
+                                    return Promise.resolve();
+                                }
+
+                                return Promise.reject(
+                                    new Error("This password is too short. It must contain at least 10 characters.")
+                                );
+                            },
+                        }),
                     ]}
                     hasFeedback
                 >
@@ -49,10 +73,9 @@ function ProfileChangePassword() {
                 </Form.Item>
 
                 <Form.Item
-                    name="confirm"
+                    name="confirmPassword"
                     label="Confirm New Password"
-                    dependencies={["password"]}
-                    hasFeedback
+                    dependencies={["newPassword"]}
                     rules={[
                         {
                             required: true,
@@ -60,7 +83,7 @@ function ProfileChangePassword() {
                         },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
-                                if (!value || getFieldValue("password") === value) {
+                                if (!value || getFieldValue("newPassword") === value) {
                                     return Promise.resolve();
                                 }
 
@@ -68,6 +91,7 @@ function ProfileChangePassword() {
                             },
                         }),
                     ]}
+                    hasFeedback
                 >
                     <Input.Password />
                 </Form.Item>

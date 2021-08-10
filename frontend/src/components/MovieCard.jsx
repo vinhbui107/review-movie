@@ -10,14 +10,14 @@ import DefaultMovie from "../assets/img/default-movie.png";
 MovieCard.propTypes = {};
 
 function MovieCard({ movie }) {
-    const percentage = movie.imdb_rating * 10;
+    const percentage = movie.rating_average * 20;
     return (
         <Card className="card">
             <Link to={`/movie/${movie.slug}`}>
                 <div style={{ backgroundImage: `url(${DefaultMovie})`, height: "262px" }}>
                     <Card.Img variant="top" src={movie.poster} />
                 </div>
-                <CircularProgressbar value={percentage} text={`${movie.imdb_rating}`} className="card--rating" />
+                <CircularProgressbar value={percentage} text={`${movie.rating_average}`} className="card--rating" />
             </Link>
 
             <Card.Body className="card-body">
