@@ -87,22 +87,18 @@ class Movie(models.Model):
 
     @classmethod
     def update_movie_rating_info(cls, movie):
-        movie = cls.objects.get(pk=movie)
-
         new_rating_count = Rating.objects.filter(movie=movie).count()
-        new_rating_average = Rating.object.filter(movie=movie).aggregate(
-            models.Avg("rating")
+        new_rating_average = (
+            Rating.objects.filter(movie=movie)
+            .aggregate(models.Avg("rating"))
+            .get("rating__avg")
         )
 
         movie.rating_count = new_rating_count
-        movie.rating_average = new_rating_average
+        movie.rating_average = (
+            round(new_rating_average, 1) if new_rating_average else 0
+        )
         movie.save()
-
-    def get_movies_recommend_with_user(self, user):
-        return
-
-    def get_movies_recommend(self):
-        return
 
 
 class Rating(models.Model):
@@ -130,20 +126,18 @@ class Rating(models.Model):
     @classmethod
     def get_rating_info_for_movie_with_id(cls, movie_id):
         n_1_star = cls.objects.filter(
-            Q(rating__gte=0) & Q(rating__lt=1) & Q(movie=movie_id)
+            Q(rating__lt=2) & Q(movie=movie_id)
         ).count()
         n_2_star = cls.objects.filter(
-            Q(rating__gte=1) & Q(rating__lt=2) & Q(movie=movie_id)
-        ).count()
-        n_3_star = cls.objects.filter(
             Q(rating__gte=2) & Q(rating__lt=3) & Q(movie=movie_id)
         ).count()
-        n_4_star = cls.objects.filter(
+        n_3_star = cls.objects.filter(
             Q(rating__gte=3) & Q(rating__lt=4) & Q(movie=movie_id)
         ).count()
-        n_5_star = cls.objects.filter(
-            Q(rating__gte=4) & Q(movie=movie_id)
+        n_4_star = cls.objects.filter(
+            Q(rating__gte=4) & Q(rating__lt=5) & Q(movie=movie_id)
         ).count()
+        n_5_star = cls.objects.filter(Q(rating=5) & Q(movie=movie_id)).count()
         return [n_1_star, n_2_star, n_3_star, n_4_star, n_5_star]
 
     @classmethod
@@ -152,4 +146,9 @@ class Rating(models.Model):
 
     @classmethod
     def delete_with_id(cls, rating_id):
-        return
+        rating = cls.objects.get(pk=rating_id)
+        movie = Movie.objects.get(pk=rating.movie_id)
+
+        rating.delete()
+        Movie.update_movie_rating_info(movie)
+        return True
