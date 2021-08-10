@@ -89,7 +89,7 @@ class UserRatings(ListAPIView):
 
     serializer_class = UserRatingsSerializer
     pagination_class = SmallResultsSetPagination
-    queryset = get_rating_model().objects.all()
+    queryset = get_rating_model().objects.all().order_by("-updated_at")
 
     def get_queryset(self):
         qs = super(UserRatings, self).get_queryset()
@@ -154,6 +154,7 @@ class AuthenticatedUser(APIView):
                 email=data.get("email"),
                 birthday=data.get("birthday"),
                 gender=data.get("gender"),
+                occupation=data.get("occupation"),
                 save=False,
             )
 
@@ -224,7 +225,10 @@ class AuthenticatedUserSetting(APIView):
                 if user.check_password(current_password):
                     user.update_password(password=new_password)
                 else:
-                    raise AuthenticationFailed(detail="Password is not valid")
+                    return Response(
+                        "Your current password invalid!",
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
 
             if not has_password:
                 return Response(
