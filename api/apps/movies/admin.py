@@ -11,7 +11,14 @@ class MovieAdminConfig(admin.ModelAdmin):
     model = Movie
     search_fields = ("title",)
     list_filter = ("title", "year")
-    list_display = ["title", "year", "imdb_rating", "director", "slug"]
+    list_display = [
+        "title",
+        "year",
+        "imdb_rating",
+        "director",
+        "rating_average",
+        "rating_count",
+    ]
     fieldsets = (
         (
             None,
