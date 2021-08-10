@@ -44,7 +44,11 @@ class UserInfoSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "username",
+            "occupation",
             "avatar",
+            "gender",
+            "email",
+            "birthday",
             "date_joined",
             "last_login",
             "is_setting",
@@ -75,6 +79,7 @@ class UserRatingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_rating_model()
         fields = (
+            "id",
             "movie",
             "rating",
             "updated_at",
