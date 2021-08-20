@@ -12,7 +12,10 @@ const RatingService = {
         return axiosClient.post(url, params);
     },
 
-    deleteComment: (movieSlug, ratingId) => {},
+    deleteComment: (ratingId) => {
+        const url = `${BASE_URL_API}/ratings/${ratingId}/`;
+        return axiosClient.delete(url);
+    },
 };
 
 export default RatingService;

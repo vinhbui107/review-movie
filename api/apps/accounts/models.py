@@ -202,7 +202,13 @@ class User(AbstractUser):
         self.save()
 
     def update(
-        self, username=None, email=None, birthday=None, gender=None, save=True
+        self,
+        username=None,
+        email=None,
+        birthday=None,
+        gender=None,
+        occupation=None,
+        save=True,
     ):
 
         if username:
@@ -216,6 +222,9 @@ class User(AbstractUser):
 
         if gender:
             self.gender = gender
+
+        if occupation:
+            self.occupation = occupation
 
         if save:
             self.save()

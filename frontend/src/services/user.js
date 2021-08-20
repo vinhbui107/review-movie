@@ -31,6 +31,7 @@ const UserService = {
         return axiosClient.post(url, param);
     },
 
+    // authenticated user
     getUserData: (username) => {
         const url = `${BASE_URL_API}/auth/users/${username}/`;
         return axiosClient.get(url);
@@ -41,7 +42,10 @@ const UserService = {
         return axiosClient.get(url);
     },
 
-    updateUserProfile: () => {},
+    updateUserProfile: (params) => {
+        const url = `${BASE_URL_API}/auth/user/`;
+        return axiosClient.patch(url, params);
+    },
 
     changePassword: (params) => {
         const url = `${BASE_URL_API}/auth/user/setting/`;
@@ -53,6 +57,7 @@ const UserService = {
         return axiosClient.post(url, params);
     },
 
+    // user data
     getUserRatings: (username, page = 1) => {
         const url = `${BASE_URL_API}/auth/users/${username}/ratings/?page=${page}`;
         return axiosClient.get(url);

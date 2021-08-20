@@ -33,4 +33,13 @@ export const Messages = {
     // COMMENT
     commentSuccess: "Your comment have been saved.",
     deleteCommentSuccess: "Your comment have been deleted.",
+
+    // CHANGE PASSWORD
+    updatePasswordSuccess: "Update password successfully.",
+    updatePasswordFail: "Update password fail!",
+    passwordInvalid: "Your password invalid!",
+
+    // UPDATE PROFILE
+    updateProfileSuccess: "Update profile successfully.",
+    updateProfileFail: "Update profile fail!",
 };

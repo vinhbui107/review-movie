@@ -73,7 +73,7 @@ function Profile() {
                             {userData.is_setting && (
                                 <>
                                     <TabPane tab={<span>Edit Profile</span>} key="3">
-                                        <ProfileSetting />
+                                        <ProfileSetting user={userData} />
                                     </TabPane>
                                     <TabPane tab={<span>Change Password</span>} key="4">
                                         <ProfileChangePassword />

@@ -57,7 +57,6 @@ const Login = () => {
             } catch (error) {
                 setMessageError(Messages.loginFailed);
                 setInputs({
-                    username: "",
                     password: "",
                 });
             }
