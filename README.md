@@ -136,4 +136,4 @@ Stop your environment:
 
 ### Have fun :)
 
-![Thanks!](http://gifgifmagazine.com/wp-content/uploads/2018/11/macka-daj-pet-jea.gif)
+![Thanks!](https://media.giphy.com/media/l4KibK3JwaVo0CjDO/giphy.gif)
