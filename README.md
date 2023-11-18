@@ -132,8 +132,6 @@ Stop your environment:
   make docker-down
 ```
 
-## Third-Party Packages for API
-
 ### Have fun :)
 
 ![Thanks!](https://media.giphy.com/media/l4KibK3JwaVo0CjDO/giphy.gif)
